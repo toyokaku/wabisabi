@@ -1,8 +1,8 @@
-name: songkoro
+name: songkoro_flutter
 description: A new Flutter package project.
 version: 0.0.1
 author:
-homepage:
+homepage: "https://flutter.songkoro.dev/"
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

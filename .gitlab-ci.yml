@@ -1,0 +1,81 @@
+image: cirrusci/flutter:stable
+
+stages:
+- build
+- test
+- analyze
+
+before_script:
+- cd $PATH
+- flutter pub get
+- flutter clean
+
+unit_test:
+  stage: test
+  variables:
+    PATH: "themes"
+  script:
+  - flutter test test/*
+  tags:
+  - shared
+  only:
+  - merge_requests
+
+Mobile:
+  stage: build
+  variables:
+    PATH: "example"
+  script:
+  - flutter build apk
+  tags:
+  - shared
+  only:
+  - dev
+
+Web:
+  stage: build
+  variables:
+    PATH: "example"
+  script:
+  - flutter build web
+  tags:
+  - shared
+  only:
+  - dev
+
+
+Desktop:
+  stage: build
+  variables:
+    PATH: "example"
+  script:
+  - flutter build linux
+  tags:
+  - shared
+  only:
+  - dev
+
+platform_test:
+  stage: test
+  variables:
+    PATH: "example"
+  script:
+  - flutter test
+  tags:
+  - shared
+  only:
+  - dev
+
+analyze:
+  stage: analyze
+
+  variables:
+    PATH: "themes"
+  script:
+  - echo all well done
+
+  tags:
+  - shared
+
+  only:
+  - merge_requests

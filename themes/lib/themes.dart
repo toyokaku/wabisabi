@@ -1,4 +1,4 @@
-library themes;
+library songkoro_flutter;
 
 /// A Calculator.
 class Calculator {

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:themes/themes.dart';
+import 'package:songkoro_flutter/themes.dart';
 
 void main() {
   test('adds one to input values', () {
