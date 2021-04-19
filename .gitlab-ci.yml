@@ -31,6 +31,7 @@ web:
   - shared
   only:
   - dev
+  - master
 
 
 desktop:
@@ -47,6 +48,7 @@ desktop:
   - shared
   only:
   - dev
+  - master
 
 platform_test:
   stage: test
@@ -58,17 +60,24 @@ platform_test:
   - shared
   only:
   - dev
+  - master
 
 unit_test:
   stage: test
   variables:
     TARGET: "themes"
   script:
-  - flutter test test/*
+  - flutter test
+  - lcov --list coverage/lcov.info
+  - genhtml coverage/lcov.info --output=coverage
+  artifacts:
+    paths:
+    - coverage
   tags:
   - shared
   only:
   - merge_requests
+  - master
 
 analyze:
   stage: analyze
