@@ -19,7 +19,9 @@ mobile:
   tags:
   - shared
   only:
-  - dev
+    changes:
+    - example/*
+    - themes/*
 
 web:
   stage: build
@@ -30,8 +32,9 @@ web:
   tags:
   - shared
   only:
-  - dev
-  - master
+    changes:
+    - example/*
+    - themes/*
 
 
 desktop:
@@ -46,8 +49,9 @@ desktop:
   tags:
   - shared
   only:
-  - dev
-  - master
+    changes:
+    - example/*
+    - themes/*
 
 platform_test:
   stage: test
@@ -58,8 +62,9 @@ platform_test:
   tags:
   - shared
   only:
-  - dev
-  - master
+    changes:
+    - example/*
+    - themes/*
 
 unit_test:
   stage: test
