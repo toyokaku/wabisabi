@@ -38,6 +38,8 @@ desktop:
   variables:
     TARGET: "example"
   script:
+  - apt-get update --yes
+  - apt-get install --yes cmake
   - flutter config --enable-linux-desktop
   - flutter build linux
   tags:
