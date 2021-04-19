@@ -42,7 +42,6 @@ desktop:
   - apt-get update --yes
   - apt-get install --yes cmake ninja-build clang pkg-config libgtk-3-dev libblkid-dev liblzma-dev
   - flutter config --enable-linux-desktop
-  - flutter doctor -v
   - flutter build linux
   tags:
   - shared
@@ -67,8 +66,8 @@ unit_test:
   variables:
     TARGET: "themes"
   script:
-  - flutter test
-  - lcov --list coverage/lcov.info
+  - flutter test --coverage ./lib
+  - lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info
   - genhtml coverage/lcov.info --output=coverage
   artifacts:
     paths:
