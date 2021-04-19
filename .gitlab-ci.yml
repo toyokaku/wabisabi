@@ -6,25 +6,14 @@ stages:
 - analyze
 
 before_script:
-- cd $PATH
+- cd $TARGET
 - flutter pub get
 - flutter clean
 
-unit_test:
-  stage: test
-  variables:
-    PATH: "themes"
-  script:
-  - flutter test test/*
-  tags:
-  - shared
-  only:
-  - merge_requests
-
-Mobile:
+mobile:
   stage: build
   variables:
-    PATH: "example"
+    TARGET: "example"
   script:
   - flutter build apk
   tags:
@@ -32,10 +21,10 @@ Mobile:
   only:
   - dev
 
-Web:
+web:
   stage: build
   variables:
-    PATH: "example"
+    TARGET: "example"
   script:
   - flutter build web
   tags:
@@ -44,10 +33,10 @@ Web:
   - dev
 
 
-Desktop:
+desktop:
   stage: build
   variables:
-    PATH: "example"
+    TARGET: "example"
   script:
   - flutter build linux
   tags:
@@ -58,7 +47,7 @@ Desktop:
 platform_test:
   stage: test
   variables:
-    PATH: "example"
+    TARGET: "example"
   script:
   - flutter test
   tags:
@@ -66,16 +55,25 @@ platform_test:
   only:
   - dev
 
+unit_test:
+  stage: test
+  variables:
+    TARGET: "themes"
+  script:
+  - flutter test test/*
+  tags:
+  - shared
+  only:
+  - merge_requests
+
 analyze:
   stage: analyze
 
   variables:
-    PATH: "themes"
+    TARGET: "themes"
   script:
-  - echo all well done
-
+  - flutter analyze
   tags:
   - shared
-
   only:
   - merge_requests
