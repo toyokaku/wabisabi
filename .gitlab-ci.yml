@@ -38,6 +38,7 @@ desktop:
   variables:
     TARGET: "example"
   script:
+  - flutter config --enable-linux-desktop
   - flutter build linux
   tags:
   - shared
