@@ -41,7 +41,9 @@ desktop:
   - apt-get update --yes
   - apt-get install --yes cmake
   - apt-get install --yes ninja-build
+  - apt-get install --yes clang
   - flutter config --enable-linux-desktop
+  - flutter doctor -v
   - flutter build linux
   tags:
   - shared
