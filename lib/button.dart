@@ -31,7 +31,7 @@ class SkrIconButton extends SkrWidget<CupertinoButton, TextButton> {
     icon: icon,
     label: label ?? Text(''),
     style: ButtonStyle(
-        padding: MaterialStateProperty.all(EdgeInsets.all(padding ?? 0))),
+        padding: WidgetStateProperty.all(EdgeInsets.all(padding ?? 0))),
   );
 }
 
@@ -55,7 +55,7 @@ class SkrTextButton extends SkrWidget<CupertinoButton, TextButton> {
     child: text,
     onPressed: callback,
     style: ButtonStyle(
-        padding: MaterialStateProperty.all(EdgeInsets.all(padding!))),
+        padding: WidgetStateProperty.all(EdgeInsets.all(padding!))),
   );
 }
 
@@ -77,13 +77,13 @@ class SkrElevatedButton extends SkrWidget<CupertinoButton, ElevatedButton> {
   @override
   ElevatedButton createMaterialWidget(BuildContext context) => ElevatedButton(
     style: ButtonStyle(
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
         ),
-        backgroundColor: MaterialStateProperty.all(SkrTheme.primaryColor),
-        padding: MaterialStateProperty.all(EdgeInsets.all(padding!))),
+        backgroundColor: WidgetStateProperty.all(SkrTheme.primaryColor),
+        padding: WidgetStateProperty.all(EdgeInsets.all(padding!))),
     onPressed: callback,
     child: text,
   );
