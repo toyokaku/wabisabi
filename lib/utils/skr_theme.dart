@@ -15,22 +15,22 @@ class SkrTheme {
     var base = lightTheme ? ThemeData.light() : ThemeData.dark();
 
     SkrTheme.primaryColor = primaryColor ?? base.primaryColor;
-    SkrTheme.secondaryColor = secondaryColor ?? base.accentColor;
+    SkrTheme.secondaryColor = secondaryColor ?? base.colorScheme.secondary;
     SkrTheme.hintColor = base.hintColor;
 
     TextTheme _baseTextTheme(TextTheme base) {
       return base.copyWith(
-        headline4: base.headline4!.copyWith(
+        headlineMedium: base.headlineMedium!.copyWith(
           fontWeight: FontWeight.bold,
         ),
-        headline6: base.headline6!.copyWith(
+        titleLarge: base.titleLarge!.copyWith(
           fontWeight: FontWeight.bold,
           fontSize: 16.0,
         ),
-        headline1: base.headline1!.copyWith(
+        displayLarge: base.displayLarge!.copyWith(
           fontSize: 24.0,
         ),
-        button: base.button!.copyWith(
+        labelLarge: base.labelLarge!.copyWith(
           fontSize: 16.0,
         ),
       );
@@ -40,8 +40,7 @@ class SkrTheme {
 
     AppBarTheme _baseAppBarTheme(AppBarTheme base) {
       return base.copyWith(
-        textTheme: baseTextTheme,
-        elevation: 5.0,
+        elevation: 5.0, toolbarTextStyle: baseTextTheme.bodyMedium, titleTextStyle: baseTextTheme.titleLarge,
       );
     }
 
@@ -49,12 +48,10 @@ class SkrTheme {
       appBarTheme: _baseAppBarTheme(base.appBarTheme),
       textTheme: baseTextTheme,
       primaryColor: primaryColor,
-      accentColor: secondaryColor,
-      colorScheme: base.colorScheme.copyWith(
-        secondary: secondaryColor,
-      ),
       scaffoldBackgroundColor: Colors.amberAccent[50],
-      inputDecorationTheme: base.inputDecorationTheme.copyWith(),
+      inputDecorationTheme: base.inputDecorationTheme.copyWith(), colorScheme: base.colorScheme.copyWith(
+        secondary: secondaryColor,
+      ).copyWith(secondary: secondaryColor),
     );
   }
 

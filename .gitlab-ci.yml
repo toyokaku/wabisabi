@@ -1,4 +1,4 @@
-image: cirrusci/flutter:stable
+image: ghcr.io/cirruslabs/flutter
 
 stages:
 - build
@@ -17,11 +17,11 @@ mobile:
   script:
   - flutter build apk
   tags:
-  - shared
+  - saas-linux-small-amd64
   only:
     changes:
     - example/*
-    - themes/*
+    - ./*
 
 web:
   stage: build
@@ -30,11 +30,11 @@ web:
   script:
   - flutter build web
   tags:
-  - shared
+  - saas-linux-small-amd64
   only:
     changes:
     - example/*
-    - themes/*
+    - ./*
 
 
 desktop:
@@ -47,11 +47,11 @@ desktop:
   - flutter config --enable-linux-desktop
   - flutter build linux
   tags:
-  - shared
+  - saas-linux-small-amd64
   only:
     changes:
     - example/*
-    - themes/*
+    - ./*
 
 platform_test:
   stage: test
@@ -60,37 +60,38 @@ platform_test:
   script:
   - flutter test
   tags:
-  - shared
+  - saas-linux-small-amd64
   only:
     changes:
     - example/*
-    - themes/*
+    - ./*
 
 unit_test:
   stage: test
   variables:
-    TARGET: "themes"
+    TARGET: "."
   script:
   - flutter test --coverage ./lib
-  - lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info
+  - lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info --ignore-errors unused
   - genhtml coverage/lcov_cleaned.info --output=coverage
   artifacts:
     paths:
     - coverage
   tags:
-  - shared
+  - saas-linux-small-amd64
   only:
   - merge_requests
-  - master
+  - dev
+  - main
 
 analyze:
   stage: analyze
 
   variables:
-    TARGET: "themes"
+    TARGET: "."
   script:
   - flutter analyze
   tags:
-  - shared
+  - saas-linux-small-amd64
   only:
   - merge_requests

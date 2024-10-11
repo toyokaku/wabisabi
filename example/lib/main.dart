@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -78,9 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
         action: new SkrIconButton(
-          label: Text("Appbar Action"),
+          label: Text('Appbar Action'),
           icon: Icon(Icons.auto_stories),
-          callback: () => print("appbar callback"),
+          callback: () => print('appbar callback'),
         ),
       ),
       body: Center(
@@ -90,17 +90,17 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Text(
                 'Headline4',
-                style: theme.textTheme.headline4,
+                style: theme.textTheme.headlineMedium,
               ),
               SKR_SIZED_BOX_20,
               Text(
                 'Headline6',
-                style: theme.textTheme.headline6,
+                style: theme.textTheme.titleLarge,
               ),
               SKR_SIZED_BOX_20,
               Text(
                 'Headline1',
-                style: theme.textTheme.headline1,
+                style: theme.textTheme.displayLarge,
               ),
               SkrDivider(),
               Text(
@@ -109,14 +109,15 @@ class _MyHomePageState extends State<MyHomePage> {
               SKR_SIZED_BOX_20,
               Text(
                 '$_counter',
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
               SkrDivider(),
               Container(
                 margin: SKR_PADDING_ALL,
                 padding: SKR_PADDING_CONTAINER_LARGE,
                 child: SkrTextFormField(
-                  validator: (val) => val.isEmpty ? 'test text form' : null,
+                  validator: (val) =>
+                      (val?.isEmpty ?? true) ? 'test text form' : null,
                   callback: (val) => print('text form callback: ' + val),
                 ),
               ),
