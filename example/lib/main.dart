@@ -1,37 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:songkoro/flutter.dart';
+import 'package:wabisabi/flutter.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
-
+class _MyAppState extends State<MyApp> {
+  bool isDark = true;
+  
+  void _toggleTheme() {
+    setState(() {
+      isDark = !isDark;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     if (isIos()) {
       return CupertinoApp(
-        theme: SkrTheme.cupertinoTheme(lightTheme: true),
-        home: MyHomePage(
-          title: 'Cupertino Preview',
-        ),
+        theme: WabTheme.cupertinoTheme(lightTheme: !isDark),        
+        home: MyHomePage(title: 'Cupertino Preview', toggleTheme: _toggleTheme, isDark: isDark,),
       );
     }
     return MaterialApp(
-      theme: SkrTheme.materialTheme(
-        primaryColor: Colors.blueGrey[700],
-        secondaryColor: Colors.blueAccent[100],
-      ),
-      home: MyHomePage(title: 'Material Preview'),
+      theme: WabTheme.materialTheme(lightTheme: !isDark),      
+      home: MyHomePage(title: 'Material Preview', toggleTheme: _toggleTheme, isDark: isDark,),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({required this.title});
+  MyHomePage({required this.title, this.toggleTheme, required this.isDark});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -43,12 +48,14 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final VoidCallback? toggleTheme;
+  final bool isDark;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>{
   int _counter = 0;
 
   void _incrementCounter() {
@@ -61,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +79,25 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    var theme = Theme.of(context);
+    bool _isDark = widget.isDark;
+    var theme = Theme.of(context);  
+    WabTheme.materialTheme(lightTheme: !_isDark);
 
-    return SkrScaffold(
-      appBar: SkrAppBar(
+    return WabScaffold(
+      appBar: WabAppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
-        action: new SkrIconButton(
+        action: new WabIconButton(
           label: Text('Appbar Action'),
           icon: Icon(Icons.auto_stories),
           callback: () => print('appbar callback'),
         ),
+        leading:  WabIconButton(
+          icon: Icon(widget.isDark ? Icons.light_mode : Icons.dark_mode),
+          callback: () => widget.toggleTheme!(),
+        )
+
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -93,58 +108,58 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Headline4',
                 style: theme.textTheme.headlineMedium,
               ),
-              SKR_SIZED_BOX_20,
+              WAB_SIZED_BOX_20,
               Text(
                 'Headline6',
                 style: theme.textTheme.titleLarge,
               ),
-              SKR_SIZED_BOX_20,
+              WAB_SIZED_BOX_20,
               Text(
                 'Headline1',
                 style: theme.textTheme.displayLarge,
               ),
-              SkrDivider(),
+              WabDivider(),
               Text(
                 'You have pushed the button this many times:',
               ),
-              SKR_SIZED_BOX_20,
+              WAB_SIZED_BOX_20,
               Text(
                 '$_counter',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              SkrDivider(),
+              WabDivider(),
               Container(
-                margin: SKR_PADDING_ALL,
-                padding: SKR_PADDING_CONTAINER_LARGE,
-                child: SkrTextFormField(
+                margin: WAB_PADDING_ALL,
+                padding: WAB_PADDING_CONTAINER_LARGE,
+                child: WabTextFormField(
                   validator: (val) =>
                       (val?.isEmpty ?? true) ? 'test text form' : null,
                   callback: (val) => print('text form callback: ' + val),
                 ),
               ),
-              SkrContainer(child: Text('skrContainer')),
-              SkrLiteContainer(
-                child: SkrNumberFormField(
+              WabContainer(child: Text('WabContainer')),
+              WabLiteContainer(
+                child: WabNumberFormField(
                   value: 250,
-                  labelText: 'skrNumberFormField',
+                  labelText: 'WabNumberFormField',
                 ),
               ),
-              SkrElevatedButton(
-                text: Text('skrElevatedButton'),
-                callback: () => print('squareRaiseButton'),
+              WabElevatedButton(
+                text: Text('WabElevatedButton'),
+                callback: () => print('WabRaiseButton'),
               ),
-              SKR_SIZED_BOX_20,
-              SkrTextButton(
-                text: Text('skrTextButton'),
-                callback: () => print('skrTextButton'),
+              WAB_SIZED_BOX_20,
+              WabTextButton(
+                text: Text('WabTextButton'),
+                callback: () => print('WabTextButton'),
               ),
-              SkrImage(path: 'images/avatar.jpg'),
-              SkrPaymentRow(
-                image: SkrIcon(path: 'images/googlepay.png'),
-                text: Text('skrPaymentRow'),
-                callback: () => print('skrPaymentRow'),
+              WabImage(path: 'images/avatar.jpg'),
+              WabPaymentRow(
+                image: WabIcon(path: 'images/googlepay.png'),
+                text: Text('WabPaymentRow'),
+                callback: () => print('WabPaymentRow'),
               ),
-              SkrWarningText(text: 'warningText'),
+              WabWarningText(text: 'WarningText'),
             ],
           ),
         ),

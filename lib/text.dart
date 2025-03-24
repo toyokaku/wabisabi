@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'utils/skr_theme.dart';
-import 'utils/skr_widget.dart';
+import 'utils/wab_theme.dart';
+import 'utils/wab_widget.dart';
 
 //Text
 
-class SkrWarningText extends Text {
-  SkrWarningText({required String text})
+class WabWarningText extends Text {
+  WabWarningText({required String text})
       : super(
-          text,
+        text,
           style: TextStyle(color: Colors.red, fontSize: 15),
         );
 }
 
 // Form
 
-class SkrTextFormField
-    extends SkrWidget<CupertinoTextFormFieldRow, TextFormField> {
-  SkrTextFormField(
+class WabTextFormField
+    extends WabWidget<CupertinoTextFormFieldRow, TextFormField> {
+  WabTextFormField(
       {this.validator,
       this.callback,
       this.hint,
@@ -43,7 +43,7 @@ class SkrTextFormField
         padding: EdgeInsets.all(padding),
         decoration: BoxDecoration(
           border: Border.all(
-            color: SkrTheme.primaryColor,
+            color: WabTheme.primaryColor,
           ),
           borderRadius: BorderRadius.circular(8.0),
         ),
@@ -60,15 +60,15 @@ class SkrTextFormField
             borderSide: BorderSide.none,
           ),
           contentPadding: EdgeInsets.symmetric(horizontal: padding),
-          fillColor: SkrTheme.secondaryColor,
+          fillColor: WabTheme.secondaryColor,
           filled: true,
           hintText: hint,
         ),
       );
 }
 
-class SkrNumberFormField extends SkrWidget<CupertinoTextField, TextField> {
-  SkrNumberFormField(
+class WabNumberFormField extends WabWidget<CupertinoTextField, TextField> {
+  WabNumberFormField(
       {this.value, this.callback, this.maxLength, this.labelText});
 
   final int? value;
