@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'utils/skr_widget.dart';
-import 'utils/skr_theme.dart';
+import 'utils/wab_widget.dart';
+import 'utils/wab_theme.dart';
 
 // Button
-class SkrIconButton extends SkrWidget<CupertinoButton, TextButton> {
-  SkrIconButton(
+class WabIconButton extends WabWidget<CupertinoButton, TextButton> {
+  WabIconButton(
       {required this.icon, this.label, this.callback, this.padding = 0.0});
 
   final Widget icon;
@@ -35,8 +35,8 @@ class SkrIconButton extends SkrWidget<CupertinoButton, TextButton> {
   );
 }
 
-class SkrTextButton extends SkrWidget<CupertinoButton, TextButton> {
-  SkrTextButton({required this.text, this.padding = 20.0, this.callback});
+class WabTextButton extends WabWidget<CupertinoButton, TextButton> {
+  WabTextButton({required this.text, this.padding = 20.0, this.callback});
 
   late final Text text;
   late final double? padding;
@@ -59,8 +59,8 @@ class SkrTextButton extends SkrWidget<CupertinoButton, TextButton> {
   );
 }
 
-class SkrElevatedButton extends SkrWidget<CupertinoButton, ElevatedButton> {
-  SkrElevatedButton({required this.text, this.padding = 20.0, this.callback});
+class WabElevatedButton extends WabWidget<CupertinoButton, ElevatedButton> {
+  WabElevatedButton({required this.text, this.padding = 20.0, this.callback});
 
   final Text text;
   final double? padding;
@@ -82,16 +82,16 @@ class SkrElevatedButton extends SkrWidget<CupertinoButton, ElevatedButton> {
             borderRadius: BorderRadius.circular(20),
           ),
         ),
-        backgroundColor: WidgetStateProperty.all(SkrTheme.primaryColor),
+        backgroundColor: WidgetStateProperty.all(WabTheme.primaryColor),
         padding: WidgetStateProperty.all(EdgeInsets.all(padding!))),
     onPressed: callback,
     child: text,
   );
 }
 
-class SkrFloatingActionButton
-    extends SkrWidget<CupertinoButton, FloatingActionButton> {
-  SkrFloatingActionButton(this.button);
+class WabFloatingActionButton
+    extends WabWidget<CupertinoButton, FloatingActionButton> {
+  WabFloatingActionButton(this.button);
 
   final FloatingActionButton button;
 

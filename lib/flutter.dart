@@ -2,22 +2,22 @@ library wabisabi;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'utils/skr_widget.dart';
-import 'utils/skr_theme.dart';
+import 'utils/wab_widget.dart';
+import 'utils/wab_theme.dart';
 import 'button.dart';
 import 'const.dart';
 
-export 'utils/skr_theme.dart';
-export 'utils/skr_utils.dart';
+export 'utils/wab_theme.dart';
+export 'utils/wab_utils.dart';
 
 export 'button.dart';
 export 'const.dart';
 export 'image.dart';
 export 'text.dart';
 
-// Main
-class SkrScaffold extends SkrWidget<CupertinoPageScaffold, Scaffold> {
-  SkrScaffold({
+// Main 
+class WabScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
+  WabScaffold({
     required this.body,
     this.title,
     this.appBar,
@@ -28,7 +28,7 @@ class SkrScaffold extends SkrWidget<CupertinoPageScaffold, Scaffold> {
 
   final Widget body;
   final Text? title;
-  final SkrAppBar? appBar;
+  final WabAppBar? appBar;
   final FloatingActionButton? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
@@ -41,11 +41,11 @@ class SkrScaffold extends SkrWidget<CupertinoPageScaffold, Scaffold> {
             : PageView(
                 children: <Widget>[
                   body,
-                  SkrFloatingActionButton(floatingActionButton!)
+                  WabFloatingActionButton(floatingActionButton!)
                 ],
               ),
         navigationBar: appBar?.createCupertinoWidget(context) ??
-            SkrAppBar(
+            WabAppBar(
               title: title,
             ).createCupertinoWidget(context),
       );
@@ -54,7 +54,7 @@ class SkrScaffold extends SkrWidget<CupertinoPageScaffold, Scaffold> {
   Scaffold createMaterialWidget(BuildContext context) => Scaffold(
         body: body,
         appBar: appBar?.createMaterialWidget(context) ??
-            SkrAppBar(
+            WabAppBar(
               title: title,
             ).createMaterialWidget(context),
         floatingActionButton: floatingActionButton,
@@ -63,8 +63,8 @@ class SkrScaffold extends SkrWidget<CupertinoPageScaffold, Scaffold> {
       );
 }
 
-class SkrAppBar extends SkrWidget<CupertinoNavigationBar, PreferredSize> {
-  SkrAppBar({this.title, this.action});
+class WabAppBar extends WabWidget<CupertinoNavigationBar, PreferredSize> {
+  WabAppBar({this.title, this.action});
 
   final Text? title;
   final Widget? action;
@@ -82,21 +82,21 @@ class SkrAppBar extends SkrWidget<CupertinoNavigationBar, PreferredSize> {
         title: title,
         actions: action == null ? null : <Widget>[action!],
       ),
-      preferredSize: SKR_APP_BAR_SIZE);
+      preferredSize: WAB_APP_BAR_SIZE);
 }
 
 // Container
-class SkrContainer extends Container {
-  SkrContainer({required Widget child, EdgeInsets? padding})
+class WabContainer extends Container {
+  WabContainer({required Widget child, EdgeInsets? padding})
       : super(
-          padding: padding ?? SKR_PADDING_CONTAINER_SMALL,
-          margin: SKR_PADDING_ALL,
+          padding: padding ?? WAB_PADDING_CONTAINER_SMALL,
+          margin: WAB_PADDING_ALL,
           decoration: BoxDecoration(
-              color: SkrTheme.primaryColor,
+              color: WabTheme.primaryColor,
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: SkrTheme.hintColor.withOpacity(0.1),
+                  color: WabTheme.hintColor.withOpacity(0.1),
                   offset: const Offset(0, 3),
                   blurRadius: 10.0,
                 )
@@ -105,10 +105,10 @@ class SkrContainer extends Container {
         );
 }
 
-class SkrLiteContainer extends Container {
-  SkrLiteContainer({required Widget child})
+class WabLiteContainer extends Container {
+  WabLiteContainer({required Widget child})
       : super(
-          margin: SKR_PADDING_ALL,
+          margin: WAB_PADDING_ALL,
           child: child,
         );
 }

@@ -14,18 +14,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isIos()) {
       return CupertinoApp(
-        theme: SkrTheme.cupertinoTheme(lightTheme: true),
+        theme: WabTheme.cupertinoTheme(lightTheme: true),
         home: MyHomePage(
           title: 'Cupertino Preview',
         ),
-      );
+       );
     }
     return MaterialApp(
-      theme: SkrTheme.materialTheme(
-        primaryColor: Colors.blueGrey[700],
-        secondaryColor: Colors.blueAccent[100],
-      ),
-      home: MyHomePage(title: 'Material Preview'),
+      theme: WabTheme.materialTheme(lightTheme: true),
+         home: MyHomePage(title: 'Material Preview'),
     );
   }
 }
@@ -73,12 +70,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var theme = Theme.of(context);
 
-    return SkrScaffold(
-      appBar: SkrAppBar(
+    return WabScaffold(
+      appBar: WabAppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
-        action: new SkrIconButton(
+        action: new WabIconButton(
           label: Text('Appbar Action'),
           icon: Icon(Icons.auto_stories),
           callback: () => print('appbar callback'),
@@ -93,58 +90,58 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Headline4',
                 style: theme.textTheme.headlineMedium,
               ),
-              SKR_SIZED_BOX_20,
+              WAB_SIZED_BOX_20,
               Text(
                 'Headline6',
                 style: theme.textTheme.titleLarge,
               ),
-              SKR_SIZED_BOX_20,
+              WAB_SIZED_BOX_20,
               Text(
                 'Headline1',
                 style: theme.textTheme.displayLarge,
               ),
-              SkrDivider(),
+              WabDivider(),
               Text(
                 'You have pushed the button this many times:',
               ),
-              SKR_SIZED_BOX_20,
+              WAB_SIZED_BOX_20,
               Text(
                 '$_counter',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              SkrDivider(),
+              WabDivider(),
               Container(
-                margin: SKR_PADDING_ALL,
-                padding: SKR_PADDING_CONTAINER_LARGE,
-                child: SkrTextFormField(
+                margin: WAB_PADDING_ALL,
+                padding: WAB_PADDING_CONTAINER_LARGE,
+                child: WabTextFormField(
                   validator: (val) =>
                       (val?.isEmpty ?? true) ? 'test text form' : null,
                   callback: (val) => print('text form callback: ' + val),
                 ),
               ),
-              SkrContainer(child: Text('skrContainer')),
-              SkrLiteContainer(
-                child: SkrNumberFormField(
+              WabContainer(child: Text('wContainer')),
+              WabLiteContainer(
+                child: WabNumberFormField(
                   value: 250,
-                  labelText: 'skrNumberFormField',
+                  labelText: 'wNumberFormField',
                 ),
               ),
-              SkrElevatedButton(
-                text: Text('skrElevatedButton'),
+              WabElevatedButton(
+                text: Text('wElevatedButton'),
                 callback: () => print('squareRaiseButton'),
               ),
-              SKR_SIZED_BOX_20,
-              SkrTextButton(
-                text: Text('skrTextButton'),
-                callback: () => print('skrTextButton'),
+              WAB_SIZED_BOX_20,
+              WabTextButton(
+                text: Text('wTextButton'),
+                callback: () => print('wTextButton'),
               ),
-              SkrImage(path: 'images/avatar.jpg'),
-              SkrPaymentRow(
-                image: SkrIcon(path: 'images/googlepay.png'),
+              WabImage(path: 'images/avatar.jpg'),
+              WabPaymentRow(
+                image: WabIcon(path: 'images/googlepay.png'),
                 text: Text('skrPaymentRow'),
                 callback: () => print('skrPaymentRow'),
               ),
-              SkrWarningText(text: 'warningText'),
+              WabWarningText(text: 'warningText'),
             ],
           ),
         ),

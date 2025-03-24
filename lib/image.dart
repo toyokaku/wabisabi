@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'const.dart';
 
 // Image
-class SkrImage extends ClipRRect {
-  SkrImage(
+class WabImage extends ClipRRect {
+  WabImage(
       {required String path,
         double height = 150,
         double width = 180,
@@ -20,8 +20,8 @@ class SkrImage extends ClipRRect {
   );
 }
 
-class SkrIcon extends ClipRRect {
-  SkrIcon({required String path})
+class WabIcon extends ClipRRect {
+  WabIcon({required String path})
       : super(
     borderRadius: BorderRadius.circular(10.0),
     child: Image(
@@ -34,15 +34,14 @@ class SkrIcon extends ClipRRect {
 
 
 // Payment
-class SkrPaymentRow extends GestureDetector {
-  SkrPaymentRow(
-      {required ClipRRect image, Text? text, GestureTapCallback? callback})
+class WabPaymentRow extends GestureDetector {
+  WabPaymentRow(
+      {required ClipRRect image, required Text text, GestureTapCallback? callback})
       : super(
     onTap: callback,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children:
-      text == null ? [] : <Widget>[image, SKR_SIZED_BOX_20, text],
+      children: <Widget>[image, WAB_SIZED_BOX_20, text],
     ),
   );
 }
