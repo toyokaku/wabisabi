@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:songkoro/flutter.dart';
+import 'package:wabisabi/flutter.dart';
 
 void main() {
   runApp(MyApp());

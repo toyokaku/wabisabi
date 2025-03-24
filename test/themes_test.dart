@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:songkoro/flutter.dart';
+import 'package:wabisabi/flutter.dart';
 
 void main() {
   test('create all', () {
