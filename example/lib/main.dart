@@ -6,29 +6,37 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
-
+class _MyAppState extends State<MyApp> {
+  bool isDark = false;
+  
+  void _toggleTheme() {
+    setState(() {
+      isDark = !isDark;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     if (isIos()) {
       return CupertinoApp(
-        theme: WabTheme.cupertinoTheme(lightTheme: true),
-        home: MyHomePage(
-          title: 'Cupertino Preview',
-        ),
-       );
+        theme: WabTheme.cupertinoTheme(lightTheme: !isDark),        
+        home: MyHomePage(title: 'Cupertino Preview', toggleTheme: _toggleTheme, isDark: isDark,),
+      );
     }
     return MaterialApp(
-      theme: WabTheme.materialTheme(lightTheme: true),
-         home: MyHomePage(title: 'Material Preview'),
+      theme: WabTheme.materialTheme(lightTheme: !isDark),      
+      home: MyHomePage(title: 'Material Preview', toggleTheme: _toggleTheme, isDark: isDark,),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({required this.title});
+  MyHomePage({required this.title, this.toggleTheme, required this.isDark});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -40,12 +48,14 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final VoidCallback? toggleTheme;
+  final bool isDark;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>{
   int _counter = 0;
 
   void _incrementCounter() {
@@ -58,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +79,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    var theme = Theme.of(context);
+    bool _isDark = widget.isDark;
+    var theme = Theme.of(context);  
+    WabTheme.materialTheme(lightTheme: !_isDark);
 
     return WabScaffold(
       appBar: WabAppBar(
@@ -80,6 +93,11 @@ class _MyHomePageState extends State<MyHomePage> {
           icon: Icon(Icons.auto_stories),
           callback: () => print('appbar callback'),
         ),
+        leading:  WabIconButton(
+          icon: Icon(widget.isDark ? Icons.light_mode : Icons.dark_mode),
+          callback: () => widget.toggleTheme!(),
+        )
+
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -138,8 +156,8 @@ class _MyHomePageState extends State<MyHomePage> {
               WabImage(path: 'images/avatar.jpg'),
               WabPaymentRow(
                 image: WabIcon(path: 'images/googlepay.png'),
-                text: Text('skrPaymentRow'),
-                callback: () => print('skrPaymentRow'),
+                text: Text('wabPaymentRow'),
+                callback: () => print('wabPaymentRow'),
               ),
               WabWarningText(text: 'warningText'),
             ],

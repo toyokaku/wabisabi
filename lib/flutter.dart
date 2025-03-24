@@ -15,7 +15,7 @@ export 'const.dart';
 export 'image.dart';
 export 'text.dart';
 
-// Main 
+// Main
 class WabScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
   WabScaffold({
     required this.body,
@@ -64,14 +64,16 @@ class WabScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
 }
 
 class WabAppBar extends WabWidget<CupertinoNavigationBar, PreferredSize> {
-  WabAppBar({this.title, this.action});
+  WabAppBar({this.title, this.action, this.leading});
 
   final Text? title;
   final Widget? action;
+  final Widget? leading;
 
   @override
   CupertinoNavigationBar createCupertinoWidget(BuildContext context) =>
       CupertinoNavigationBar(
+        leading: leading,
         middle: title,
         trailing: action,
       );
@@ -79,6 +81,7 @@ class WabAppBar extends WabWidget<CupertinoNavigationBar, PreferredSize> {
   @override
   PreferredSize createMaterialWidget(BuildContext context) => PreferredSize(
       child: AppBar(
+        leading: leading,
         title: title,
         actions: action == null ? null : <Widget>[action!],
       ),
@@ -112,5 +115,3 @@ class WabLiteContainer extends Container {
           child: child,
         );
 }
-
-
