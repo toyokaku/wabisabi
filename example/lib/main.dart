@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isDark = false;
+  bool isDark = true;
   
   void _toggleTheme() {
     setState(() {
@@ -137,29 +137,29 @@ class _MyHomePageState extends State<MyHomePage>{
                   callback: (val) => print('text form callback: ' + val),
                 ),
               ),
-              WabContainer(child: Text('wContainer')),
+              WabContainer(child: Text('WabContainer')),
               WabLiteContainer(
                 child: WabNumberFormField(
                   value: 250,
-                  labelText: 'wNumberFormField',
+                  labelText: 'WabNumberFormField',
                 ),
               ),
               WabElevatedButton(
-                text: Text('wElevatedButton'),
-                callback: () => print('squareRaiseButton'),
+                text: Text('WabElevatedButton'),
+                callback: () => print('WabRaiseButton'),
               ),
               WAB_SIZED_BOX_20,
               WabTextButton(
-                text: Text('wTextButton'),
-                callback: () => print('wTextButton'),
+                text: Text('WabTextButton'),
+                callback: () => print('WabTextButton'),
               ),
               WabImage(path: 'images/avatar.jpg'),
               WabPaymentRow(
                 image: WabIcon(path: 'images/googlepay.png'),
-                text: Text('wabPaymentRow'),
-                callback: () => print('wabPaymentRow'),
+                text: Text('WabPaymentRow'),
+                callback: () => print('WabPaymentRow'),
               ),
-              WabWarningText(text: 'warningText'),
+              WabWarningText(text: 'WarningText'),
             ],
           ),
         ),
