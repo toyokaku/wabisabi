@@ -76,17 +76,13 @@ class WabTheme {
 
     var baseTextTheme = _baseTextTheme(base.textTheme);
 
-    AppBarTheme _baseAppBarTheme(AppBarTheme base) {
-      return base.copyWith(
-        elevation: 0.0, 
-        backgroundColor: WabTheme.surfaceColor,
-        toolbarTextStyle: baseTextTheme.bodyMedium, 
-        titleTextStyle: baseTextTheme.titleLarge,
-      );
-    }
-
     return base.copyWith(
-      appBarTheme: _baseAppBarTheme(base.appBarTheme),
+      appBarTheme: base.appBarTheme.copyWith(
+        elevation: 0.0,
+        backgroundColor: WabTheme.surfaceColor,
+        toolbarTextStyle: baseTextTheme.bodyMedium,
+        titleTextStyle: baseTextTheme.titleLarge,
+      ),
       textTheme: baseTextTheme,
       primaryColor: WabTheme.primaryColor,
       scaffoldBackgroundColor: WabTheme.backgroundColor,
