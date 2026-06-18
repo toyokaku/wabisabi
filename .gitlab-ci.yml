@@ -71,6 +71,8 @@ unit_test:
   variables:
     TARGET: "."
   script:
+  - apt-get update --yes
+  - apt-get install --yes lcov
   - flutter test --coverage ./lib
   - lcov -r coverage/lcov.info '*/__test*__/*' -o coverage/lcov_cleaned.info --ignore-errors unused
   - genhtml coverage/lcov_cleaned.info --output=coverage
