@@ -51,13 +51,24 @@ All visual values come from `WabTheme.*` or token consts.
 - Named palette colors: lowercase, semantic (`WabiSabiColors.clay`, `.bamboo`).
 - Files: `snake_case.dart`.
 
+## Changing tokens
+
+Token source of truth is `lib/tokens/palette_raw.dart` and `lib/tokens/spacing_raw.dart` — pure Dart, no Flutter dependency.
+- `palette.dart` and `spacing.dart` wrap these in Flutter types (`Color`, `EdgeInsets`, etc.).
+- `web/quarto/` SCSS is **generated** — never edit it directly.
+
+When you change a token value:
+1. Edit `*_raw.dart`.
+2. Run `dart tool/export_tokens.dart` to regenerate `web/quarto/`.
+3. Commit both together. CI (`check_web_tokens` job) will fail if they drift.
+
 ## Growing the kit organically
 
 When promoting a widget from an app into the kit:
 1. Add it to the correct `components/` file (or create a new file for a new family).
 2. Export it from `lib/wabisabi.dart`.
 3. No hardcoded values — wire to `WabTheme.*` or add a token if one is missing.
-4. Run `flutter analyze lib` and `flutter test` before committing.
+4. Run `flutter analyze lib` before committing.
 5. Bump the version in `pubspec.yaml` and tag (`git tag vX.Y.Z`).
 
 ## Release flow

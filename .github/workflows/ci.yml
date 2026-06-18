@@ -19,6 +19,15 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
 
+  check_web_tokens:
+    name: Web token drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - run: dart tool/export_tokens.dart
+      - run: git diff --exit-code web/quarto/
+
   build_apk:
     name: Build APK
     runs-on: ubuntu-latest
