@@ -6,7 +6,6 @@ import 'utils/wab_widget.dart';
 import 'utils/wab_theme.dart';
 import 'button.dart';
 import 'const.dart';
-import 'text.dart';
 
 export 'utils/wab_theme.dart';
 export 'utils/wab_utils.dart';
