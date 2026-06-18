@@ -78,14 +78,13 @@ class WabContainer extends Container {
           constraints: BoxConstraints(maxWidth: WAB_CONTENT_MAX_WIDTH),
           decoration: BoxDecoration(
             color: WabTheme.primaryColor,
-            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withOpacity(0.12),
-                offset: Offset(-1, 0),
-                blurRadius: 1.0,
-              ),
-            ],
+            borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
+            border: Border.all(
+              color: WabTheme.isDark
+                  ? WabTheme.accentColor.withOpacity(0.28)
+                  : WabTheme.secondaryColor,
+              width: 0.8,
+            ),
           ),
           child: child,
         );
@@ -99,14 +98,13 @@ class WabLiteContainer extends Container {
           constraints: BoxConstraints(maxWidth: WAB_CONTENT_MAX_WIDTH),
           decoration: BoxDecoration(
             color: WabTheme.surfaceColor,
-            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withOpacity(0.12),
-                offset: Offset(-1, 0),
-                blurRadius: 1.0,
-              ),
-            ],
+            borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
+            border: Border.all(
+              color: WabTheme.isDark
+                  ? WabTheme.accentColor.withOpacity(0.28)
+                  : WabTheme.secondaryColor,
+              width: 0.8,
+            ),
           ),
           child: child,
         );
@@ -179,56 +177,112 @@ class TexturePainter extends CustomPainter {
   final bool isDark;
   TexturePainter({required this.isDark});
 
+  // Deterministic pseudo-random in [0,1) from two ints.
+  static double _rand(int a, int b) =>
+      ((a * 1664525 + b * 1013904223 + 42) & 0x7FFFFFFF) / 0x7FFFFFFF;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint();
-    final random = DateTime.now().millisecondsSinceEpoch;
+    final w = size.width;
+    final h = size.height;
 
     if (isDark) {
-      paint.color = Color.fromRGBO(40, 40, 40, 0.015);
-      for (int i = 0; i < size.width; i += 20) {
-        for (int j = 0; j < size.height; j += 20) {
-          final noise = ((i * j + random) % 100) / 100;
-          if (noise > 0.7) {
-            canvas.drawCircle(Offset(i + noise * 10, j + noise * 10),
-                1 + noise * 3, paint);
-          }
-        }
-      }
-      paint.color = Color.fromRGBO(80, 75, 65, 0.02);
-      for (int i = 0; i < 10; i++) {
-        final startX = (random + i * 100) % size.width;
-        final startY = (random + i * 200) % size.height;
-        final path = Path()..moveTo(startX, startY);
-        for (int j = 0; j < 5; j++) {
-          path.quadraticBezierTo(
-            startX + ((random + i + j * 2) % 150) - 75,
-            startY + 25 + ((random + i + j * 3) % 50),
-            startX + ((random + i + j) % 200) - 100,
-            startY + 50 + ((random + i + j) % 100),
-          );
-        }
-        canvas.drawPath(path, paint);
-      }
+      _paintDarkLacquer(canvas, w, h);
     } else {
-      paint.color = Color.fromRGBO(240, 235, 215, 0.025);
-      for (int i = 0; i < size.width; i += 15) {
-        for (int j = 0; j < size.height; j += 15) {
-          final noise = ((i * j + random) % 100) / 100;
-          if (noise > 0.6) {
-            canvas.drawCircle(Offset(i + noise * 5, j + noise * 5),
-                0.5 + noise * 1.5, paint);
-          }
+      _paintLightWashi(canvas, w, h);
+    }
+  }
+
+  void _paintLightWashi(Canvas canvas, double w, double h) {
+    // Layer 1 — cloud tonal variation: overlapping translucent ellipses
+    // Some warmer, some slightly cooler, creates the watercolor cloudiness.
+    const cloudPositions = [
+      [0.08, 0.12], [0.55, 0.07], [0.82, 0.18], [0.25, 0.35],
+      [0.70, 0.30], [0.10, 0.60], [0.45, 0.55], [0.90, 0.65],
+      [0.30, 0.80], [0.65, 0.75], [0.15, 0.92], [0.80, 0.88],
+      [0.50, 0.20], [0.40, 0.70],
+    ];
+    final warmCloud = Paint()
+      ..color = const Color(0x05A07040)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 60);
+    final coolCloud = Paint()
+      ..color = const Color(0x03809090)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 55);
+    for (int k = 0; k < cloudPositions.length; k++) {
+      final cx = cloudPositions[k][0] * w;
+      final cy = cloudPositions[k][1] * h;
+      final rx = 80.0 + _rand(k, 1) * 100;
+      final ry = 60.0 + _rand(k, 2) * 80;
+      canvas.drawOval(Rect.fromCenter(center: Offset(cx, cy), width: rx * 2, height: ry * 2),
+          k.isEven ? warmCloud : coolCloud);
+    }
+
+    // Layer 2 — washi fiber threads: horizontal, slight organic wave, varying weight
+    final fiberBase = Paint()..style = PaintingStyle.stroke;
+    double jPos = 0;
+    int row = 0;
+    while (jPos < h) {
+      final opacity = 0x06 + (_rand(row, 7).clamp(0, 1) * 0x0E).toInt();
+      final strokeW = 0.3 + _rand(row, 11) * 0.7;
+      fiberBase.color = Color.fromARGB(opacity, 0x90, 0x70, 0x50);
+      fiberBase.strokeWidth = strokeW;
+
+      if (_rand(row, 3) < 0.62) {
+        final path = Path()..moveTo(0, jPos);
+        for (double x = 0; x < w; x += 60) {
+          final ctrlX = x + 30;
+          final ctrlY = jPos + (_rand(row, (x ~/ 10)) * 3 - 1.5);
+          final endY = jPos + (_rand(row, (x ~/ 7)) * 2 - 1.0);
+          path.quadraticBezierTo(ctrlX, ctrlY, x + 60, endY);
+        }
+        canvas.drawPath(path, fiberBase);
+      }
+
+      jPos += 2 + (_rand(row, 5) * 4).toInt();
+      row++;
+    }
+
+    // Layer 3 — grain: scattered micro-dots
+    final grainPaint = Paint()..color = const Color(0x10A08055);
+    for (int i = 0; i < w.toInt(); i += 3) {
+      for (int j = 0; j < h.toInt(); j += 3) {
+        if (_rand(i, j) > 0.80) {
+          final r = 0.3 + _rand(i + 1, j) * 0.4;
+          canvas.drawCircle(Offset(i.toDouble(), j.toDouble()), r, grainPaint);
         }
       }
-      paint.color = Color.fromRGBO(200, 190, 170, 0.015);
-      for (int i = 0; i < size.width; i += 25) {
-        for (int j = 0; j < size.height; j += 25) {
-          final noise = ((i * j + random + 50) % 100) / 100;
-          if (noise > 0.8) {
-            canvas.drawCircle(Offset(i + noise * 10, j + noise * 10),
-                0.5 + noise, paint);
-          }
+    }
+  }
+
+  void _paintDarkLacquer(Canvas canvas, double w, double h) {
+    // Layer 1 — vignette: soft black at corners to add depth
+    final vigPaint = Paint()..color = const Color(0x18000000);
+    final vRad = w * 0.45;
+    canvas.drawCircle(Offset(0, 0), vRad, vigPaint);
+    canvas.drawCircle(Offset(w, 0), vRad, vigPaint);
+    canvas.drawCircle(Offset(0, h), vRad, vigPaint);
+    canvas.drawCircle(Offset(w, h), vRad, vigPaint);
+
+    // Layer 2 — warm amber cloud patches (barely visible)
+    final warmPatch = Paint()
+      ..color = const Color(0x06C8A84A)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 70);
+    const patches = [[0.25, 0.30], [0.70, 0.60], [0.45, 0.80], [0.80, 0.20]];
+    for (int k = 0; k < patches.length; k++) {
+      final cx = patches[k][0] * w;
+      final cy = patches[k][1] * h;
+      canvas.drawOval(
+        Rect.fromCenter(center: Offset(cx, cy), width: 160, height: 120),
+        warmPatch,
+      );
+    }
+
+    // Layer 3 — fine warm grain
+    final grainPaint = Paint()..color = const Color(0x09C8A84A);
+    for (int i = 0; i < w.toInt(); i += 3) {
+      for (int j = 0; j < h.toInt(); j += 3) {
+        if (_rand(i, j) > 0.85) {
+          canvas.drawCircle(Offset(i.toDouble(), j.toDouble()), 0.6, grainPaint);
         }
       }
     }
