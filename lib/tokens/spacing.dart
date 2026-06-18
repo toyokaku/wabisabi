@@ -17,5 +17,6 @@ const EdgeInsets WAB_PADDING_CONTAINER_LARGE = EdgeInsets.symmetric(
   horizontal: kPaddingContainerLargeH,
 );
 
-const double WAB_CONTENT_MAX_WIDTH  = kContentMaxWidth;
-const double WAB_CARD_BORDER_RADIUS = kCardBorderRadius;
+const double WAB_CONTENT_MAX_WIDTH    = kContentMaxWidth;
+const double WAB_CARD_BORDER_RADIUS   = kCardBorderRadius;
+const double WAB_SECTION_BORDER_RADIUS = kSectionBorderRadius;

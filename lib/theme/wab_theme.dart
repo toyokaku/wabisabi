@@ -79,7 +79,7 @@ class WabTheme {
     return base.copyWith(
       appBarTheme: base.appBarTheme.copyWith(
         elevation: 0.0,
-        backgroundColor: WabTheme.surfaceColor,
+        backgroundColor: WabTheme.backgroundColor,  // flat — matches scaffold
         toolbarTextStyle: baseTextTheme.bodyMedium,
         titleTextStyle: baseTextTheme.titleLarge,
       ),
@@ -89,16 +89,26 @@ class WabTheme {
       cardColor: WabTheme.surfaceColor,
       dialogBackgroundColor: WabTheme.surfaceColor,
       dividerColor: WabTheme.secondaryColor,
+      cardTheme: CardTheme(
+        color: WabTheme.surfaceColor,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          side: BorderSide(color: WabTheme.secondaryColor, width: 0.8),
+        ),
+        margin: EdgeInsets.zero,
+      ),
       inputDecorationTheme: base.inputDecorationTheme.copyWith(
-        fillColor: WabTheme.woodyColor,
+        fillColor: WabTheme.woodyColor.withOpacity(lightTheme ? 0.25 : 0.4),
         filled: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide.none,
         ),
+        hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.45)),
       ),
       colorScheme: base.colorScheme.copyWith(
-        primary: WabTheme.primaryColor,
+        primary: WabTheme.accentColor,
         secondary: WabTheme.secondaryColor,
         surface: WabTheme.surfaceColor,
         error: Colors.redAccent,

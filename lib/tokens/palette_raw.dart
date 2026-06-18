@@ -25,23 +25,23 @@ const int kCeramic   = 0xFFE8E2DC;
 const int kSand      = 0xFFCFD0D1;
 
 // Operational light theme palette (semantic roles)
-const int kLightBackground = 0xFFF4E9CD;
-const int kLightSurface    = 0xFFF8F5EE;
-const int kLightPrimary    = 0xFFFFFFFF;
-const int kLightSecondary  = 0xFFE8E3D9;
-const int kLightAccent     = 0xFF63BAF2;
-const int kLightOn         = 0xFF8AD192;
-const int kLightOff        = 0xFFEEEEEE;
-const int kLightText       = 0xFF333333;
-const int kLightWoody      = 0xFFD8B87D;
+const int kLightBackground = 0xFFF2E8CC;  // warm parchment
+const int kLightSurface    = 0xFFF7F2E5;  // card surface, slightly lighter parchment
+const int kLightPrimary    = 0xFFFBF7EE;  // barely-warm white (nav/card bg)
+const int kLightSecondary  = 0xFFE2D9C5;  // warm dividers / secondary surfaces
+const int kLightAccent     = 0xFF5E8C96;  // muted teal (nav selected, links)
+const int kLightOn         = 0xFF7AA882;  // muted sage (active/success)
+const int kLightOff        = 0xFFDDD5C5;  // warm inactive gray
+const int kLightText       = 0xFF2A2318;  // deep ink
+const int kLightWoody      = 0xFFCFAB72;  // amber — input fills, button bg
 
 // Operational dark theme palette
-const int kDarkBackground = 0xFF222222;
-const int kDarkSurface    = 0xFF2A2A2A;
-const int kDarkPrimary    = 0xFF333333;
-const int kDarkSecondary  = 0xFF444444;
-const int kDarkAccent     = 0xFFAD9E6C;
-const int kDarkOn         = 0xFF65B96C;
-const int kDarkOff        = 0xFF444444;
-const int kDarkText       = 0xFFE0E0E0;
-const int kDarkWoody      = 0xFF3A352B;
+const int kDarkBackground = 0xFF1C1814;  // warm brownish-black (not cold gray)
+const int kDarkSurface    = 0xFF262018;  // warm dark card surface
+const int kDarkPrimary    = 0xFF2E291E;  // warm dark nav/card bg
+const int kDarkSecondary  = 0xFF3C3626;  // warm dividers
+const int kDarkAccent     = 0xFFC8A84A;  // rich gold (nav selected, active)
+const int kDarkOn         = 0xFF6DA878;  // muted sage (success)
+const int kDarkOff        = 0xFF3C3626;  // same as secondary (inactive)
+const int kDarkText       = 0xFFCEC0A0;  // warm cream
+const int kDarkWoody      = 0xFF362F1F;  // dark amber — input fills
