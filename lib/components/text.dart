@@ -1,32 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'utils/wab_theme.dart';
-import 'utils/wab_widget.dart';
-import 'const.dart';
-
-//Text
+import 'wab_widget.dart';
+import '../theme/wab_theme.dart';
+import '../tokens/spacing.dart';
 
 class WabWarningText extends Text {
   WabWarningText({required String text})
-      : super(
-        text,
-          style: TextStyle(color: Colors.red, fontSize: 15),
-        );
+      : super(text, style: TextStyle(color: Colors.red, fontSize: 15));
 }
-
-// Form
 
 class WabTextFormField
     extends WabWidget<CupertinoTextFormFieldRow, TextFormField> {
-  WabTextFormField(
-      {this.validator,
-      this.callback,
-      this.hint,
-      this.hintText,
-      this.obscureText = false,
-      this.borderRadius = 8.0,
-      this.padding = 15.0});
+  WabTextFormField({
+    this.validator,
+    this.callback,
+    this.hint,
+    this.hintText,
+    this.obscureText = false,
+    this.borderRadius = 8.0,
+    this.padding = 15.0,
+  });
 
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? callback;
@@ -44,11 +38,11 @@ class WabTextFormField
         onChanged: callback,
         placeholder: hint ?? hintText,
         padding: EdgeInsets.all(padding),
+        style: TextStyle(color: WabTheme.textColor),
         decoration: BoxDecoration(
           color: WabTheme.woodyColor,
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
         ),
-        style: TextStyle(color: WabTheme.textColor),
       );
 
   @override
@@ -93,7 +87,7 @@ class WabNumberFormField extends WabWidget<CupertinoTextField, TextField> {
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
         ),
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        inputFormatters: <TextInputFormatter>[
+        inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
           LengthLimitingTextInputFormatter(maxLength),
         ],
@@ -116,7 +110,7 @@ class WabNumberFormField extends WabWidget<CupertinoTextField, TextField> {
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
         keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
+        inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
           LengthLimitingTextInputFormatter(maxLength),
         ],
@@ -137,49 +131,47 @@ class WabSearchField extends WabWidget<CupertinoSearchTextField, TextField> {
   final String hintText;
 
   @override
-  CupertinoSearchTextField createCupertinoWidget(BuildContext context) {
-    return CupertinoSearchTextField(
-      controller: controller,
-      onChanged: onChanged,
-      onSubmitted: onSubmitted,
-      placeholder: hintText,
-      backgroundColor: WabTheme.woodyColor,
-      style: TextStyle(color: WabTheme.textColor),
-      placeholderStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
-      borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-      padding: EdgeInsets.symmetric(vertical: 12),
-    );
-  }
+  CupertinoSearchTextField createCupertinoWidget(BuildContext context) =>
+      CupertinoSearchTextField(
+        controller: controller,
+        onChanged: onChanged,
+        onSubmitted: onSubmitted,
+        placeholder: hintText,
+        backgroundColor: WabTheme.woodyColor,
+        style: TextStyle(color: WabTheme.textColor),
+        placeholderStyle:
+            TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
+        borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+        padding: EdgeInsets.symmetric(vertical: 12),
+      );
 
   @override
-  TextField createMaterialWidget(BuildContext context) {
-    return TextField(
-      controller: controller,
-      onChanged: onChanged,
-      onSubmitted: onSubmitted,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: WabTheme.woodyColor,
-        hintText: hintText,
-        hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        prefixIcon: Icon(Icons.search, color: WabTheme.textColor),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          borderSide: BorderSide.none,
+  TextField createMaterialWidget(BuildContext context) => TextField(
+        controller: controller,
+        onChanged: onChanged,
+        onSubmitted: onSubmitted,
+        style: TextStyle(color: WabTheme.textColor),
+        cursorColor: WabTheme.textColor,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: WabTheme.woodyColor,
+          hintText: hintText,
+          hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          prefixIcon: Icon(Icons.search, color: WabTheme.textColor),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+            borderSide: BorderSide.none,
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          borderSide: BorderSide.none,
-        ),
-        constraints: BoxConstraints(minWidth: double.infinity),
-      ),
-      style: TextStyle(color: WabTheme.textColor),
-      cursorColor: WabTheme.textColor,
-    );
-  }
+      );
 }

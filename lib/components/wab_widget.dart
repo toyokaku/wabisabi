@@ -12,6 +12,5 @@ abstract class WabWidget<C extends Widget, M extends Widget>
   }
 
   C createCupertinoWidget(BuildContext context);
-
   M createMaterialWidget(BuildContext context);
 }
