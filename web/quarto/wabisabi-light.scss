@@ -12,9 +12,9 @@ $success:           #6e8b4a;
 $link-color:        #b08a3a;
 $card-bg:           #f4f2ee;
 $navbar-bg:         #f4f2ee;
-$border-radius:     0px;
-$border-radius-lg:  0px;
-$border-radius-sm:  0px;
+$border-radius:     5px;
+$border-radius-lg:  8px;
+$border-radius-sm:  3px;
 $container-max-widths: (sm: 540px, md: 720px, lg: 600px, xl: 600px, xxl: 600px);
 
 /*-- scss:rules --*/
@@ -54,7 +54,7 @@ $container-max-widths: (sm: 540px, md: 720px, lg: 600px, xl: 600px, xxl: 600px);
   --wab-woody:      #d9c089;
 
   // Spacing
-  --wab-radius:        0px;
+  --wab-radius:        5px;
   --wab-max-width:     600px;
   --wab-padding:       10px;
   --wab-padding-h:     25px;

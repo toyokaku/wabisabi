@@ -2,9 +2,9 @@
 // spacing.dart wraps these in Flutter types.
 // tool/export_tokens.dart reads these to generate web/quarto SCSS.
 
-const double kCardBorderRadius    = 0.0;  // sharp square — controls / inner cards
-const double kSectionBorderRadius = 0.0;  // sharp square — outer section panels
-const double kBadgeRadius         = 0.0;  // sharp square — status badges / pills
+const double kCardBorderRadius    = 5.0;  // slight curvature — controls / inner cards
+const double kSectionBorderRadius = 7.0;  // slight curvature — outer section panels
+const double kBadgeRadius         = 4.0;  // slight curvature — status badges / pills
 const double kContentMaxWidth  = 600.0;
 const double kAppBarHeight     = 50.0;
 

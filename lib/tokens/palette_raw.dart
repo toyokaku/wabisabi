@@ -34,7 +34,9 @@ const int kLightMuted      = 0xFF6E6A62;  // grey — captions / secondary text
 const int kLightOn         = 0xFF6E8B4A;  // sage green — success
 const int kLightOff        = 0xFFD8D4CC;  // inactive
 const int kLightText       = 0xFF2E2A24;  // near-black ink
-const int kLightWoody      = 0xFFD9C089;  // light wood — buttons / input fills
+const int kLightWoody      = 0xFFD9C089;  // light wood — buttons
+const int kLightScratch    = 0xFFE4E2DC;  // light neutral — sunken inputs (≠ buttons)
+const int kLightWood       = 0xFFC9A876;  // light wood grain — banner / sidebar
 const int kLightProgress   = 0xFF3E7CA0;  // steel blue — progress badge
 
 // Operational dark theme palette — deep navy-charcoal + gold accents
@@ -47,5 +49,7 @@ const int kDarkMuted      = 0xFF9E978A;  // grey — captions / secondary text
 const int kDarkOn         = 0xFFB98A3C;  // amber — success
 const int kDarkOff        = 0xFF31424E;  // inactive
 const int kDarkText       = 0xFFE6DECB;  // soft cream
-const int kDarkWoody      = 0xFF3A2E1C;  // dark wood — buttons / input fills
+const int kDarkWoody      = 0xFF3A2E1C;  // dark wood — buttons
+const int kDarkScratch    = 0xFF2C3C48;  // cool slate — sunken inputs (≠ buttons)
+const int kDarkWood       = 0xFF3A2C1E;  // dark wood grain — banner / sidebar
 const int kDarkProgress   = 0xFF2E6B8A;  // steel blue — progress badge

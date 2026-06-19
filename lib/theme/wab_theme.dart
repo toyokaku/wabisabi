@@ -29,27 +29,47 @@ class WabTheme {
   static late Color woodyColor;
   static late Color progressColor;
   static late Color mutedColor;
+  static late Color scratchColor;
+  static late Color woodColor;
   static bool isDark = true;
 
-  /// Layered drop shadow for elevated, sharp-square surfaces. The stacked
-  /// shadows with decreasing opacity + increasing blur read as a soft gradient.
+  /// Drop shadow for ELEVATED surfaces — falls to the bottom-right. The stacked
+  /// shadows (decreasing opacity, increasing blur) read as a soft gradient.
   static List<BoxShadow> get elevationShadow {
     final base = isDark ? Colors.black : const Color(0xFF2E2A24);
     return [
       BoxShadow(
         color: base.withOpacity(isDark ? 0.50 : 0.16),
         blurRadius: 3,
-        offset: const Offset(0, 1),
+        offset: const Offset(2, 2),
       ),
       BoxShadow(
         color: base.withOpacity(isDark ? 0.34 : 0.10),
-        blurRadius: 8,
-        offset: const Offset(0, 4),
+        blurRadius: 9,
+        offset: const Offset(4, 5),
       ),
       BoxShadow(
         color: base.withOpacity(isDark ? 0.20 : 0.05),
         blurRadius: 18,
-        offset: const Offset(0, 10),
+        offset: const Offset(8, 11),
+      ),
+    ];
+  }
+
+  /// Shadow for SUNKEN surfaces (inputs, selected items) — falls to the
+  /// top-left, suggesting the surface is recessed.
+  static List<BoxShadow> get sunkenShadow {
+    final base = isDark ? Colors.black : const Color(0xFF2E2A24);
+    return [
+      BoxShadow(
+        color: base.withOpacity(isDark ? 0.45 : 0.15),
+        blurRadius: 2,
+        offset: const Offset(-1, -1),
+      ),
+      BoxShadow(
+        color: base.withOpacity(isDark ? 0.28 : 0.09),
+        blurRadius: 6,
+        offset: const Offset(-3, -4),
       ),
     ];
   }
@@ -74,6 +94,8 @@ class WabTheme {
       WabTheme.woodyColor     = WAB_LIGHT_WOODY;
       WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
       WabTheme.mutedColor     = WAB_LIGHT_MUTED;
+      WabTheme.scratchColor   = WAB_LIGHT_SCRATCH;
+      WabTheme.woodColor      = WAB_LIGHT_WOOD;
     } else {
       WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
       WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
@@ -86,6 +108,8 @@ class WabTheme {
       WabTheme.woodyColor     = WAB_DARK_WOODY;
       WabTheme.progressColor  = WAB_DARK_PROGRESS;
       WabTheme.mutedColor     = WAB_DARK_MUTED;
+      WabTheme.scratchColor   = WAB_DARK_SCRATCH;
+      WabTheme.woodColor      = WAB_DARK_WOOD;
     }
 
     WabTheme.hintColor = lightTheme
@@ -147,7 +171,7 @@ class WabTheme {
         margin: EdgeInsets.zero,
       ),
       inputDecorationTheme: base.inputDecorationTheme.copyWith(
-        fillColor: WabTheme.woodyColor.withOpacity(lightTheme ? 0.25 : 0.4),
+        fillColor: WabTheme.scratchColor,
         filled: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
@@ -209,6 +233,8 @@ class WabTheme {
       WabTheme.woodyColor     = WAB_LIGHT_WOODY;
       WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
       WabTheme.mutedColor     = WAB_LIGHT_MUTED;
+      WabTheme.scratchColor   = WAB_LIGHT_SCRATCH;
+      WabTheme.woodColor      = WAB_LIGHT_WOOD;
     } else {
       WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
       WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
@@ -221,6 +247,8 @@ class WabTheme {
       WabTheme.woodyColor     = WAB_DARK_WOODY;
       WabTheme.progressColor  = WAB_DARK_PROGRESS;
       WabTheme.mutedColor     = WAB_DARK_MUTED;
+      WabTheme.scratchColor   = WAB_DARK_SCRATCH;
+      WabTheme.woodColor      = WAB_DARK_WOOD;
     }
 
     WabTheme.hintColor = lightTheme
