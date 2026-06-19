@@ -3,30 +3,34 @@ import '../theme/wab_theme.dart';
 import '../tokens/spacing.dart';
 
 /// Left navigation rail container. Holds a profile header, nav items and
-/// any extra panels (e.g. a feedback form). Width-constrained vertical stack.
+/// any extra panels (e.g. a feedback form). Vertical stack.
+///
+/// [width] is optional — leave it null (the default) to size to content so the
+/// rail adapts across platforms; pass a value only when a fixed rail is wanted.
 class WabSidebar extends StatelessWidget {
   const WabSidebar({
     super.key,
     required this.children,
-    this.width = 220,
+    this.width,
     this.padding = const EdgeInsets.all(20),
   });
 
   final List<Widget> children;
-  final double width;
+  final double? width;
   final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    Widget rail = Container(
       width: width,
       padding: padding,
       color: WabTheme.backgroundColor,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: children,
       ),
     );
+    return width == null ? IntrinsicWidth(child: rail) : rail;
   }
 }
 
@@ -118,7 +122,6 @@ class WabNavItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           onTap: onTap,
           child: Container(
-            width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),

@@ -75,7 +75,6 @@ class WabContainer extends Container {
       : super(
           padding: padding ?? WAB_PADDING_CONTAINER_SMALL,
           margin: WAB_PADDING_ALL,
-          constraints: BoxConstraints(maxWidth: WAB_CONTENT_MAX_WIDTH),
           decoration: BoxDecoration(
             color: WabTheme.primaryColor,
             borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
@@ -95,7 +94,6 @@ class WabLiteContainer extends Container {
       : super(
           margin: WAB_PADDING_ALL,
           padding: WAB_PADDING_CONTAINER_SMALL,
-          constraints: BoxConstraints(maxWidth: WAB_CONTENT_MAX_WIDTH),
           decoration: BoxDecoration(
             color: WabTheme.surfaceColor,
             borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
@@ -119,8 +117,9 @@ class WabContentContainer extends Container {
   }) : super(
           padding: padding,
           margin: margin ?? EdgeInsets.only(bottom: 8),
+          // No default width cap — opt in via [maxWidth] only when needed.
           constraints:
-              BoxConstraints(maxWidth: maxWidth ?? WAB_CONTENT_MAX_WIDTH),
+              maxWidth == null ? null : BoxConstraints(maxWidth: maxWidth),
           child: child,
         );
 }
