@@ -32,6 +32,7 @@ class WabCollectionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: WabTheme.primaryColor,
         borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+        boxShadow: WabTheme.elevationShadow,
         border: Border.all(color: WabTheme.secondaryColor, width: 0.8),
       ),
       child: Column(

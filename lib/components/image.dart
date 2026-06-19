@@ -6,7 +6,7 @@ class WabImage extends ClipRRect {
     required String path,
     double height = 150,
     double width = 180,
-    double borderRadius = 20.0,
+    double borderRadius = 0.0,
   }) : super(
           borderRadius: BorderRadius.circular(borderRadius),
           child: Image(
@@ -21,7 +21,7 @@ class WabImage extends ClipRRect {
 class WabIcon extends ClipRRect {
   WabIcon({required String path})
       : super(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(0.0),
           child: Image(
             fit: BoxFit.cover,
             height: 80.0,

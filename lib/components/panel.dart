@@ -57,6 +57,7 @@ class WabPanel extends StatelessWidget {
       decoration: BoxDecoration(
         color: WabTheme.surfaceColor,
         borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
+        boxShadow: WabTheme.elevationShadow,
         border: Border.all(
           color: WabTheme.isDark
               ? WabTheme.accentColor.withOpacity(0.20)

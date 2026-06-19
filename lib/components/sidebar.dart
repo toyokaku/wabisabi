@@ -119,12 +119,10 @@ class WabNavItem extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(24),
           onTap: onTap,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: selected ? WabTheme.accentColor : Colors.transparent,
                 width: 1,

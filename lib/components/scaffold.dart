@@ -78,6 +78,7 @@ class WabContainer extends Container {
           decoration: BoxDecoration(
             color: WabTheme.primaryColor,
             borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
+            boxShadow: WabTheme.elevationShadow,
             border: Border.all(
               color: WabTheme.isDark
                   ? WabTheme.accentColor.withOpacity(0.28)
@@ -97,6 +98,7 @@ class WabLiteContainer extends Container {
           decoration: BoxDecoration(
             color: WabTheme.surfaceColor,
             borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
+            boxShadow: WabTheme.elevationShadow,
             border: Border.all(
               color: WabTheme.isDark
                   ? WabTheme.accentColor.withOpacity(0.28)

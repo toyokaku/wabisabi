@@ -31,6 +31,29 @@ class WabTheme {
   static late Color mutedColor;
   static bool isDark = true;
 
+  /// Layered drop shadow for elevated, sharp-square surfaces. The stacked
+  /// shadows with decreasing opacity + increasing blur read as a soft gradient.
+  static List<BoxShadow> get elevationShadow {
+    final base = isDark ? Colors.black : const Color(0xFF2E2A24);
+    return [
+      BoxShadow(
+        color: base.withOpacity(isDark ? 0.50 : 0.16),
+        blurRadius: 3,
+        offset: const Offset(0, 1),
+      ),
+      BoxShadow(
+        color: base.withOpacity(isDark ? 0.34 : 0.10),
+        blurRadius: 8,
+        offset: const Offset(0, 4),
+      ),
+      BoxShadow(
+        color: base.withOpacity(isDark ? 0.20 : 0.05),
+        blurRadius: 18,
+        offset: const Offset(0, 10),
+      ),
+    ];
+  }
+
   static ThemeData materialTheme(
       {Color? primaryColor, Color? secondaryColor, bool lightTheme = true}) {
     var base = lightTheme

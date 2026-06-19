@@ -88,10 +88,7 @@ class _ShowcaseState extends State<Showcase> {
 
   Widget _seal() => Container(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-        decoration: BoxDecoration(
-          color: const Color(0xFF9A3729),
-          borderRadius: BorderRadius.circular(3),
-        ),
+        decoration: const BoxDecoration(color: Color(0xFF9A3729)),
         child: const Text('seal',
             style: TextStyle(color: Colors.white, fontSize: 10)),
       );
