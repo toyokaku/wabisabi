@@ -50,7 +50,7 @@ class WabCollectionCard extends StatelessWidget {
               color: WabTheme.textColor,
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              fontFamilyFallback: kWabSerifFallback,
+              fontFamilyFallback: kWabFontFallback,
             ),
           ),
           const SizedBox(height: 6),
@@ -63,7 +63,7 @@ class WabCollectionCard extends StatelessWidget {
               color: WabTheme.textColor.withOpacity(0.7),
               fontSize: 12,
               height: 1.4,
-              fontFamilyFallback: kWabSerifFallback,
+              fontFamilyFallback: kWabFontFallback,
             ),
           ),
           if (buttonLabel != null) ...[
@@ -93,7 +93,7 @@ class _CardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fg = highlighted ? Colors.white : WabTheme.textColor;
+    final fg = WabTheme.textColor;
     return Material(
       color: highlighted ? WabTheme.woodyColor : Colors.transparent,
       borderRadius: BorderRadius.circular(WAB_BADGE_RADIUS),
@@ -113,7 +113,7 @@ class _CardButton extends StatelessWidget {
             style: TextStyle(
               color: fg,
               fontSize: 13,
-              fontFamilyFallback: kWabSerifFallback,
+              fontFamilyFallback: kWabFontFallback,
             ),
           ),
         ),

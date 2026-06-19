@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import '../tokens/palette.dart';
 import '../tokens/spacing.dart';
 
-/// Serif CJK fallback chain — matches the brush-serif look of the design.
+/// Modern geometric sans fallback chain (Century Gothic family look).
 /// Resolved against system fonts (no bundled asset); first available wins.
-const List<String> kWabSerifFallback = [
-  'Songti SC',
-  'Noto Serif CJK TC',
-  'Noto Serif TC',
-  'Source Han Serif TC',
-  'STSong',
-  'SimSun',
-  'serif',
+const List<String> kWabFontFallback = [
+  'Century Gothic',
+  'Futura',
+  'Avenir Next',
+  'Questrial',
+  'URW Gothic',
+  'Helvetica Neue',
+  'Arial',
+  'sans-serif',
 ];
 
 class WabTheme {
@@ -27,6 +28,7 @@ class WabTheme {
   static late Color textColor;
   static late Color woodyColor;
   static late Color progressColor;
+  static late Color mutedColor;
   static bool isDark = true;
 
   static ThemeData materialTheme(
@@ -48,6 +50,7 @@ class WabTheme {
       WabTheme.textColor      = WAB_LIGHT_TEXT;
       WabTheme.woodyColor     = WAB_LIGHT_WOODY;
       WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
+      WabTheme.mutedColor     = WAB_LIGHT_MUTED;
     } else {
       WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
       WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
@@ -59,6 +62,7 @@ class WabTheme {
       WabTheme.textColor      = WAB_DARK_TEXT;
       WabTheme.woodyColor     = WAB_DARK_WOODY;
       WabTheme.progressColor  = WAB_DARK_PROGRESS;
+      WabTheme.mutedColor     = WAB_DARK_MUTED;
     }
 
     WabTheme.hintColor = lightTheme
@@ -68,31 +72,34 @@ class WabTheme {
     TextTheme _baseTextTheme(TextTheme base) {
       return base.copyWith(
         headlineMedium: base.headlineMedium!.copyWith(
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: WabTheme.textColor,
         ),
         titleLarge: base.titleLarge!.copyWith(
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           fontSize: 16.0,
-          letterSpacing: 0.3,
+          letterSpacing: 0.2,
           color: WabTheme.textColor,
         ),
         displayLarge: base.displayLarge!.copyWith(
           fontSize: 24.0,
+          fontWeight: FontWeight.w700,
           color: WabTheme.textColor,
         ),
         labelLarge: base.labelLarge!.copyWith(
           fontSize: 16.0,
+          fontWeight: FontWeight.w600,
           color: WabTheme.textColor,
         ),
         bodyMedium: base.bodyMedium!.copyWith(
+          fontWeight: FontWeight.w500,
           color: WabTheme.textColor,
         ),
       );
     }
 
     var baseTextTheme =
-        _baseTextTheme(base.textTheme).apply(fontFamilyFallback: kWabSerifFallback);
+        _baseTextTheme(base.textTheme).apply(fontFamilyFallback: kWabFontFallback);
 
     return base.copyWith(
       appBarTheme: base.appBarTheme.copyWith(
@@ -136,7 +143,10 @@ class WabTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: WabTheme.woodyColor,
+          // Light: lighter & translucent wood; dark: solid dark wood.
+          backgroundColor: lightTheme
+              ? WabTheme.woodyColor.withOpacity(0.55)
+              : WabTheme.woodyColor,
           foregroundColor: WabTheme.textColor,
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -175,6 +185,7 @@ class WabTheme {
       WabTheme.textColor      = WAB_LIGHT_TEXT;
       WabTheme.woodyColor     = WAB_LIGHT_WOODY;
       WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
+      WabTheme.mutedColor     = WAB_LIGHT_MUTED;
     } else {
       WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
       WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
@@ -186,6 +197,7 @@ class WabTheme {
       WabTheme.textColor      = WAB_DARK_TEXT;
       WabTheme.woodyColor     = WAB_DARK_WOODY;
       WabTheme.progressColor  = WAB_DARK_PROGRESS;
+      WabTheme.mutedColor     = WAB_DARK_MUTED;
     }
 
     WabTheme.hintColor = lightTheme
@@ -200,18 +212,18 @@ class WabTheme {
       textTheme: CupertinoTextThemeData(
         textStyle: TextStyle(
           color: WabTheme.textColor,
-          fontFamilyFallback: kWabSerifFallback,
+          fontFamilyFallback: kWabFontFallback,
         ),
         actionTextStyle: TextStyle(
           color: WabTheme.accentColor,
-          fontFamilyFallback: kWabSerifFallback,
+          fontFamilyFallback: kWabFontFallback,
         ),
         navTitleTextStyle: TextStyle(
           color: WabTheme.textColor,
           fontSize: 18,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.3,
-          fontFamilyFallback: kWabSerifFallback,
+          fontFamilyFallback: kWabFontFallback,
         ),
       ),
     );

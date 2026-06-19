@@ -72,7 +72,8 @@ class _ShowcaseState extends State<Showcase> {
         seal: _seal(),
         leading: Icon(Icons.menu, color: WabTheme.textColor),
         trailing: [
-          Flexible(child: WabSearchField(hintText: 'WabSearchField')),
+          const Spacer(flex: 3),
+          Flexible(flex: 2, child: WabSearchField(hintText: 'WabSearchField')),
           const SizedBox(width: 8),
           IconButton(
             tooltip: 'toggle theme',
@@ -214,9 +215,9 @@ class _ShowcaseState extends State<Showcase> {
             Text(
               name,
               style: TextStyle(
-                color: WabTheme.accentColor,
+                color: WabTheme.mutedColor,
                 fontSize: 13,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 letterSpacing: 0.5,
               ),
             ),

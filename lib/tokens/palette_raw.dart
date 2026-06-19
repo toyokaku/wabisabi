@@ -24,26 +24,28 @@ const int kCedar     = 0xFF8E766C;
 const int kCeramic   = 0xFFE8E2DC;
 const int kSand      = 0xFFCFD0D1;
 
-// Operational light theme palette (semantic roles) — warm tan desk + cream panels
-const int kLightBackground = 0xFFCBB088;  // warm tan "desk"
-const int kLightSurface    = 0xFFF5EEDD;  // cream panel surface
-const int kLightPrimary    = 0xFFF9F3E6;  // lighter card bg
-const int kLightSecondary  = 0xFFDFD2B6;  // warm borders / dividers
-const int kLightAccent     = 0xFFB07D2B;  // gold (nav selected, headers accent)
-const int kLightOn         = 0xFF6E8B4A;  // sage green — "完成" / success
-const int kLightOff        = 0xFFD8CBB0;  // warm inactive
-const int kLightText       = 0xFF3A2E1E;  // ink brown
-const int kLightWoody      = 0xFFC49A4E;  // amber — buttons / input fills
-const int kLightProgress   = 0xFF3E7CA0;  // steel blue — "進行中" badge
+// Operational light theme palette (semantic roles) — neutral light grey
+const int kLightBackground = 0xFFE9E7E2;  // light warm-grey app surface
+const int kLightSurface    = 0xFFF4F2EE;  // near-white panel surface
+const int kLightPrimary    = 0xFFFBFAF8;  // near-white card bg
+const int kLightSecondary  = 0xFFD7D3CB;  // grey borders / dividers
+const int kLightAccent     = 0xFFB08A3A;  // muted gold — stars / selected border
+const int kLightMuted      = 0xFF6E6A62;  // grey — captions / secondary text
+const int kLightOn         = 0xFF6E8B4A;  // sage green — success
+const int kLightOff        = 0xFFD8D4CC;  // inactive
+const int kLightText       = 0xFF2E2A24;  // near-black ink
+const int kLightWoody      = 0xFFD9C089;  // light wood — buttons / input fills
+const int kLightProgress   = 0xFF3E7CA0;  // steel blue — progress badge
 
 // Operational dark theme palette — deep navy-charcoal + gold accents
 const int kDarkBackground = 0xFF0F1820;  // deep navy-charcoal app surface
 const int kDarkSurface    = 0xFF1B2A35;  // panel surface
 const int kDarkPrimary    = 0xFF16242E;  // card bg (slightly darker than panel)
 const int kDarkSecondary  = 0xFF31424E;  // borders / dividers
-const int kDarkAccent     = 0xFFC9A24A;  // rich gold (nav selected, stars, headers)
-const int kDarkOn         = 0xFFB98A3C;  // amber — "完成" / success
+const int kDarkAccent     = 0xFFB99A52;  // muted gold — stars / selected border
+const int kDarkMuted      = 0xFF9E978A;  // grey — captions / secondary text
+const int kDarkOn         = 0xFFB98A3C;  // amber — success
 const int kDarkOff        = 0xFF31424E;  // inactive
-const int kDarkText       = 0xFFE6D8B8;  // warm cream
-const int kDarkWoody      = 0xFF8A6A38;  // bronze — buttons / input fills
-const int kDarkProgress   = 0xFF2E6B8A;  // steel blue — "進行中" badge
+const int kDarkText       = 0xFFE6DECB;  // soft cream
+const int kDarkWoody      = 0xFF3A2E1C;  // dark wood — buttons / input fills
+const int kDarkProgress   = 0xFF2E6B8A;  // steel blue — progress badge

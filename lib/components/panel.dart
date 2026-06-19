@@ -40,7 +40,7 @@ class WabPanel extends StatelessWidget {
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.5,
-                  fontFamilyFallback: kWabSerifFallback,
+                  fontFamilyFallback: kWabFontFallback,
                 ),
               ),
             ),

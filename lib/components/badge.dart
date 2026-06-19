@@ -33,11 +33,12 @@ class WabStatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          // Neutral sits on light wood, so use the readable text color there.
+          color: kind == WabBadgeKind.neutral ? WabTheme.textColor : Colors.white,
           fontSize: 13,
-          fontWeight: FontWeight.w500,
-          fontFamilyFallback: kWabSerifFallback,
+          fontWeight: FontWeight.w600,
+          fontFamilyFallback: kWabFontFallback,
         ),
       ),
     );

@@ -76,10 +76,10 @@ class WabProfileHeader extends StatelessWidget {
             Text(
               name,
               style: TextStyle(
-                color: WabTheme.accentColor,
+                color: WabTheme.textColor,
                 fontSize: 16,
-                fontWeight: FontWeight.w600,
-                fontFamilyFallback: kWabSerifFallback,
+                fontWeight: FontWeight.w700,
+                fontFamilyFallback: kWabFontFallback,
               ),
             ),
             if (subtitle != null)
@@ -88,7 +88,7 @@ class WabProfileHeader extends StatelessWidget {
                 style: TextStyle(
                   color: WabTheme.textColor.withOpacity(0.6),
                   fontSize: 12,
-                  fontFamilyFallback: kWabSerifFallback,
+                  fontFamilyFallback: kWabFontFallback,
                 ),
               ),
           ],
@@ -133,10 +133,10 @@ class WabNavItem extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                color: selected ? WabTheme.accentColor : WabTheme.textColor,
+                color: WabTheme.textColor,
                 fontSize: 16,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                fontFamilyFallback: kWabSerifFallback,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                fontFamilyFallback: kWabFontFallback,
               ),
             ),
           ),

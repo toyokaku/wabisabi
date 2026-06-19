@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
 
-/// Top banner / masthead: a centered serif title with optional subtitle and
-/// seal, plus leading and trailing slots (e.g. search field, settings icon).
+/// Top banner / masthead. The title+subtitle are anchored to the bottom-right
+/// (small, weighted) so they don't dominate the centre; [leading] sits top-left
+/// and [trailing] (e.g. a search field, actions) fills the top-right.
 ///
 /// Layout is fully relative (no fixed widths) so it adapts across platforms.
 /// The trailing region is bounded, so a trailing `Expanded`/`Flexible` (e.g. a
@@ -15,7 +16,7 @@ class WabBanner extends StatelessWidget {
     this.seal,
     this.leading,
     this.trailing = const [],
-    this.height = 88,
+    this.height = 96,
   });
 
   final String title;
@@ -32,65 +33,59 @@ class WabBanner extends StatelessWidget {
     return Container(
       height: height,
       color: WabTheme.backgroundColor,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      child: Column(
         children: [
-          // Leading region
+          // Top row: leading (left) + trailing region (right, bounded)
           Expanded(
-            flex: 3,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: leading ?? const SizedBox.shrink(),
-            ),
-          ),
-          // Centered title + subtitle
-          Expanded(
-            flex: 4,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        title,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: WabTheme.textColor,
-                          fontSize: 28,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 2,
-                          fontFamilyFallback: kWabSerifFallback,
-                        ),
-                      ),
-                    ),
-                    if (seal != null) ...[const SizedBox(width: 10), seal!],
-                  ],
-                ),
-                if (subtitle != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: Text(
-                      subtitle!,
-                      style: TextStyle(
-                        color: WabTheme.accentColor,
-                        fontSize: 13,
-                        letterSpacing: 4,
-                        fontFamilyFallback: kWabSerifFallback,
-                      ),
-                    ),
+                leading ?? const SizedBox.shrink(),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: trailing,
                   ),
+                ),
               ],
             ),
           ),
-          // Trailing region (bounded → trailing Expanded/Flexible works)
-          Expanded(
-            flex: 3,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: trailing,
+          // Bottom-right title + subtitle
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: WabTheme.textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.5,
+                        fontFamilyFallback: kWabFontFallback,
+                      ),
+                    ),
+                    if (seal != null) ...[const SizedBox(width: 8), seal!],
+                  ],
+                ),
+                if (subtitle != null)
+                  Text(
+                    subtitle!,
+                    style: TextStyle(
+                      color: WabTheme.mutedColor,
+                      fontSize: 11,
+                      letterSpacing: 2,
+                      fontFamilyFallback: kWabFontFallback,
+                    ),
+                  ),
+              ],
             ),
           ),
         ],
