@@ -103,13 +103,6 @@ class WabElevatedButton extends WabWidget<CupertinoButton, ElevatedButton> {
         decoration: BoxDecoration(
           color: WabTheme.woodyColor,
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withOpacity(0.12),
-              offset: Offset(-1, 0),
-              blurRadius: 1,
-            ),
-          ],
         ),
         child: content,
       ),

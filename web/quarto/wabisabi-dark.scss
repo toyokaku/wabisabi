@@ -4,14 +4,14 @@
 /*-- scss:defaults --*/
 
 // Bootstrap variable overrides
-$body-bg:           #1c1814;
-$body-color:        #cec0a0;
-$primary:           #362f1f;
-$secondary:         #3c3626;
-$success:           #6da878;
-$link-color:        #c8a84a;
-$card-bg:           #262018;
-$navbar-bg:         #262018;
+$body-bg:           #0f1820;
+$body-color:        #e6d8b8;
+$primary:           #8a6a38;
+$secondary:         #31424e;
+$success:           #b98a3c;
+$link-color:        #c9a24a;
+$card-bg:           #1b2a35;
+$navbar-bg:         #1b2a35;
 $border-radius:     8px;
 $border-radius-lg:  12px;
 $border-radius-sm:  4px;
@@ -44,14 +44,14 @@ $container-max-widths: (sm: 540px, md: 720px, lg: 600px, xl: 600px, xxl: 600px);
   --wab-sand:      #cfd0d1;
 
   // Semantic dark roles
-  --wab-background: #1c1814;
-  --wab-surface:    #262018;
-  --wab-primary:    #2e291e;
-  --wab-secondary:  #3c3626;
-  --wab-accent:     #c8a84a;
-  --wab-on:         #6da878;
-  --wab-text:       #cec0a0;
-  --wab-woody:      #362f1f;
+  --wab-background: #0f1820;
+  --wab-surface:    #1b2a35;
+  --wab-primary:    #16242e;
+  --wab-secondary:  #31424e;
+  --wab-accent:     #c9a24a;
+  --wab-on:         #b98a3c;
+  --wab-text:       #e6d8b8;
+  --wab-woody:      #8a6a38;
 
   // Spacing
   --wab-radius:        8px;

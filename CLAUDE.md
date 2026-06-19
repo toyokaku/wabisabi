@@ -22,7 +22,12 @@ tokens/ → theme/ → components/
 - `wab_widget.dart`: `WabWidget<C, M>` abstract base (platform switch).
 - `wab_utils.dart`: `isIos()` helper.
 - `button|text|image|scaffold|divider.dart`: one file per widget family.
+- `panel.dart` (`WabPanel`), `badge.dart` (`WabStatusBadge`, `WabStarRating`),
+  `sidebar.dart` (`WabSidebar`, `WabNavItem`, `WabProfileHeader`),
+  `banner.dart` (`WabBanner`), `card.dart` (`WabCollectionCard`): dashboard widgets.
 - May import from `theme/` and `tokens/`. Must NOT import from other component files (use the barrel).
+- Serif CJK look comes from `kWabSerifFallback` (in `theme/wab_theme.dart`) — a system-font
+  fallback chain, no bundled asset. Apply it via `fontFamilyFallback:` on custom `TextStyle`s.
 
 **Barrel** (`lib/wabisabi.dart`) — the only public surface. Apps import `package:wabisabi/wabisabi.dart`.
 Do not add `flutter.dart` or any other entry point. One barrel, always.
