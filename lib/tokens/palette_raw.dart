@@ -36,20 +36,18 @@ const int kLightOff        = 0xFFD8D4CC;  // inactive
 const int kLightText       = 0xFF2E2A24;  // near-black ink
 const int kLightWoody      = 0xFFD9C089;  // light wood — buttons
 const int kLightScratch    = 0xFFE4E2DC;  // light neutral — sunken inputs (≠ buttons)
-const int kLightWood       = 0xFFC9A876;  // light wood grain — banner / sidebar
 const int kLightProgress   = 0xFF3E7CA0;  // steel blue — progress badge
 
-// Operational dark theme palette — deep navy-charcoal + gold accents
-const int kDarkBackground = 0xFF0F1820;  // deep navy-charcoal app surface
-const int kDarkSurface    = 0xFF1B2A35;  // panel surface
-const int kDarkPrimary    = 0xFF16242E;  // card bg (slightly darker than panel)
-const int kDarkSecondary  = 0xFF31424E;  // borders / dividers
+// Operational dark theme palette — near-black neutral grey (low saturation)
+const int kDarkBackground = 0xFF161719;  // near-black app surface
+const int kDarkSurface    = 0xFF202123;  // panel surface
+const int kDarkPrimary    = 0xFF26282A;  // card bg (slightly lighter than panel)
+const int kDarkSecondary  = 0xFF373A3D;  // borders / dividers
 const int kDarkAccent     = 0xFFB99A52;  // muted gold — stars / selected border
-const int kDarkMuted      = 0xFF9E978A;  // grey — captions / secondary text
+const int kDarkMuted      = 0xFF989790;  // grey — captions / secondary text
 const int kDarkOn         = 0xFFB98A3C;  // amber — success
-const int kDarkOff        = 0xFF31424E;  // inactive
-const int kDarkText       = 0xFFE6DECB;  // soft cream
+const int kDarkOff        = 0xFF373A3D;  // inactive
+const int kDarkText       = 0xFFE4DFD4;  // soft warm grey
 const int kDarkWoody      = 0xFF3A2E1C;  // dark wood — buttons
-const int kDarkScratch    = 0xFF2C3C48;  // cool slate — sunken inputs (≠ buttons)
-const int kDarkWood       = 0xFF3A2C1E;  // dark wood grain — banner / sidebar
+const int kDarkScratch    = 0xFF2B2C2E;  // neutral grey — sunken inputs (≠ buttons)
 const int kDarkProgress   = 0xFF2E6B8A;  // steel blue — progress badge

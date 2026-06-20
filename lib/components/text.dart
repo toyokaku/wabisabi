@@ -46,27 +46,21 @@ class WabTextFormField
       );
 
   @override
-  Widget createMaterialWidget(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          boxShadow: WabTheme.sunkenShadow,
-        ),
-        child: TextFormField(
-          obscureText: obscureText,
-          validator: validator,
-          onChanged: callback,
-          style: TextStyle(color: WabTheme.textColor),
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: EdgeInsets.symmetric(horizontal: padding),
-            fillColor: WabTheme.scratchColor,
-            filled: true,
-            hintText: hint ?? hintText,
-            hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
+  Widget createMaterialWidget(BuildContext context) => TextFormField(
+        obscureText: obscureText,
+        validator: validator,
+        onChanged: callback,
+        style: TextStyle(color: WabTheme.textColor),
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+            borderSide: BorderSide.none,
           ),
+          contentPadding: EdgeInsets.symmetric(horizontal: padding),
+          fillColor: WabTheme.scratchColor,
+          filled: true,
+          hintText: hint ?? hintText,
+          hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
         ),
       );
 }
@@ -100,32 +94,26 @@ class WabNumberFormField extends WabWidget<CupertinoTextField, Widget> {
       );
 
   @override
-  Widget createMaterialWidget(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          boxShadow: WabTheme.sunkenShadow,
-        ),
-        child: TextField(
-          controller: TextEditingController(text: value.toString()),
-          onSubmitted: callback,
-          style: TextStyle(color: WabTheme.textColor),
-          decoration: InputDecoration(
-            labelText: labelText,
-            labelStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.7)),
-            fillColor: WabTheme.scratchColor,
-            filled: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  Widget createMaterialWidget(BuildContext context) => TextField(
+        controller: TextEditingController(text: value.toString()),
+        onSubmitted: callback,
+        style: TextStyle(color: WabTheme.textColor),
+        decoration: InputDecoration(
+          labelText: labelText,
+          labelStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.7)),
+          fillColor: WabTheme.scratchColor,
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+            borderSide: BorderSide.none,
           ),
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(maxLength),
-          ],
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          LengthLimitingTextInputFormatter(maxLength),
+        ],
       );
 }
 
@@ -158,37 +146,30 @@ class WabSearchField extends WabWidget<CupertinoSearchTextField, Widget> {
       );
 
   @override
-  Widget createMaterialWidget(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          boxShadow: WabTheme.sunkenShadow,
-        ),
-        child: TextField(
-          controller: controller,
-          onChanged: onChanged,
-          onSubmitted: onSubmitted,
-          style: TextStyle(color: WabTheme.textColor),
-          cursorColor: WabTheme.textColor,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: WabTheme.scratchColor,
-            hintText: hintText,
-            hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            prefixIcon: Icon(Icons.search, color: WabTheme.textColor),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-              borderSide: BorderSide.none,
-            ),
+  Widget createMaterialWidget(BuildContext context) => TextField(
+        controller: controller,
+        onChanged: onChanged,
+        onSubmitted: onSubmitted,
+        style: TextStyle(color: WabTheme.textColor),
+        cursorColor: WabTheme.textColor,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: WabTheme.scratchColor,
+          hintText: hintText,
+          hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          prefixIcon: Icon(Icons.search, color: WabTheme.textColor),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+            borderSide: BorderSide.none,
           ),
         ),
       );

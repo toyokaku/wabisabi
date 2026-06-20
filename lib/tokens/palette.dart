@@ -47,7 +47,6 @@ const Color WAB_LIGHT_OFF        = Color(kLightOff);
 const Color WAB_LIGHT_TEXT       = Color(kLightText);
 const Color WAB_LIGHT_WOODY      = Color(kLightWoody);
 const Color WAB_LIGHT_SCRATCH    = Color(kLightScratch);
-const Color WAB_LIGHT_WOOD       = Color(kLightWood);
 const Color WAB_LIGHT_PROGRESS   = Color(kLightProgress);
 
 // Operational dark theme palette
@@ -62,5 +61,4 @@ const Color WAB_DARK_OFF        = Color(kDarkOff);
 const Color WAB_DARK_TEXT       = Color(kDarkText);
 const Color WAB_DARK_WOODY      = Color(kDarkWoody);
 const Color WAB_DARK_SCRATCH    = Color(kDarkScratch);
-const Color WAB_DARK_WOOD       = Color(kDarkWood);
 const Color WAB_DARK_PROGRESS   = Color(kDarkProgress);

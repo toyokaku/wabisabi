@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
-import '../theme/wood.dart';
 import '../tokens/spacing.dart';
 
 /// Left navigation rail container. Holds a profile header, nav items and
@@ -22,15 +21,13 @@ class WabSidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget rail = WabWood(
-      grain: Axis.vertical,
-      child: Container(
-        width: width,
-        padding: padding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: children,
-        ),
+    Widget rail = Container(
+      width: width,
+      padding: padding,
+      color: WabTheme.backgroundColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: children,
       ),
     );
     return width == null ? IntrinsicWidth(child: rail) : rail;
@@ -127,7 +124,6 @@ class WabNavItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-              boxShadow: selected ? WabTheme.sunkenShadow : null,
               border: Border.all(
                 color: selected ? WabTheme.accentColor : Colors.transparent,
                 width: 1,

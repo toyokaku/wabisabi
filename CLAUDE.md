@@ -29,11 +29,8 @@ tokens/ → theme/ → components/
 - Typeface comes from `kWabFontFallback` (in `theme/wab_theme.dart`) — a modern geometric
   sans (Century Gothic family) system-font chain, no bundled asset. Apply it via
   `fontFamilyFallback:` on custom `TextStyle`s.
-- Depth: `WabTheme.elevationShadow` (drops bottom-right) for raised surfaces;
-  `WabTheme.sunkenShadow` (drops top-left) for recessed ones (inputs, selected items).
+- Depth: `WabTheme.elevationShadow` (drops bottom-right) for raised surfaces.
 - `WabTheme.scratchColor` fills sunken inputs (kept distinct from `woodyColor` buttons).
-- `WabWood` (in `theme/wood.dart`) paints a wood-grain background (`WabTheme.woodColor`,
-  light/dark per theme) — used to frame the banner and sidebar.
 
 **Barrel** (`lib/wabisabi.dart`) — the only public surface. Apps import `package:wabisabi/wabisabi.dart`.
 Do not add `flutter.dart` or any other entry point. One barrel, always.

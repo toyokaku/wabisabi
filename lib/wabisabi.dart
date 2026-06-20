@@ -6,7 +6,6 @@ export 'tokens/spacing.dart';
 
 // Theme — maps tokens into ThemeData / CupertinoThemeData
 export 'theme/wab_theme.dart';
-export 'theme/wood.dart';
 
 // Components — widgets that read exclusively from the theme
 export 'components/wab_utils.dart';

@@ -30,7 +30,6 @@ class WabTheme {
   static late Color progressColor;
   static late Color mutedColor;
   static late Color scratchColor;
-  static late Color woodColor;
   static bool isDark = true;
 
   /// Drop shadow for ELEVATED surfaces — falls to the bottom-right. The stacked
@@ -56,23 +55,6 @@ class WabTheme {
     ];
   }
 
-  /// Shadow for SUNKEN surfaces (inputs, selected items) — falls to the
-  /// top-left, suggesting the surface is recessed.
-  static List<BoxShadow> get sunkenShadow {
-    final base = isDark ? Colors.black : const Color(0xFF2E2A24);
-    return [
-      BoxShadow(
-        color: base.withOpacity(isDark ? 0.45 : 0.15),
-        blurRadius: 2,
-        offset: const Offset(-1, -1),
-      ),
-      BoxShadow(
-        color: base.withOpacity(isDark ? 0.28 : 0.09),
-        blurRadius: 6,
-        offset: const Offset(-3, -4),
-      ),
-    ];
-  }
 
   static ThemeData materialTheme(
       {Color? primaryColor, Color? secondaryColor, bool lightTheme = true}) {
@@ -95,7 +77,6 @@ class WabTheme {
       WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
       WabTheme.mutedColor     = WAB_LIGHT_MUTED;
       WabTheme.scratchColor   = WAB_LIGHT_SCRATCH;
-      WabTheme.woodColor      = WAB_LIGHT_WOOD;
     } else {
       WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
       WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
@@ -109,7 +90,6 @@ class WabTheme {
       WabTheme.progressColor  = WAB_DARK_PROGRESS;
       WabTheme.mutedColor     = WAB_DARK_MUTED;
       WabTheme.scratchColor   = WAB_DARK_SCRATCH;
-      WabTheme.woodColor      = WAB_DARK_WOOD;
     }
 
     WabTheme.hintColor = lightTheme
@@ -234,7 +214,6 @@ class WabTheme {
       WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
       WabTheme.mutedColor     = WAB_LIGHT_MUTED;
       WabTheme.scratchColor   = WAB_LIGHT_SCRATCH;
-      WabTheme.woodColor      = WAB_LIGHT_WOOD;
     } else {
       WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
       WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
@@ -248,7 +227,6 @@ class WabTheme {
       WabTheme.progressColor  = WAB_DARK_PROGRESS;
       WabTheme.mutedColor     = WAB_DARK_MUTED;
       WabTheme.scratchColor   = WAB_DARK_SCRATCH;
-      WabTheme.woodColor      = WAB_DARK_WOOD;
     }
 
     WabTheme.hintColor = lightTheme

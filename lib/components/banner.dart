@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
-import '../theme/wood.dart';
 
 /// Top banner / masthead. The title+subtitle are anchored to the bottom-right
 /// (small, weighted) so they don't dominate the centre; [leading] sits top-left
@@ -31,11 +30,9 @@ class WabBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: height,
-      child: WabWood(
-        grain: Axis.horizontal,
-        child: Padding(
+      color: WabTheme.backgroundColor,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: Column(
         children: [
@@ -92,8 +89,6 @@ class WabBanner extends StatelessWidget {
             ),
           ),
         ],
-          ),
-        ),
       ),
     );
   }
