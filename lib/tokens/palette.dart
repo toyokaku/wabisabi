@@ -41,10 +41,13 @@ const Color WAB_LIGHT_SURFACE    = Color(kLightSurface);
 const Color WAB_LIGHT_PRIMARY    = Color(kLightPrimary);
 const Color WAB_LIGHT_SECONDARY  = Color(kLightSecondary);
 const Color WAB_LIGHT_ACCENT     = Color(kLightAccent);
+const Color WAB_LIGHT_MUTED      = Color(kLightMuted);
 const Color WAB_LIGHT_ON         = Color(kLightOn);
 const Color WAB_LIGHT_OFF        = Color(kLightOff);
 const Color WAB_LIGHT_TEXT       = Color(kLightText);
 const Color WAB_LIGHT_WOODY      = Color(kLightWoody);
+const Color WAB_LIGHT_SCRATCH    = Color(kLightScratch);
+const Color WAB_LIGHT_PROGRESS   = Color(kLightProgress);
 
 // Operational dark theme palette
 const Color WAB_DARK_BACKGROUND = Color(kDarkBackground);
@@ -52,7 +55,10 @@ const Color WAB_DARK_SURFACE    = Color(kDarkSurface);
 const Color WAB_DARK_PRIMARY    = Color(kDarkPrimary);
 const Color WAB_DARK_SECONDARY  = Color(kDarkSecondary);
 const Color WAB_DARK_ACCENT     = Color(kDarkAccent);
+const Color WAB_DARK_MUTED      = Color(kDarkMuted);
 const Color WAB_DARK_ON         = Color(kDarkOn);
 const Color WAB_DARK_OFF        = Color(kDarkOff);
 const Color WAB_DARK_TEXT       = Color(kDarkText);
 const Color WAB_DARK_WOODY      = Color(kDarkWoody);
+const Color WAB_DARK_SCRATCH    = Color(kDarkScratch);
+const Color WAB_DARK_PROGRESS   = Color(kDarkProgress);

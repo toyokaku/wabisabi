@@ -73,7 +73,7 @@ class WabTextButton extends WabWidget<CupertinoButton, TextButton> {
       );
 }
 
-class WabElevatedButton extends WabWidget<CupertinoButton, ElevatedButton> {
+class WabElevatedButton extends WabWidget<CupertinoButton, Widget> {
   WabElevatedButton({
     required this.text,
     this.padding = 20.0,
@@ -103,13 +103,7 @@ class WabElevatedButton extends WabWidget<CupertinoButton, ElevatedButton> {
         decoration: BoxDecoration(
           color: WabTheme.woodyColor,
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withOpacity(0.12),
-              offset: Offset(-1, 0),
-              blurRadius: 1,
-            ),
-          ],
+          boxShadow: WabTheme.elevationShadow,
         ),
         child: content,
       ),
@@ -117,22 +111,28 @@ class WabElevatedButton extends WabWidget<CupertinoButton, ElevatedButton> {
   }
 
   @override
-  ElevatedButton createMaterialWidget(BuildContext context) => ElevatedButton(
-        onPressed: callback,
-        style: ButtonStyle(
-          shape: WidgetStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          )),
-          backgroundColor: WidgetStateProperty.all(WabTheme.woodyColor),
-          foregroundColor: WidgetStateProperty.all(WabTheme.textColor),
-          minimumSize: WidgetStateProperty.all(Size(double.infinity, 0)),
-          elevation: WidgetStateProperty.all(0),
-          padding: WidgetStateProperty.all(EdgeInsets.symmetric(
-            horizontal: padding ?? 18,
-            vertical: padding != null ? padding! / 2 : 12,
-          )),
+  Widget createMaterialWidget(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+          boxShadow: WabTheme.elevationShadow,
         ),
-        child: _buildContent(WabTheme.textColor),
+        child: ElevatedButton(
+          onPressed: callback,
+          style: ButtonStyle(
+            shape: WidgetStateProperty.all(RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
+            )),
+            backgroundColor: WidgetStateProperty.all(WabTheme.woodyColor),
+            foregroundColor: WidgetStateProperty.all(WabTheme.textColor),
+            minimumSize: WidgetStateProperty.all(Size(double.infinity, 0)),
+            elevation: WidgetStateProperty.all(0),
+            padding: WidgetStateProperty.all(EdgeInsets.symmetric(
+              horizontal: padding ?? 18,
+              vertical: padding != null ? padding! / 2 : 12,
+            )),
+          ),
+          child: _buildContent(WabTheme.textColor),
+        ),
       );
 
   Widget _buildContent(Color iconColor) {

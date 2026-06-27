@@ -4,17 +4,17 @@
 /*-- scss:defaults --*/
 
 // Bootstrap variable overrides
-$body-bg:           #1c1814;
-$body-color:        #cec0a0;
-$primary:           #362f1f;
-$secondary:         #3c3626;
-$success:           #6da878;
-$link-color:        #c8a84a;
-$card-bg:           #262018;
-$navbar-bg:         #262018;
-$border-radius:     8px;
-$border-radius-lg:  12px;
-$border-radius-sm:  4px;
+$body-bg:           #161719;
+$body-color:        #e4dfd4;
+$primary:           #3a2e1c;
+$secondary:         #373a3d;
+$success:           #b98a3c;
+$link-color:        #b99a52;
+$card-bg:           #202123;
+$navbar-bg:         #202123;
+$border-radius:     5px;
+$border-radius-lg:  8px;
+$border-radius-sm:  3px;
 $container-max-widths: (sm: 540px, md: 720px, lg: 600px, xl: 600px, xxl: 600px);
 
 /*-- scss:rules --*/
@@ -44,17 +44,17 @@ $container-max-widths: (sm: 540px, md: 720px, lg: 600px, xl: 600px, xxl: 600px);
   --wab-sand:      #cfd0d1;
 
   // Semantic dark roles
-  --wab-background: #1c1814;
-  --wab-surface:    #262018;
-  --wab-primary:    #2e291e;
-  --wab-secondary:  #3c3626;
-  --wab-accent:     #c8a84a;
-  --wab-on:         #6da878;
-  --wab-text:       #cec0a0;
-  --wab-woody:      #362f1f;
+  --wab-background: #161719;
+  --wab-surface:    #202123;
+  --wab-primary:    #26282a;
+  --wab-secondary:  #373a3d;
+  --wab-accent:     #b99a52;
+  --wab-on:         #b98a3c;
+  --wab-text:       #e4dfd4;
+  --wab-woody:      #3a2e1c;
 
   // Spacing
-  --wab-radius:        8px;
+  --wab-radius:        5px;
   --wab-max-width:     600px;
   --wab-padding:       10px;
   --wab-padding-h:     25px;

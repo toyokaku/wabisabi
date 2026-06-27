@@ -1,323 +1,226 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wabisabi/wabisabi.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   bool isDark = true;
-  
-  void _toggleTheme() {
-    setState(() {
-      isDark = !isDark;
-    });
-  }
-  
+
   @override
   Widget build(BuildContext context) {
-    if (isIos()) {
-      return CupertinoApp(
-        theme: WabTheme.cupertinoTheme(lightTheme: !isDark),        
-        home: MyHomePage(title: 'Wabisabi Demo', toggleTheme: _toggleTheme, isDark: isDark),
-      );
-    }
     return MaterialApp(
-      theme: WabTheme.materialTheme(lightTheme: !isDark),      
-      home: MyHomePage(title: 'Wabisabi Demo', toggleTheme: _toggleTheme, isDark: isDark),
+      debugShowCheckedModeBanner: false,
+      theme: WabTheme.materialTheme(lightTheme: !isDark),
+      home: Showcase(
+        isDark: isDark,
+        onToggleTheme: () => setState(() => isDark = !isDark),
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({required this.title, this.toggleTheme, required this.isDark});
-
-  final String title;
-  final VoidCallback? toggleTheme;
+/// A catalogue of every wabisabi widget. Top banner and left rail are kept
+/// separate from the body; the body is a vertical scrolling list of widgets,
+/// each labelled with its class name.
+class Showcase extends StatefulWidget {
+  const Showcase({super.key, required this.isDark, required this.onToggleTheme});
   final bool isDark;
+  final VoidCallback onToggleTheme;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<Showcase> createState() => _ShowcaseState();
 }
 
-class _MyHomePageState extends State<MyHomePage>{
-  int _counter = 0;
-  bool _isToggled = false;
+class _ShowcaseState extends State<Showcase> {
+  String _nav = 'WabNavItem (selected)';
+  bool _toggle = true;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-  
-  void _toggleSwitch() {
-    setState(() {
-      _isToggled = !_isToggled;
-    });
-  }
- 
   @override
   Widget build(BuildContext context) {
-    bool _isDark = widget.isDark;
-    var theme = Theme.of(context);  
-    WabTheme.materialTheme(lightTheme: !_isDark);
-
-    return WabTexturedScaffold(
-      appBar: WabAppBar(
-        title: Text(widget.title),
-        action: WabIconButton(
-          icon: Icon(Icons.info_outline),
-          callback: () => print('Info button pressed'),
-        ),
-        leading: WabIconButton(
-          icon: Icon(widget.isDark ? Icons.light_mode : Icons.dark_mode),
-          callback: () => widget.toggleTheme!(),
-        )
+    return Scaffold(
+      backgroundColor: WabTheme.backgroundColor,
+      body: Column(
+        children: [
+          _banner(),
+          WabDivider(),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _sidebar(),
+                VerticalDivider(width: 1, color: WabTheme.secondaryColor),
+                Expanded(child: _body()),
+              ],
+            ),
+          ),
+        ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // Display themed widgets
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  children: [
-                    // Container examples
-                    WabContentContainer(
-                      child: WabContainer(
-                        child: Column(
-                          children: [
-                            Text(
-                              'WabContainer Example',
-                              style: theme.textTheme.titleLarge,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'This shows the primary surface color with rounded corners.',
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    
-                    WabContentContainer(
-                      child: WabLiteContainer(
-                        child: Column(
-                          children: [
-                            Text(
-                              'Light Container Example',
-                              style: theme.textTheme.titleLarge,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'This shows the secondary surface color with rounded corners.',
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    
-                    WabDivider(),
-                    
-                    // Counter section
-                    WabContentContainer(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              'You have pushed the button this many times:',
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              '$_counter',
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    
-                    WabDivider(),
-                    
-                    // Buttons section header
-                    WabContentContainer(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Button Examples',
-                          style: theme.textTheme.titleLarge,
-                        ),
-                      ),
-                    ),
-                    
-                    // Standard Elevated Button
-                    WabContentContainer(
-                      child: WabElevatedButton(
-                        text: Text('Elevated Button'),
-                        callback: () => print('Elevated button pressed'),
-                        padding: 16.0,
-                      ),
-                    ),
-                    
-                    SizedBox(height: 16),
-                    
-                    // LTE style button (with chevron)
-                    WabContentContainer(
-                      child: WabElevatedButton(
-                        text: Text('LTE'),
-                        callback: () => print('LTE button pressed'),
-                        showChevron: true,
-                      ),
-                    ),
-                    
-                    SizedBox(height: 16),
-                    
-                    // Option button (with icon and chevron)
-                    WabContentContainer(
-                      child: WabElevatedButton(
-                        text: Text('Option'),
-                        callback: () => print('Option button pressed'),
-                        icon: Icon(Icons.settings, size: 18),
-                        showChevron: true,
-                      ),
-                    ),
-                    
-                    SizedBox(height: 16),
-                    
-                    // Text Button
-                    WabContentContainer(
-                      child: WabTextButton(
-                        text: Text('Text Button'),
-                        callback: () => print('Text button pressed'),
-                        padding: 16.0,
-                      ),
-                    ),
-                    
-                    SizedBox(height: 16),
-                    
-                    // Toggle Buttons Row
-                    WabContentContainer(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: WabToggleButton(
-                              text: Text('ON'),
-                              isOn: true,
-                              callback: _toggleSwitch,
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                          Expanded(
-                            flex: 1,
-                            child: WabToggleButton(
-                              text: Text('OFF'),
-                              isOn: false,
-                              callback: _toggleSwitch,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    
-                    SizedBox(height: 16),
-                    
-                    // Icon Buttons Row
-                    WabContentContainer(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: WabIconButton(
-                              icon: Icon(Icons.settings),
-                              label: Text('Settings'),
-                              callback: () => print('Settings button pressed'),
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                          Expanded(
-                            flex: 1,
-                            child: WabIconButton(
-                              icon: Icon(Icons.search),
-                              callback: () => print('Search button pressed'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    
-                    SizedBox(height: 24),
-                    
-                    // Search field
-                    WabContentContainer(
-                      child: WabSearchField(
-                        hintText: 'Search',
-                        onSubmitted: (value) => print('Search submitted: $value'),
-                      ),
-                    ),
-                    
-                    SizedBox(height: 24),
-                    
-                    WabDivider(),
-                    
-                    // Form controls section header
-                    WabContentContainer(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Form Controls',
-                          style: theme.textTheme.titleLarge,
-                        ),
-                      ),
-                    ),
-                    
-                    // Text Form Field
-                    WabContentContainer(
-                      child: WabTextFormField(
-                        validator: (val) =>
-                            (val?.isEmpty ?? true) ? 'Text cannot be empty' : null,
-                        callback: (val) => print('Text submitted: ' + val),
-                        hintText: 'Enter some text',
-                      ),
-                    ),
-                    
-                    SizedBox(height: 16),
-                    
-                    // Number Form Field
-                    WabContentContainer(
-                      child: WabNumberFormField(
-                        value: _counter,
-                        labelText: 'Counter Value',
-                      ),
-                    ),
-                    
-                    SizedBox(height: 32),
-                  ],
+    );
+  }
+
+  // ---- Top panel ----------------------------------------------------------
+
+  Widget _banner() => WabBanner(
+        title: 'WabBanner',
+        subtitle: 'top banner',
+        seal: _seal(),
+        leading: Icon(Icons.menu, color: WabTheme.textColor),
+        trailing: [
+          const Spacer(flex: 3),
+          Flexible(flex: 2, child: WabSearchField(hintText: 'WabSearchField')),
+          const SizedBox(width: 8),
+          IconButton(
+            tooltip: 'toggle theme',
+            icon: Icon(
+              widget.isDark ? Icons.light_mode : Icons.dark_mode,
+              color: WabTheme.textColor,
+            ),
+            onPressed: widget.onToggleTheme,
+          ),
+        ],
+      );
+
+  Widget _seal() => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+        decoration: const BoxDecoration(color: Color(0xFF9A3729)),
+        child: const Text('seal',
+            style: TextStyle(color: Colors.white, fontSize: 10)),
+      );
+
+  // ---- Left panel ---------------------------------------------------------
+
+  Widget _sidebar() => WabSidebar(
+        children: [
+          const WabProfileHeader(name: 'WabProfileHeader', subtitle: 'profile'),
+          const SizedBox(height: 24),
+          for (final label in const ['WabNavItem', 'WabNavItem (selected)'])
+            WabNavItem(
+              label: label,
+              selected: _nav == label,
+              onTap: () => setState(() => _nav = label),
+            ),
+        ],
+      );
+
+  // ---- Body: scrolling widget list ---------------------------------------
+
+  Widget _body() => ListView(
+        padding: const EdgeInsets.all(24),
+        children: [
+          _demo('WabPanel', WabPanel(
+            title: 'WabPanel',
+            trailing: const WabStatusBadge('trailing', kind: WabBadgeKind.neutral),
+            child: const Text('A titled section surface.'),
+          )),
+          _demo('WabContainer', WabContainer(child: const Text('WabContainer'))),
+          _demo('WabLiteContainer',
+              WabLiteContainer(child: const Text('WabLiteContainer'))),
+          _demo('WabDivider', WabDivider()),
+          _demo('WabElevatedButton', Column(children: [
+            WabElevatedButton(
+                text: const Text('WabElevatedButton'), callback: () {}),
+            const SizedBox(height: 12),
+            WabElevatedButton(
+              text: const Text('with icon + chevron'),
+              icon: const Icon(Icons.settings, size: 18),
+              showChevron: true,
+              callback: () {},
+            ),
+          ])),
+          _demo('WabTextButton',
+              WabTextButton(text: const Text('WabTextButton'), callback: () {})),
+          _demo('WabIconButton', Row(children: [
+            WabIconButton(
+                icon: const Icon(Icons.favorite),
+                label: const Text('WabIconButton'),
+                callback: () {}),
+            const SizedBox(width: 16),
+            WabIconButton(icon: const Icon(Icons.search), callback: () {}),
+          ])),
+          _demo('WabToggleButton', Row(children: [
+            Expanded(
+              child: WabToggleButton(
+                text: const Text('ON'),
+                isOn: _toggle,
+                callback: () => setState(() => _toggle = true),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: WabToggleButton(
+                text: const Text('OFF'),
+                isOn: !_toggle,
+                callback: () => setState(() => _toggle = false),
+              ),
+            ),
+          ])),
+          _demo('WabStatusBadge', Wrap(spacing: 12, children: const [
+            WabStatusBadge('progress', kind: WabBadgeKind.progress),
+            WabStatusBadge('done', kind: WabBadgeKind.done),
+            WabStatusBadge('neutral', kind: WabBadgeKind.neutral),
+          ])),
+          _demo('WabStarRating', Row(children: const [
+            WabStarRating(rating: 3),
+            SizedBox(width: 24),
+            WabStarRating(rating: 5),
+          ])),
+          _demo('WabCollectionCard', Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: WabCollectionCard(
+                  icon: Icon(Icons.emoji_food_beverage,
+                      size: 40, color: WabTheme.textColor),
+                  title: 'WabCollectionCard',
+                  description: 'A collection card with an action.',
+                  buttonLabel: 'action',
+                  onPressed: () {},
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: WabCollectionCard(
+                  icon: Icon(Icons.local_cafe,
+                      size: 40, color: WabTheme.textColor),
+                  title: 'highlighted',
+                  description: 'Same card, filled action button.',
+                  buttonLabel: 'action',
+                  highlighted: true,
+                  onPressed: () {},
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
-  }
-}
+          )),
+          _demo('WabTextFormField',
+              WabTextFormField(hintText: 'WabTextFormField')),
+          _demo('WabNumberFormField',
+              WabNumberFormField(value: 0, labelText: 'WabNumberFormField')),
+        ],
+      );
 
+  Widget _demo(String name, Widget child) => Padding(
+        padding: const EdgeInsets.only(bottom: 28),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              name,
+              style: TextStyle(
+                color: WabTheme.mutedColor,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.5,
+              ),
+            ),
+            const SizedBox(height: 8),
+            child,
+          ],
+        ),
+      );
+}

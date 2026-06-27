@@ -22,7 +22,15 @@ tokens/ → theme/ → components/
 - `wab_widget.dart`: `WabWidget<C, M>` abstract base (platform switch).
 - `wab_utils.dart`: `isIos()` helper.
 - `button|text|image|scaffold|divider.dart`: one file per widget family.
+- `panel.dart` (`WabPanel`), `badge.dart` (`WabStatusBadge`, `WabStarRating`),
+  `sidebar.dart` (`WabSidebar`, `WabNavItem`, `WabProfileHeader`),
+  `banner.dart` (`WabBanner`), `card.dart` (`WabCollectionCard`): dashboard widgets.
 - May import from `theme/` and `tokens/`. Must NOT import from other component files (use the barrel).
+- Typeface comes from `kWabFontFallback` (in `theme/wab_theme.dart`) — a modern geometric
+  sans (Century Gothic family) system-font chain, no bundled asset. Apply it via
+  `fontFamilyFallback:` on custom `TextStyle`s.
+- Depth: `WabTheme.elevationShadow` (drops bottom-right) for raised surfaces.
+- `WabTheme.scratchColor` fills sunken inputs (kept distinct from `woodyColor` buttons).
 
 **Barrel** (`lib/wabisabi.dart`) — the only public surface. Apps import `package:wabisabi/wabisabi.dart`.
 Do not add `flutter.dart` or any other entry point. One barrel, always.

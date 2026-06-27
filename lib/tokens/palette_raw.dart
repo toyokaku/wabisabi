@@ -24,24 +24,30 @@ const int kCedar     = 0xFF8E766C;
 const int kCeramic   = 0xFFE8E2DC;
 const int kSand      = 0xFFCFD0D1;
 
-// Operational light theme palette (semantic roles)
-const int kLightBackground = 0xFFF2E8CC;  // warm parchment
-const int kLightSurface    = 0xFFF7F2E5;  // card surface, slightly lighter parchment
-const int kLightPrimary    = 0xFFFBF7EE;  // barely-warm white (nav/card bg)
-const int kLightSecondary  = 0xFFE2D9C5;  // warm dividers / secondary surfaces
-const int kLightAccent     = 0xFF5E8C96;  // muted teal (nav selected, links)
-const int kLightOn         = 0xFF7AA882;  // muted sage (active/success)
-const int kLightOff        = 0xFFDDD5C5;  // warm inactive gray
-const int kLightText       = 0xFF2A2318;  // deep ink
-const int kLightWoody      = 0xFFCFAB72;  // amber — input fills, button bg
+// Operational light theme palette (semantic roles) — neutral light grey
+const int kLightBackground = 0xFFE9E7E2;  // light warm-grey app surface
+const int kLightSurface    = 0xFFF4F2EE;  // near-white panel surface
+const int kLightPrimary    = 0xFFFBFAF8;  // near-white card bg
+const int kLightSecondary  = 0xFFD7D3CB;  // grey borders / dividers
+const int kLightAccent     = 0xFFB08A3A;  // muted gold — stars / selected border
+const int kLightMuted      = 0xFF6E6A62;  // grey — captions / secondary text
+const int kLightOn         = 0xFF6E8B4A;  // sage green — success
+const int kLightOff        = 0xFFD8D4CC;  // inactive
+const int kLightText       = 0xFF2E2A24;  // near-black ink
+const int kLightWoody      = 0xFFD9C089;  // light wood — buttons
+const int kLightScratch    = 0xFFE4E2DC;  // light neutral — sunken inputs (≠ buttons)
+const int kLightProgress   = 0xFF3E7CA0;  // steel blue — progress badge
 
-// Operational dark theme palette
-const int kDarkBackground = 0xFF1C1814;  // warm brownish-black (not cold gray)
-const int kDarkSurface    = 0xFF262018;  // warm dark card surface
-const int kDarkPrimary    = 0xFF2E291E;  // warm dark nav/card bg
-const int kDarkSecondary  = 0xFF3C3626;  // warm dividers
-const int kDarkAccent     = 0xFFC8A84A;  // rich gold (nav selected, active)
-const int kDarkOn         = 0xFF6DA878;  // muted sage (success)
-const int kDarkOff        = 0xFF3C3626;  // same as secondary (inactive)
-const int kDarkText       = 0xFFCEC0A0;  // warm cream
-const int kDarkWoody      = 0xFF362F1F;  // dark amber — input fills
+// Operational dark theme palette — near-black neutral grey (low saturation)
+const int kDarkBackground = 0xFF161719;  // near-black app surface
+const int kDarkSurface    = 0xFF202123;  // panel surface
+const int kDarkPrimary    = 0xFF26282A;  // card bg (slightly lighter than panel)
+const int kDarkSecondary  = 0xFF373A3D;  // borders / dividers
+const int kDarkAccent     = 0xFFB99A52;  // muted gold — stars / selected border
+const int kDarkMuted      = 0xFF989790;  // grey — captions / secondary text
+const int kDarkOn         = 0xFFB98A3C;  // amber — success
+const int kDarkOff        = 0xFF373A3D;  // inactive
+const int kDarkText       = 0xFFE4DFD4;  // soft warm grey
+const int kDarkWoody      = 0xFF3A2E1C;  // dark wood — buttons
+const int kDarkScratch    = 0xFF2B2C2E;  // neutral grey — sunken inputs (≠ buttons)
+const int kDarkProgress   = 0xFF2E6B8A;  // steel blue — progress badge

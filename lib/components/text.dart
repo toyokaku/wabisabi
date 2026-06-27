@@ -11,7 +11,7 @@ class WabWarningText extends Text {
 }
 
 class WabTextFormField
-    extends WabWidget<CupertinoTextFormFieldRow, TextFormField> {
+    extends WabWidget<CupertinoTextFormFieldRow, Widget> {
   WabTextFormField({
     this.validator,
     this.callback,
@@ -40,13 +40,13 @@ class WabTextFormField
         padding: EdgeInsets.all(padding),
         style: TextStyle(color: WabTheme.textColor),
         decoration: BoxDecoration(
-          color: WabTheme.woodyColor,
+          color: WabTheme.scratchColor,
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
         ),
       );
 
   @override
-  TextFormField createMaterialWidget(BuildContext context) => TextFormField(
+  Widget createMaterialWidget(BuildContext context) => TextFormField(
         obscureText: obscureText,
         validator: validator,
         onChanged: callback,
@@ -57,7 +57,7 @@ class WabTextFormField
             borderSide: BorderSide.none,
           ),
           contentPadding: EdgeInsets.symmetric(horizontal: padding),
-          fillColor: WabTheme.woodyColor,
+          fillColor: WabTheme.scratchColor,
           filled: true,
           hintText: hint ?? hintText,
           hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
@@ -65,7 +65,7 @@ class WabTextFormField
       );
 }
 
-class WabNumberFormField extends WabWidget<CupertinoTextField, TextField> {
+class WabNumberFormField extends WabWidget<CupertinoTextField, Widget> {
   WabNumberFormField(
       {this.value, this.callback, this.maxLength, this.labelText});
 
@@ -83,7 +83,7 @@ class WabNumberFormField extends WabWidget<CupertinoTextField, TextField> {
         keyboardType: TextInputType.number,
         style: TextStyle(color: WabTheme.textColor),
         decoration: BoxDecoration(
-          color: WabTheme.woodyColor,
+          color: WabTheme.scratchColor,
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
         ),
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -94,14 +94,14 @@ class WabNumberFormField extends WabWidget<CupertinoTextField, TextField> {
       );
 
   @override
-  TextField createMaterialWidget(BuildContext context) => TextField(
+  Widget createMaterialWidget(BuildContext context) => TextField(
         controller: TextEditingController(text: value.toString()),
         onSubmitted: callback,
         style: TextStyle(color: WabTheme.textColor),
         decoration: InputDecoration(
           labelText: labelText,
           labelStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.7)),
-          fillColor: WabTheme.woodyColor,
+          fillColor: WabTheme.scratchColor,
           filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
@@ -117,7 +117,7 @@ class WabNumberFormField extends WabWidget<CupertinoTextField, TextField> {
       );
 }
 
-class WabSearchField extends WabWidget<CupertinoSearchTextField, TextField> {
+class WabSearchField extends WabWidget<CupertinoSearchTextField, Widget> {
   WabSearchField({
     this.onChanged,
     this.onSubmitted,
@@ -137,7 +137,7 @@ class WabSearchField extends WabWidget<CupertinoSearchTextField, TextField> {
         onChanged: onChanged,
         onSubmitted: onSubmitted,
         placeholder: hintText,
-        backgroundColor: WabTheme.woodyColor,
+        backgroundColor: WabTheme.scratchColor,
         style: TextStyle(color: WabTheme.textColor),
         placeholderStyle:
             TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
@@ -146,7 +146,7 @@ class WabSearchField extends WabWidget<CupertinoSearchTextField, TextField> {
       );
 
   @override
-  TextField createMaterialWidget(BuildContext context) => TextField(
+  Widget createMaterialWidget(BuildContext context) => TextField(
         controller: controller,
         onChanged: onChanged,
         onSubmitted: onSubmitted,
@@ -154,11 +154,10 @@ class WabSearchField extends WabWidget<CupertinoSearchTextField, TextField> {
         cursorColor: WabTheme.textColor,
         decoration: InputDecoration(
           filled: true,
-          fillColor: WabTheme.woodyColor,
+          fillColor: WabTheme.scratchColor,
           hintText: hintText,
           hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           prefixIcon: Icon(Icons.search, color: WabTheme.textColor),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
