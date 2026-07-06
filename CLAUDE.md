@@ -75,9 +75,12 @@ When you change a token value:
 When promoting a widget from an app into the kit:
 1. Add it to the correct `components/` file (or create a new file for a new family).
 2. Export it from `lib/wabisabi.dart`.
-3. No hardcoded values — wire to `WabTheme.*` or add a token if one is missing.
-4. Run `flutter analyze lib` before committing.
-5. Bump the version in `pubspec.yaml` and tag (`git tag vX.Y.Z`).
+3. **Showcase it in `example/lib/main.dart`** — every widget exported from the barrel
+   MUST appear in the example catalogue, labelled with its class name. A widget that
+   isn't in the example does not exist. This is a hard rule; no exceptions.
+4. No hardcoded values — wire to `WabTheme.*` or add a token if one is missing.
+5. Run `flutter analyze lib example/lib` before committing.
+6. Bump the version in `pubspec.yaml` and tag (`git tag vX.Y.Z`).
 
 ## Release flow
 
