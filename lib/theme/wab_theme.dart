@@ -16,6 +16,29 @@ const List<String> kWabFontFallback = [
   'sans-serif',
 ];
 
+/// Serif CJK fallback chain (Songti / Noto Serif SC) — for titles and numbers
+/// in flat, paper-like layouts. System fonts, no bundled asset.
+const List<String> kWabSerifScFallback = [
+  'Songti SC',
+  'Noto Serif SC',
+  'Noto Serif CJK SC',
+  'Source Han Serif SC',
+  'STSong',
+  'SimSun',
+  'serif',
+];
+
+/// Monospace fallback chain (JetBrains Mono) — for code and English labels.
+const List<String> kWabMonoFallback = [
+  'JetBrains Mono',
+  'SF Mono',
+  'SFMono-Regular',
+  'Menlo',
+  'DejaVu Sans Mono',
+  'Consolas',
+  'monospace',
+];
+
 class WabTheme {
   static late Color primaryColor;
   static late Color secondaryColor;

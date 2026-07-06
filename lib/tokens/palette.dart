@@ -33,6 +33,13 @@ class WabiSabiColors {
   static const cedar     = Color(kCedar);
   static const ceramic   = Color(kCeramic);
   static const sand      = Color(kSand);
+
+  // Flat "washi" set (paper-like, flat consumers)
+  static const washi     = Color(kWashi);
+  static const mist      = Color(kMist);
+  static const deadwood  = Color(kDeadwood);
+  static const ink       = Color(kInk);
+  static const frost     = Color(kFrost);
 }
 
 // Operational light theme palette

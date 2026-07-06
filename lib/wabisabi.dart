@@ -19,3 +19,4 @@ export 'components/badge.dart';
 export 'components/sidebar.dart';
 export 'components/banner.dart';
 export 'components/card.dart';
+export 'components/dot_grid.dart';

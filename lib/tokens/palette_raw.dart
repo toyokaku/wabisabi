@@ -24,6 +24,13 @@ const int kCedar     = 0xFF8E766C;
 const int kCeramic   = 0xFFE8E2DC;
 const int kSand      = 0xFFCFD0D1;
 
+// Flat "washi" set — for flat, paper-like surfaces (e.g. dot matrices)
+const int kWashi     = 0xFFF4F3EF;  // washi paper white
+const int kMist      = 0xFFECEBE7;  // faint base grey
+const int kDeadwood  = 0xFFD8D8D3;  // dead-wood grey (hairline borders)
+const int kInk       = 0xFF1A1A1A;  // ink black
+const int kFrost     = 0xFF88C0D0;  // frost blue (Nord accent)
+
 // Operational light theme palette (semantic roles) — neutral light grey
 const int kLightBackground = 0xFFE9E7E2;  // light warm-grey app surface
 const int kLightSurface    = 0xFFF4F2EE;  // near-white panel surface
