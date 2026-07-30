@@ -1,0 +1,20 @@
+name: Mirror to GitLab
+
+on:
+  push:
+    branches: [dev, main]
+    tags: ['*']
+
+jobs:
+  mirror:
+    name: Push mirror
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to GitLab
+        run: |
+          git remote add gitlab "https://gitlab+deploy-token-14868044:${{ secrets.GITLAB_DEPLOY_TOKEN }}@gitlab.com/alcuka/frontend/wabisabi.git"
+          git push gitlab HEAD:${{ github.ref }}
