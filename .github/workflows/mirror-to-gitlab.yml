@@ -16,5 +16,5 @@ jobs:
 
       - name: Push to GitLab
         run: |
-          git remote add gitlab "https://gitlab+deploy-token-14868044:${{ secrets.GITLAB_DEPLOY_TOKEN }}@gitlab.com/alcuka/frontend/wabisabi.git"
+          git remote add gitlab "https://oauth2:${{ secrets.GITLAB_DEPLOY_TOKEN }}@gitlab.com/alcuka/frontend/wabisabi.git"
           git push gitlab HEAD:${{ github.ref }}
