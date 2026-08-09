@@ -201,6 +201,46 @@ class _ShowcaseState extends State<Showcase> {
               WabTextFormField(hintText: 'WabTextFormField')),
           _demo('WabNumberFormField',
               WabNumberFormField(value: 0, labelText: 'WabNumberFormField')),
+          _demo('InkDot', Row(children: [
+            for (final (label, style) in [
+              ('flat', InkDotStyle(color: WabTheme.secondaryColor)),
+              (
+                'ringed',
+                InkDotStyle(
+                  color: WabTheme.textColor,
+                  borderColor: WabTheme.accentColor,
+                  borderWidth: 2,
+                )
+              ),
+              ('accent', InkDotStyle(color: WabTheme.progressColor)),
+            ]) ...[
+              InkDot(style: style, size: 14),
+              const SizedBox(width: 6),
+              Text(label, style: TextStyle(color: WabTheme.mutedColor, fontSize: 12)),
+              const SizedBox(width: 20),
+            ],
+          ])),
+          _demo(
+            'DotGrid',
+            DotGrid<int>(
+              rows: 5,
+              cols: 26,
+              states: List.generate(
+                  130, (i) => i < 58 ? 0 : (i == 58 ? 1 : (i % 19 == 0 ? 2 : 3))),
+              styleOf: (s) => switch (s) {
+                0 => InkDotStyle(color: WabTheme.secondaryColor),
+                1 => InkDotStyle(
+                    color: WabTheme.textColor,
+                    borderColor: WabTheme.accentColor,
+                    borderWidth: 2,
+                  ),
+                2 => InkDotStyle(color: WabTheme.progressColor),
+                _ => InkDotStyle(color: WabTheme.offColor.withOpacity(0.45)),
+              },
+              dotSize: 11,
+              gap: 4,
+            ),
+          ),
         ],
       );
 
