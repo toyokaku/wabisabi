@@ -91,5 +91,5 @@ When promoting a widget from an app into the kit:
 
 ## Flutter SDK
 
-Pinned to `3.29.2` in CI (`flutter-version` in `.github/workflows/ci.yml`).
+Pinned to `3.47.2` (Dart 3.13.2) in CI (`flutter-version` in `.github/workflows/ci.yml`).
 Update the pin deliberately — test locally first, then update CI.

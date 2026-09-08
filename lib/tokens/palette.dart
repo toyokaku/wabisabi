@@ -40,6 +40,10 @@ class WabiSabiColors {
   static const deadwood  = Color(kDeadwood);
   static const ink       = Color(kInk);
   static const frost     = Color(kFrost);
+
+  // Supplementary operational colors (theme-independent)
+  static const paperWhite = Color(kPaperWhite);
+  static const mutedLight = Color(kMutedLight);
 }
 
 // Operational light theme palette
@@ -55,6 +59,8 @@ const Color WAB_LIGHT_TEXT       = Color(kLightText);
 const Color WAB_LIGHT_WOODY      = Color(kLightWoody);
 const Color WAB_LIGHT_SCRATCH    = Color(kLightScratch);
 const Color WAB_LIGHT_PROGRESS   = Color(kLightProgress);
+const Color WAB_LIGHT_SEAL       = Color(kSealLight);
+const Color WAB_LIGHT_LINE       = Color(kLineLight);
 
 // Operational dark theme palette
 const Color WAB_DARK_BACKGROUND = Color(kDarkBackground);
@@ -69,3 +75,6 @@ const Color WAB_DARK_TEXT       = Color(kDarkText);
 const Color WAB_DARK_WOODY      = Color(kDarkWoody);
 const Color WAB_DARK_SCRATCH    = Color(kDarkScratch);
 const Color WAB_DARK_PROGRESS   = Color(kDarkProgress);
+const Color WAB_DARK_SEAL       = Color(kSealDark);
+const Color WAB_DARK_LINE       = Color(kLineDark);
+const Color WAB_DARK_PAPER      = Color(kDarkPaper);

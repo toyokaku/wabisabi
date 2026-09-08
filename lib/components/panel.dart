@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
-import '../tokens/spacing.dart';
+import '../materials/paper_texture.dart';
+import '../materials/rule_frame.dart';
+import '../tokens/material.dart';
 
 /// A titled section panel — the primary content surface of a dashboard.
 /// Header row (serif title + optional trailing actions) over a body.
@@ -40,43 +42,32 @@ class WabPanel extends StatelessWidget {
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.5,
-                  fontFamilyFallback: kWabFontFallback,
+                  fontFamilyFallback: kWabKaiFallback,
                 ),
               ),
             ),
             if (trailing != null) trailing!,
           ],
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 8),
+        // 框內文字分隔線要細 — 淡墨 hairline under the header.
+        Divider(
+          color: WabTheme.lineColor,
+          thickness: WAB_RULE_HAIRLINE,
+          height: WAB_RULE_HAIRLINE,
+        ),
+        const SizedBox(height: 12),
         expand ? Expanded(child: child) : child,
       ],
     );
 
-    return Container(
-      padding: padding,
-      decoration: BoxDecoration(
-        color: WabTheme.surfaceColor,
-        borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
-        boxShadow: WabTheme.elevationShadow,
-        border: Border.all(
-          color: WabTheme.isDark
-              ? WabTheme.accentColor.withOpacity(0.20)
-              : WabTheme.secondaryColor,
-          width: 0.8,
-        ),
-        // Subtle raised top edge, like the mockup panels.
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            WabTheme.surfaceColor,
-            WabTheme.isDark
-                ? WabTheme.primaryColor
-                : WabTheme.surfaceColor,
-          ],
-        ),
-      ),
-      child: body,
+    // Wash state (no elevation): 茶經封面式單粗墨線框, 直邊方角,
+    // paper texture inside, no shadow.
+    return WabRuleFrame(
+      kind: WabRuleKind.single,
+      fill: WabTheme.surfaceColor,
+      texture: WabPaperTexture(),
+      child: Padding(padding: padding, child: body),
     );
   }
 }
