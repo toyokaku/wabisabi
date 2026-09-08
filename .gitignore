@@ -42,3 +42,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local design reference (not for the public repo)
+/design-reference/
+
+# iOS build ephemeral (example app)
+example/ios/Flutter/ephemeral/

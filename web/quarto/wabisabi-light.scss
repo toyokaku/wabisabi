@@ -4,14 +4,14 @@
 /*-- scss:defaults --*/
 
 // Bootstrap variable overrides
-$body-bg:           #e9e7e2;
+$body-bg:           #ede8de;
 $body-color:        #2e2a24;
 $primary:           #d9c089;
 $secondary:         #d7d3cb;
 $success:           #6e8b4a;
 $link-color:        #b08a3a;
-$card-bg:           #f4f2ee;
-$navbar-bg:         #f4f2ee;
+$card-bg:           #f4f1e9;
+$navbar-bg:         #f4f1e9;
 $border-radius:     5px;
 $border-radius-lg:  8px;
 $border-radius-sm:  3px;
@@ -44,9 +44,9 @@ $container-max-widths: (sm: 540px, md: 720px, lg: 600px, xl: 600px, xxl: 600px);
   --wab-sand:      #cfd0d1;
 
   // Semantic light roles
-  --wab-background: #e9e7e2;
-  --wab-surface:    #f4f2ee;
-  --wab-primary:    #fbfaf8;
+  --wab-background: #ede8de;
+  --wab-surface:    #f4f1e9;
+  --wab-primary:    #faf8f2;
   --wab-secondary:  #d7d3cb;
   --wab-accent:     #b08a3a;
   --wab-on:         #6e8b4a;

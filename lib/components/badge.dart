@@ -38,7 +38,7 @@ class WabStatusBadge extends StatelessWidget {
           color: kind == WabBadgeKind.neutral ? WabTheme.textColor : Colors.white,
           fontSize: 13,
           fontWeight: FontWeight.w600,
-          fontFamilyFallback: kWabFontFallback,
+          fontFamilyFallback: kWabKaiFallback,
         ),
       ),
     );

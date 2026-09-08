@@ -3,33 +3,35 @@ import 'package:flutter/material.dart';
 import '../tokens/palette.dart';
 import '../tokens/spacing.dart';
 
-/// Modern geometric sans fallback chain (Century Gothic family look).
-/// Resolved against system fonts (no bundled asset); first available wins.
-const List<String> kWabFontFallback = [
-  'Century Gothic',
-  'Futura',
-  'Avenir Next',
-  'Questrial',
-  'URW Gothic',
-  'Helvetica Neue',
-  'Arial',
-  'sans-serif',
-];
-
-/// Serif CJK fallback chain (Songti / Noto Serif SC) — for titles and numbers
-/// in flat, paper-like layouts. System fonts, no bundled asset.
-const List<String> kWabSerifScFallback = [
-  'Songti SC',
-  'Noto Serif SC',
-  'Noto Serif CJK SC',
-  'Source Han Serif SC',
-  'STSong',
-  'SimSun',
+/// Kai fallback chain — the face for ALL text. First entry is the bundled
+/// LXGW WenKai TC (霞鶩文楷, pubspec family `WabKai`, 繁簡全覆蓋), so
+/// consumers need no system fonts at all. 正楷帶行意 — no 宋體, no 黑體.
+/// The system names below are pure last-resort fallbacks.
+const List<String> kWabKaiFallback = [
+  'packages/wabisabi/WabKai',
+  'Kaiti SC',
+  'STKaiti',
+  'KaiTi',
+  'TW-Kai',
+  'DFKai-SB',
   'serif',
 ];
 
-/// Monospace fallback chain (JetBrains Mono) — for code and English labels.
+/// Display chain — hero titles, seals, section headers. Same bundled 文楷,
+/// meant to be used with FontWeight.w600+ so the Medium master reads as
+/// 行意重筆; then system Kai faces; then the kai chain.
+const List<String> kWabDisplayFallback = [
+  'packages/wabisabi/WabKai',
+  'Xingkai SC',
+  'STXingkai',
+  'HanziPen SC',
+  ...kWabKaiFallback,
+];
+
+/// Monospace fallback chain — for code and English labels. First entry is
+/// the bundled JetBrains Mono (pubspec family `WabMono`).
 const List<String> kWabMonoFallback = [
+  'packages/wabisabi/WabMono',
   'JetBrains Mono',
   'SF Mono',
   'SFMono-Regular',
@@ -53,6 +55,10 @@ class WabTheme {
   static late Color progressColor;
   static late Color mutedColor;
   static late Color scratchColor;
+  static late Color sealColor;
+  static late Color lineColor;
+  static late Color paperWhite;
+  static late Color mutedLight;
   static bool isDark = true;
 
   /// Drop shadow for ELEVATED surfaces — falls to the bottom-right. The stacked
@@ -100,6 +106,10 @@ class WabTheme {
       WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
       WabTheme.mutedColor     = WAB_LIGHT_MUTED;
       WabTheme.scratchColor   = WAB_LIGHT_SCRATCH;
+      WabTheme.sealColor      = WAB_LIGHT_SEAL;
+      WabTheme.lineColor      = WAB_LIGHT_LINE;
+      WabTheme.paperWhite     = WabiSabiColors.paperWhite;
+      WabTheme.mutedLight     = WabiSabiColors.mutedLight;
     } else {
       WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
       WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
@@ -113,6 +123,10 @@ class WabTheme {
       WabTheme.progressColor  = WAB_DARK_PROGRESS;
       WabTheme.mutedColor     = WAB_DARK_MUTED;
       WabTheme.scratchColor   = WAB_DARK_SCRATCH;
+      WabTheme.sealColor      = WAB_DARK_SEAL;
+      WabTheme.lineColor      = WAB_DARK_LINE;
+      WabTheme.paperWhite     = WAB_DARK_PAPER;
+      WabTheme.mutedLight     = WAB_DARK_MUTED;
     }
 
     WabTheme.hintColor = lightTheme
@@ -149,7 +163,7 @@ class WabTheme {
     }
 
     var baseTextTheme =
-        _baseTextTheme(base.textTheme).apply(fontFamilyFallback: kWabFontFallback);
+        _baseTextTheme(base.textTheme).apply(fontFamilyFallback: kWabKaiFallback);
 
     return base.copyWith(
       appBarTheme: base.appBarTheme.copyWith(
@@ -164,7 +178,7 @@ class WabTheme {
       cardColor: WabTheme.surfaceColor,
       dialogBackgroundColor: WabTheme.surfaceColor,
       dividerColor: WabTheme.secondaryColor,
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: WabTheme.surfaceColor,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -237,6 +251,10 @@ class WabTheme {
       WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
       WabTheme.mutedColor     = WAB_LIGHT_MUTED;
       WabTheme.scratchColor   = WAB_LIGHT_SCRATCH;
+      WabTheme.sealColor      = WAB_LIGHT_SEAL;
+      WabTheme.lineColor      = WAB_LIGHT_LINE;
+      WabTheme.paperWhite     = WabiSabiColors.paperWhite;
+      WabTheme.mutedLight     = WabiSabiColors.mutedLight;
     } else {
       WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
       WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
@@ -250,6 +268,10 @@ class WabTheme {
       WabTheme.progressColor  = WAB_DARK_PROGRESS;
       WabTheme.mutedColor     = WAB_DARK_MUTED;
       WabTheme.scratchColor   = WAB_DARK_SCRATCH;
+      WabTheme.sealColor      = WAB_DARK_SEAL;
+      WabTheme.lineColor      = WAB_DARK_LINE;
+      WabTheme.paperWhite     = WAB_DARK_PAPER;
+      WabTheme.mutedLight     = WAB_DARK_MUTED;
     }
 
     WabTheme.hintColor = lightTheme
@@ -264,18 +286,18 @@ class WabTheme {
       textTheme: CupertinoTextThemeData(
         textStyle: TextStyle(
           color: WabTheme.textColor,
-          fontFamilyFallback: kWabFontFallback,
+          fontFamilyFallback: kWabKaiFallback,
         ),
         actionTextStyle: TextStyle(
           color: WabTheme.accentColor,
-          fontFamilyFallback: kWabFontFallback,
+          fontFamilyFallback: kWabKaiFallback,
         ),
         navTitleTextStyle: TextStyle(
           color: WabTheme.textColor,
           fontSize: 18,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.3,
-          fontFamilyFallback: kWabFontFallback,
+          fontFamilyFallback: kWabKaiFallback,
         ),
       ),
     );

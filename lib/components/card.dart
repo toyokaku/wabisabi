@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
+import '../materials/rule_frame.dart';
+import '../tokens/material.dart';
 import '../tokens/spacing.dart';
 
 /// A vertical collection card: centered emblem, title, description and a
@@ -27,15 +29,18 @@ class WabCollectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Elevated level: 古籍版式雙欄——外粗內細, square corners to match the
+    // rules; the shadow carries the elevation.
     return Container(
-      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: WabTheme.primaryColor,
-        borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
         boxShadow: WabTheme.elevationShadow,
-        border: Border.all(color: WabTheme.secondaryColor, width: 0.8),
       ),
-      child: Column(
+      child: WabRuleFrame(
+        kind: WabRuleKind.double,
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -51,8 +56,17 @@ class WabCollectionCard extends StatelessWidget {
               color: WabTheme.textColor,
               fontSize: 15,
               fontWeight: FontWeight.w600,
-              fontFamilyFallback: kWabFontFallback,
+              fontFamilyFallback: kWabKaiFallback,
             ),
+          ),
+          const SizedBox(height: 6),
+          // 框內文字分隔線要細.
+          Divider(
+            color: WabTheme.lineColor,
+            thickness: WAB_RULE_HAIRLINE,
+            height: WAB_RULE_HAIRLINE,
+            indent: 24,
+            endIndent: 24,
           ),
           const SizedBox(height: 6),
           Text(
@@ -64,7 +78,7 @@ class WabCollectionCard extends StatelessWidget {
               color: WabTheme.textColor.withOpacity(0.7),
               fontSize: 12,
               height: 1.4,
-              fontFamilyFallback: kWabFontFallback,
+              fontFamilyFallback: kWabKaiFallback,
             ),
           ),
           if (buttonLabel != null) ...[
@@ -76,6 +90,8 @@ class WabCollectionCard extends StatelessWidget {
             ),
           ],
         ],
+      ),
+        ),
       ),
     );
   }
@@ -114,7 +130,7 @@ class _CardButton extends StatelessWidget {
             style: TextStyle(
               color: fg,
               fontSize: 13,
-              fontFamilyFallback: kWabFontFallback,
+              fontFamilyFallback: kWabKaiFallback,
             ),
           ),
         ),
