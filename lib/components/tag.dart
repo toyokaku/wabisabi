@@ -6,14 +6,14 @@ import '../theme/typography.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/texture.dart';
 
-/// 題簽 — a narrow hanging paper label for archival/category marks.
+/// 題簽 — narrow hanging paper label with restrained, barely irregular edges.
 class WabVerticalTag extends StatelessWidget {
   WabVerticalTag({
     super.key,
     required this.text,
     this.width = 28,
     this.height = 66,
-    this.roughness = 1.6,
+    this.roughness = .52,
   });
 
   final String text;
@@ -28,7 +28,7 @@ class WabVerticalTag extends StatelessWidget {
       height: height,
       child: WabDeckleSurface(
         fill: WabTheme.isDark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT,
-        texture: WabPaperTexture(strength: .85),
+        texture: WabPaperTexture(strength: .48),
         roughness: roughness,
         child: Center(
           child: Text(
