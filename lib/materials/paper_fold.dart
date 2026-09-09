@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
 import '../tokens/texture.dart';
-import 'fiber_texture.dart';
-import 'paper_texture.dart';
 
-/// 紙摺 — a full-width folded strip with ridge, highlight and contact shadow.
+/// 紙摺分隔 — a fold used as a separator in a sheet of paper.
+///
+/// This paints only the crease language over the surrounding material. It is
+/// not a standalone paper strip: use it where a sheet would naturally fold or
+/// where a tactile divider is needed.
 class WabPaperFold extends StatelessWidget {
   WabPaperFold({
     super.key,
     this.child,
-    this.width = double.infinity,
-    this.height = 28,
+    this.height = 12,
     this.padding = EdgeInsets.zero,
     this.isDark,
     this.seed = 197,
   });
 
   final Widget? child;
-  final double width;
   final double height;
   final EdgeInsets padding;
   final bool? isDark;
@@ -29,20 +29,11 @@ class WabPaperFold extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = isDark ?? WabTheme.isDark;
     return SizedBox(
-      width: width,
+      width: double.infinity,
       height: height,
       child: CustomPaint(
         painter: _PaperFoldPainter(isDark: dark, seed: seed),
-        child: WabPaperTexture(
-          isDark: dark,
-          strength: .9,
-          child: WabFiberTexture(
-            isDark: dark,
-            seed: seed + 1,
-            strength: .7,
-            child: Padding(padding: padding, child: child),
-          ),
-        ),
+        child: Padding(padding: padding, child: child),
       ),
     );
   }
@@ -50,63 +41,66 @@ class WabPaperFold extends StatelessWidget {
 
 class _PaperFoldPainter extends CustomPainter {
   const _PaperFoldPainter({required this.isDark, required this.seed});
+
   final bool isDark;
   final int seed;
 
   @override
   void paint(Canvas canvas, Size size) {
     if (size.isEmpty) return;
-    final top = isDark ? const Color(0xFF343029) : const Color(0xFFF1ECE1);
-    final center = isDark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT;
-    final bottom = isDark ? const Color(0xFF201D19) : const Color(0xFFD8D0C2);
-    final crease = isDark ? WAB_TEXTURE_PAPER_CREASE_DARK : WAB_TEXTURE_PAPER_CREASE_LIGHT;
-    final highlight = isDark ? WAB_TEXTURE_PAPER_HIGHLIGHT_DARK : WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT;
+    final crease = isDark
+        ? WAB_TEXTURE_PAPER_CREASE_DARK
+        : WAB_TEXTURE_PAPER_CREASE_LIGHT;
+    final highlight = isDark
+        ? WAB_TEXTURE_PAPER_HIGHLIGHT_DARK
+        : WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT;
+    final rnd = math.Random(seed);
+    final y = size.height * .52;
 
+    final band = Rect.fromLTWH(0, y - 3.5, size.width, 7);
     canvas.drawRect(
-      Offset.zero & size,
+      band,
       Paint()
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [top, center, center, bottom],
-          stops: const [0, .34, .58, 1],
-        ).createShader(Offset.zero & size),
+          colors: [
+            Colors.transparent,
+            highlight.withOpacity(isDark ? .06 : .16),
+            crease.withOpacity(isDark ? .12 : .10),
+            crease.withOpacity(isDark ? .19 : .16),
+            highlight.withOpacity(isDark ? .04 : .20),
+            Colors.transparent,
+          ],
+        ).createShader(band),
     );
 
-    final rnd = math.Random(seed);
-    final ridgeY = size.height * .56;
-    final ridge = Path()..moveTo(0, ridgeY);
-    final shine = Path()..moveTo(0, ridgeY - 1.8);
-    for (var x = 0.0; x <= size.width + 16; x += 14) {
-      final wobble = (rnd.nextDouble() - .5) * 2.1;
-      ridge.lineTo(x, ridgeY + wobble);
-      shine.lineTo(x, ridgeY - 1.55 + wobble * .45);
+    final creasePath = Path()..moveTo(0, y);
+    final highlightPath = Path()..moveTo(0, y - .9);
+    for (var x = 0.0; x <= size.width + 12; x += 24) {
+      final wobble = (rnd.nextDouble() - .5) * .9;
+      creasePath.lineTo(x, y + wobble);
+      highlightPath.lineTo(x, y - .9 + wobble * .35);
     }
+
     canvas.drawPath(
-      ridge,
+      creasePath,
       Paint()
-        ..color = (isDark ? WAB_TEXTURE_FOLD_SHADOW_DARK : WAB_TEXTURE_FOLD_SHADOW_LIGHT)
+        ..color = crease.withOpacity(isDark ? .30 : .24)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.55
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.6),
+        ..strokeWidth = .85
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, .8),
     );
     canvas.drawPath(
-      shine,
+      highlightPath,
       Paint()
-        ..color = highlight.withOpacity(isDark ? .20 : .82)
+        ..color = highlight.withOpacity(isDark ? .10 : .46)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = .9,
-    );
-    canvas.drawLine(
-      Offset(0, size.height - 1.0),
-      Offset(size.width, size.height - 1.0),
-      Paint()
-        ..color = crease.withOpacity(isDark ? .38 : .42)
-        ..strokeWidth = 1.1
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.0),
+        ..strokeWidth = .55,
     );
   }
 
   @override
-  bool shouldRepaint(_PaperFoldPainter old) => old.isDark != isDark || old.seed != seed;
+  bool shouldRepaint(_PaperFoldPainter old) =>
+      old.isDark != isDark || old.seed != seed;
 }
