@@ -4,18 +4,17 @@ import '../theme/typography.dart';
 import '../theme/wab_theme.dart';
 
 /// 印體 — a readable seal-adjacent display treatment built from the bundled
-/// WabKai face. The glyph is slightly widened/flattened and reinforced with a
-/// thin ink stroke so it sits between regular kai and a carved clerical/seal
-/// impression without depending on a platform font.
+/// WabKai face. The glyph is widened, slightly flattened and reinforced with a
+/// carved ink stroke: closer to a legible clerical/seal impression than body kai.
 class WabSealText extends StatelessWidget {
   const WabSealText(
     this.text, {
     super.key,
-    this.fontSize = 22,
+    this.fontSize = 24,
     this.color,
-    this.strokeWidth = .65,
-    this.widthScale = 1.08,
-    this.heightScale = .94,
+    this.strokeWidth = .76,
+    this.widthScale = 1.12,
+    this.heightScale = .90,
   });
 
   final String text;
@@ -33,8 +32,8 @@ class WabSealText extends StatelessWidget {
       fontFamilyFallback: kWabKaiFallback,
       fontSize: fontSize,
       fontWeight: FontWeight.w500,
-      height: .96,
-      letterSpacing: .15,
+      height: .92,
+      letterSpacing: -.05,
     );
 
     return Transform.scale(
@@ -51,14 +50,11 @@ class WabSealText extends StatelessWidget {
               foreground: Paint()
                 ..style = PaintingStyle.stroke
                 ..strokeWidth = strokeWidth
+                ..strokeJoin = StrokeJoin.round
                 ..color = ink,
             ),
           ),
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: base.copyWith(color: ink),
-          ),
+          Text(text, textAlign: TextAlign.center, style: base.copyWith(color: ink)),
         ],
       ),
     );
