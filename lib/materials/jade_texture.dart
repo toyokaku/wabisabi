@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/texture.dart';
 
-/// 玉面 — translucent celadon clouding with hairline mineral veins.
+/// 玉面 — translucent celadon clouding with only occasional mineral veins.
 class WabJadeTexture extends StatelessWidget {
   WabJadeTexture({super.key, this.isDark, this.child, this.seed = 421});
 
@@ -50,26 +50,23 @@ class _JadePainter extends CustomPainter {
       );
     }
 
-    for (var i = 0; i < 11; i++) {
+    // Mineral veins should be rare enough to feel discovered rather than noisy.
+    for (var i = 0; i < 2; i++) {
       final start = Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height);
       final path = Path()..moveTo(start.dx, start.dy);
       var p = start;
       for (var j = 0; j < 3; j++) {
-        final nx = (p.dx + (rnd.nextDouble() - .5) * size.width * .22)
-            .clamp(0.0, size.width)
-            .toDouble();
-        final ny = (p.dy + (rnd.nextDouble() - .5) * size.height * .35)
-            .clamp(0.0, size.height)
-            .toDouble();
+        final nx = (p.dx + (rnd.nextDouble() - .5) * size.width * .24).clamp(0.0, size.width).toDouble();
+        final ny = (p.dy + (rnd.nextDouble() - .5) * size.height * .32).clamp(0.0, size.height).toDouble();
         p = Offset(nx, ny);
         path.lineTo(p.dx, p.dy);
       }
       canvas.drawPath(
         path,
         Paint()
-          ..color = vein.withOpacity(.10 + rnd.nextDouble() * .12)
+          ..color = vein.withOpacity(.035 + rnd.nextDouble() * .025)
           ..style = PaintingStyle.stroke
-          ..strokeWidth = .35 + rnd.nextDouble() * .55,
+          ..strokeWidth = .35 + rnd.nextDouble() * .30,
       );
     }
 
