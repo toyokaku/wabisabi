@@ -118,7 +118,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   const SizedBox(width: 12),
                   WabIconButton(
                     icon: Icon(
-                      widget.isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+                      widget.isDark
+                          ? Icons.light_mode_outlined
+                          : Icons.dark_mode_outlined,
                       size: 15,
                     ),
                     kind: WabMaterialKind.zhuwen,
@@ -127,7 +129,11 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                 ],
               ),
             ),
-            Divider(height: 1, thickness: WAB_RULE_HAIRLINE, color: WabTheme.lineColor),
+            Divider(
+              height: 1,
+              thickness: WAB_RULE_HAIRLINE,
+              color: WabTheme.lineColor,
+            ),
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -188,7 +194,8 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   style: TextStyle(
                     fontFamily: kWabMonoFamily,
                     fontSize: 8,
-                    fontWeight: _selected == i ? FontWeight.w500 : FontWeight.w400,
+                    fontWeight:
+                        _selected == i ? FontWeight.w500 : FontWeight.w400,
                     letterSpacing: .8,
                   ),
                 ),
@@ -216,13 +223,19 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth < 900) return _mobileBoard();
+
+        const totalHeight = 1100.0;
         return SingleChildScrollView(
           child: WabPaperSheet(
             isDark: widget.isDark,
-            horizontalFolds: const [.224, .505, .782],
-            verticalFolds: const [.333, .666],
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 10, 16, 30),
+            horizontalFolds: const [
+              0.2227272727,
+              0.5,
+              0.7727272727,
+            ],
+            verticalFolds: const [0.3333333333, 0.6666666667],
+            child: SizedBox(
+              height: totalHeight,
               child: Column(
                 children: [
                   _row(245, [0, 1, 2]),
@@ -265,10 +278,10 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          for (var i = 0; i < indices.length; i++) ...[
-            Expanded(child: _section(indices[i])),
-            if (i != indices.length - 1) const SizedBox(width: 14),
-          ],
+          for (final index in indices)
+            Expanded(
+              child: ClipRect(child: _section(index)),
+            ),
         ],
       ),
     );
