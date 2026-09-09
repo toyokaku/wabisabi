@@ -55,10 +55,13 @@ class _JadePainter extends CustomPainter {
       final path = Path()..moveTo(start.dx, start.dy);
       var p = start;
       for (var j = 0; j < 3; j++) {
-        p = Offset(
-          (p.dx + (rnd.nextDouble() - .5) * size.width * .22).clamp(0, size.width),
-          (p.dy + (rnd.nextDouble() - .5) * size.height * .35).clamp(0, size.height),
-        );
+        final nx = (p.dx + (rnd.nextDouble() - .5) * size.width * .22)
+            .clamp(0.0, size.width)
+            .toDouble();
+        final ny = (p.dy + (rnd.nextDouble() - .5) * size.height * .35)
+            .clamp(0.0, size.height)
+            .toDouble();
+        p = Offset(nx, ny);
         path.lineTo(p.dx, p.dy);
       }
       canvas.drawPath(
@@ -70,9 +73,8 @@ class _JadePainter extends CustomPainter {
       );
     }
 
-    // soft top sheen
     canvas.drawRect(
-      Rect.fromLTWH(0, 0, size.width, math.max(1, size.height * .16)),
+      Rect.fromLTWH(0, 0, size.width, math.max(1.0, size.height * .16)),
       Paint()
         ..shader = LinearGradient(
           begin: Alignment.topCenter,

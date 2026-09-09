@@ -47,10 +47,13 @@ class _PatinaPainter extends CustomPainter {
       var p = Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height);
       final path = Path()..moveTo(p.dx, p.dy);
       for (var j = 0; j < 3 + rnd.nextInt(3); j++) {
-        p = Offset(
-          (p.dx + (rnd.nextDouble() - .5) * size.width * .16).clamp(0, size.width),
-          (p.dy + (rnd.nextDouble() - .5) * size.height * .22).clamp(0, size.height),
-        );
+        final nx = (p.dx + (rnd.nextDouble() - .5) * size.width * .16)
+            .clamp(0.0, size.width)
+            .toDouble();
+        final ny = (p.dy + (rnd.nextDouble() - .5) * size.height * .22)
+            .clamp(0.0, size.height)
+            .toDouble();
+        p = Offset(nx, ny);
         path.lineTo(p.dx, p.dy);
       }
       canvas.drawPath(

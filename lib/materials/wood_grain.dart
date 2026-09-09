@@ -38,19 +38,20 @@ class WabWoodGrain extends CustomPainter {
       );
     }
 
-    // Fine longitudinal pores break the synthetic sine-wave regularity.
-    for (var i = 0; i < (size.width / 22).ceil(); i++) {
-      final x = ((i * 37.0 + seed * 11) % math.max(1, size.width));
-      final y = ((i * 19.0 + seed * 7) % math.max(1, size.height));
+    final safeWidth = size.width <= 0 ? 1.0 : size.width;
+    final safeHeight = size.height <= 0 ? 1.0 : size.height;
+    for (var i = 0; i < (safeWidth / 22).ceil(); i++) {
+      final x = (i * 37.0 + seed * 11) % safeWidth;
+      final y = (i * 19.0 + seed * 7) % safeHeight;
       canvas.drawOval(
-        Rect.fromCenter(center: Offset(x, y), width: 4 + i % 7, height: .7),
+        Rect.fromCenter(center: Offset(x, y), width: 4.0 + i % 7, height: .7),
         Paint()..color = deep.withOpacity(.14),
       );
     }
 
     if (showKnot && size.width > 70 && size.height > 35) {
       final c = Offset(size.width * .72, size.height * .58);
-      for (var r = 3.0; r < math.min(17, size.height * .28); r += 3.1) {
+      for (var r = 3.0; r < math.min(17.0, size.height * .28); r += 3.1) {
         canvas.drawOval(
           Rect.fromCenter(center: c, width: r * 2.7, height: r * 1.5),
           Paint()

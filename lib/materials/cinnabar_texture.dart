@@ -45,12 +45,20 @@ class _CinnabarPainter extends CustomPainter {
     for (var i = 0; i < 18; i++) {
       final p0 = Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height);
       final p1 = Offset(
-        (p0.dx + (rnd.nextDouble() - .5) * size.width * .18).clamp(0, size.width),
-        (p0.dy + (rnd.nextDouble() - .5) * size.height * .26).clamp(0, size.height),
+        (p0.dx + (rnd.nextDouble() - .5) * size.width * .18)
+            .clamp(0.0, size.width)
+            .toDouble(),
+        (p0.dy + (rnd.nextDouble() - .5) * size.height * .26)
+            .clamp(0.0, size.height)
+            .toDouble(),
       );
       final p2 = Offset(
-        (p1.dx + (rnd.nextDouble() - .5) * size.width * .13).clamp(0, size.width),
-        (p1.dy + (rnd.nextDouble() - .5) * size.height * .20).clamp(0, size.height),
+        (p1.dx + (rnd.nextDouble() - .5) * size.width * .13)
+            .clamp(0.0, size.width)
+            .toDouble(),
+        (p1.dy + (rnd.nextDouble() - .5) * size.height * .20)
+            .clamp(0.0, size.height)
+            .toDouble(),
       );
       canvas.drawPath(
         Path()..moveTo(p0.dx, p0.dy)..lineTo(p1.dx, p1.dy)..lineTo(p2.dx, p2.dy),
