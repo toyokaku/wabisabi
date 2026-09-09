@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+
 import '../theme/wab_theme.dart';
-import '../materials/paper_texture.dart';
-import '../materials/rule_frame.dart';
+import '../materials/surface.dart';
 import '../tokens/material.dart';
 
-/// A titled section panel — the primary content surface of a dashboard.
-/// Header row (serif title + optional trailing actions) over a body.
+/// Flat titled content surface. Panels intentionally use a hairline boundary;
+/// the heavier single/double book rules remain separate material primitives.
 class WabPanel extends StatelessWidget {
   const WabPanel({
     super.key,
@@ -18,12 +18,8 @@ class WabPanel extends StatelessWidget {
 
   final String title;
   final Widget child;
-
-  /// Optional widgets rendered at the trailing edge of the header (e.g. filter chips).
   final Widget? trailing;
   final EdgeInsets padding;
-
-  /// When true the body expands to fill available vertical space (grid use).
   final bool expand;
 
   @override
@@ -39,9 +35,9 @@ class WabPanel extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: WabTheme.textColor,
-                  fontSize: 17,
+                  fontSize: 15,
                   fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
+                  letterSpacing: .5,
                   fontFamilyFallback: kWabKaiFallback,
                 ),
               ),
@@ -49,25 +45,29 @@ class WabPanel extends StatelessWidget {
             if (trailing != null) trailing!,
           ],
         ),
-        const SizedBox(height: 8),
-        // 框內文字分隔線要細 — 淡墨 hairline under the header.
+        const SizedBox(height: 7),
         Divider(
           color: WabTheme.lineColor,
           thickness: WAB_RULE_HAIRLINE,
           height: WAB_RULE_HAIRLINE,
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         expand ? Expanded(child: child) : child,
       ],
     );
 
-    // Wash state (no elevation): 茶經封面式單粗墨線框, 直邊方角,
-    // paper texture inside, no shadow.
-    return WabRuleFrame(
-      kind: WabRuleKind.single,
-      fill: WabTheme.surfaceColor,
-      texture: WabPaperTexture(),
-      child: Padding(padding: padding, child: body),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: WabTheme.lineColor,
+          width: WAB_RULE_HAIRLINE,
+        ),
+      ),
+      child: WabSurface(
+        kind: WabSurfaceKind.paper,
+        clip: false,
+        child: Padding(padding: padding, child: body),
+      ),
     );
   }
 }

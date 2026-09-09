@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../theme/wab_theme.dart';
-import '../materials/rule_frame.dart';
-import '../tokens/material.dart';
-import '../tokens/spacing.dart';
 
-/// A vertical collection card: centered emblem, title, description and a
-/// trailing action button. Used for grids like a tea-ware collection.
+import '../theme/wab_theme.dart';
+import '../materials/surface.dart';
+import '../tokens/material.dart';
+import 'button.dart';
+
+/// Collection/content card: paper sheet, light ink boundary, no dashboard-style
+/// heavy double frame. Elevation is reserved for explicit shadow specimens.
 class WabCollectionCard extends StatelessWidget {
   const WabCollectionCard({
     super.key,
@@ -17,124 +18,77 @@ class WabCollectionCard extends StatelessWidget {
     this.highlighted = false,
   });
 
-  /// The emblem widget (icon or image) shown at the top of the card.
   final Widget icon;
   final String title;
   final String description;
   final String? buttonLabel;
   final VoidCallback? onPressed;
-
-  /// When true the action button is filled (accent), else outlined.
   final bool highlighted;
 
   @override
-  Widget build(BuildContext context) {
-    // Elevated level: 古籍版式雙欄——外粗內細, square corners to match the
-    // rules; the shadow carries the elevation.
-    return Container(
-      decoration: BoxDecoration(
-        color: WabTheme.primaryColor,
-        boxShadow: WabTheme.elevationShadow,
-      ),
-      child: WabRuleFrame(
-        kind: WabRuleKind.double,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 56,
-            child: Center(child: icon),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: WabTheme.textColor,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              fontFamilyFallback: kWabKaiFallback,
-            ),
-          ),
-          const SizedBox(height: 6),
-          // 框內文字分隔線要細.
-          Divider(
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(
+          border: Border.all(
             color: WabTheme.lineColor,
-            thickness: WAB_RULE_HAIRLINE,
-            height: WAB_RULE_HAIRLINE,
-            indent: 24,
-            endIndent: 24,
+            width: WAB_RULE_HAIRLINE,
           ),
-          const SizedBox(height: 6),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: WabTheme.textColor.withOpacity(0.7),
-              fontSize: 12,
-              height: 1.4,
-              fontFamilyFallback: kWabKaiFallback,
-            ),
-          ),
-          if (buttonLabel != null) ...[
-            const SizedBox(height: 12),
-            _CardButton(
-              label: buttonLabel!,
-              onPressed: onPressed,
-              highlighted: highlighted,
-            ),
-          ],
-        ],
-      ),
         ),
-      ),
-    );
-  }
-}
-
-class _CardButton extends StatelessWidget {
-  const _CardButton({
-    required this.label,
-    required this.onPressed,
-    required this.highlighted,
-  });
-
-  final String label;
-  final VoidCallback? onPressed;
-  final bool highlighted;
-
-  @override
-  Widget build(BuildContext context) {
-    final fg = WabTheme.textColor;
-    return Material(
-      color: highlighted ? WabTheme.woodyColor : Colors.transparent,
-      borderRadius: BorderRadius.circular(WAB_BADGE_RADIUS),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(WAB_BADGE_RADIUS),
-        onTap: onPressed,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(WAB_BADGE_RADIUS),
-            border: highlighted
-                ? null
-                : Border.all(color: WabTheme.secondaryColor),
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: fg,
-              fontSize: 13,
-              fontFamilyFallback: kWabKaiFallback,
+        child: WabSurface(
+          kind: WabSurfaceKind.paper,
+          clip: false,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 38, child: Center(child: icon)),
+                const SizedBox(height: 6),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: WabTheme.textColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    fontFamilyFallback: kWabKaiFallback,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Divider(
+                  color: WabTheme.lineColor,
+                  thickness: WAB_RULE_HAIRLINE,
+                  height: WAB_RULE_HAIRLINE,
+                  indent: 18,
+                  endIndent: 18,
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: WabTheme.mutedColor,
+                    fontSize: 9,
+                    height: 1.35,
+                    fontFamilyFallback: kWabKaiFallback,
+                  ),
+                ),
+                if (buttonLabel != null) ...[
+                  const SizedBox(height: 9),
+                  WabButton(
+                    kind: highlighted
+                        ? WabMaterialKind.wood
+                        : WabMaterialKind.zhuwen,
+                    onPressed: onPressed,
+                    padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 6),
+                    child: Text(buttonLabel!),
+                  ),
+                ],
+              ],
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
