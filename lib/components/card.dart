@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../theme/wab_theme.dart';
+import '../materials/paper_lift.dart';
 import '../materials/surface.dart';
+import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import 'button.dart';
 
-/// Collection/content card: paper sheet, light ink boundary, no dashboard-style
-/// heavy double frame. Elevation is reserved for explicit shadow specimens.
+/// Collection/content card: frameless paper lifted by an irregular contact
+/// shadow. Hierarchy comes from paper depth rather than a dashboard border.
 class WabCollectionCard extends StatelessWidget {
   const WabCollectionCard({
     super.key,
@@ -26,13 +27,8 @@ class WabCollectionCard extends StatelessWidget {
   final bool highlighted;
 
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: WabTheme.lineColor,
-            width: WAB_RULE_HAIRLINE,
-          ),
-        ),
+  Widget build(BuildContext context) => WabPaperLift(
+        seed: highlighted ? 67 : 31,
         child: WabSurface(
           kind: WabSurfaceKind.paper,
           clip: false,
@@ -56,7 +52,7 @@ class WabCollectionCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Divider(
-                  color: WabTheme.lineColor,
+                  color: WabTheme.lineColor.withOpacity(.65),
                   thickness: WAB_RULE_HAIRLINE,
                   height: WAB_RULE_HAIRLINE,
                   indent: 18,
@@ -78,9 +74,7 @@ class WabCollectionCard extends StatelessWidget {
                 if (buttonLabel != null) ...[
                   const SizedBox(height: 9),
                   WabButton(
-                    kind: highlighted
-                        ? WabMaterialKind.wood
-                        : WabMaterialKind.zhuwen,
+                    kind: highlighted ? WabMaterialKind.wood : WabMaterialKind.zhuwen,
                     onPressed: onPressed,
                     padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 6),
                     child: Text(buttonLabel!),
