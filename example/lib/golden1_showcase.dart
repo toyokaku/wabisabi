@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wabisabi/wabisabi.dart';
 
-/// Golden-board catalogue: the existing banner + left rail layout is retained,
-/// while the body is reorganised around the 01–12 material language in
-/// golden1.png. Every section is still a live widget demo, not a static poster.
+/// Live catalogue for the public Wabisabi kit.
+///
+/// Rule: this file may compose Flutter layout primitives, but all material,
+/// surface, rule, seal and component visuals shown as specimens must come from
+/// exported `package:wabisabi/wabisabi.dart` APIs. No example-only painters.
 class Golden1Showcase extends StatefulWidget {
   const Golden1Showcase({
     super.key,
@@ -43,11 +45,26 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '12 明暗 · LIGHT & DARK',
   ];
 
+  static const _sectionTitle = [
+    '01  色 | PALETTE',
+    '02  材 | MATERIALS',
+    '03  書 | TYPOGRAPHY',
+    '04  面 | SURFACES',
+    '05  邊 | BORDERS & RULES',
+    '06  器 | COMPONENTS · BUTTONS',
+    '07  狀態 | STATES',
+    '08  表單 | INPUTS',
+    '09  標記 | BADGES & SEALS',
+    '10  卡片 | CARDS & PANELS',
+    '11  陰影 | SHADOWS',
+    '12  明暗 | LIGHT & DARK',
+  ];
+
   static const _subtitles = [
     '調煉紙、墨、木、土、釉的克制色系',
     '數字化的東方材質語言',
-    '傳統、正文、數字：統一的文字體系',
-    '生成式材質表面，不依賴圖片資產',
+    '標題、正文、數字：統一的文字體系',
+    '生成式材質表面（無圖片資產）',
     '源自古籍的欄界語言',
     '多材質按鈕體系',
     '克制而自然的狀態變化',
@@ -77,11 +94,21 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       backgroundColor: WabTheme.backgroundColor,
       body: Stack(
         children: [
-          Positioned.fill(child: WabPaperTexture(isDark: widget.isDark)),
+          Positioned.fill(
+            child: WabSurface(
+              kind: WabSurfaceKind.paper,
+              clip: false,
+              child: const SizedBox.expand(),
+            ),
+          ),
           Column(
             children: [
               _masthead(),
-              WabDivider(),
+              Divider(
+                height: 1,
+                thickness: WAB_RULE_HAIRLINE,
+                color: WabTheme.lineColor,
+              ),
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,7 +132,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
 
   Widget _masthead() {
     return WabBanner(
-      height: 104,
+      height: 96,
       title: '現代應用的東方美學界面系統',
       subtitle: 'A TIMELESS UI SYSTEM FOR MODERN APPS',
       leading: Row(
@@ -115,49 +142,49 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             '侘 寂',
             style: TextStyle(
               color: WabTheme.textColor,
-              fontSize: 30,
+              fontSize: 28,
               height: 1,
-              letterSpacing: 8,
+              letterSpacing: 7,
               fontFamilyFallback: kWabDisplayFallback,
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 13),
           SizedBox(
-            height: 54,
+            height: 48,
             child: VerticalDivider(
               color: WabTheme.lineColor,
               thickness: WAB_RULE_HAIRLINE,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 11),
           Text(
             'WABISABI\nUI KIT',
             style: TextStyle(
               color: WabTheme.mutedColor,
-              fontSize: 10,
-              letterSpacing: 3,
-              height: 1.5,
+              fontSize: 9,
+              letterSpacing: 2.7,
+              height: 1.45,
               fontFamilyFallback: kWabMonoFallback,
             ),
           ),
         ],
       ),
-      seal: WabSealMark(text: '侘寂', size: 30, seed: 17),
+      seal: WabSealMark(text: '侘寂', size: 28, seed: 17),
       trailing: [
         Text(
           '取法自然 · 材質為語 · 克制為美 · 留白生境',
           style: TextStyle(
             color: WabTheme.mutedColor,
-            fontSize: 11,
-            letterSpacing: 2,
+            fontSize: 9,
+            letterSpacing: 1.8,
             fontFamilyFallback: kWabKaiFallback,
           ),
         ),
-        const SizedBox(width: 18),
+        const SizedBox(width: 14),
         WabIconButton(
           icon: Icon(
             widget.isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
-            size: 17,
+            size: 16,
           ),
           kind: WabMaterialKind.zhuwen,
           callback: widget.onToggleTheme,
@@ -168,22 +195,37 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
 
   Widget _sidebar() {
     return WabSidebar(
-      width: 222,
-      padding: const EdgeInsets.fromLTRB(18, 22, 18, 22),
+      width: 190,
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
       children: [
-        WabProfileHeader(
-          name: '素材庫',
-          subtitle: 'MATERIAL INDEX · v0.2',
-          avatar: const AssetImage('images/avatar.jpg'),
+        Text(
+          '素材庫',
+          style: TextStyle(
+            color: WabTheme.textColor,
+            fontSize: 16,
+            letterSpacing: 3,
+            fontFamilyFallback: kWabDisplayFallback,
+          ),
         ),
-        const SizedBox(height: 22),
+        const SizedBox(height: 3),
+        Text(
+          'MATERIAL INDEX · v0.2',
+          style: TextStyle(
+            color: WabTheme.mutedColor,
+            fontSize: 8,
+            letterSpacing: 1.4,
+            fontFamilyFallback: kWabMonoFallback,
+          ),
+        ),
+        const SizedBox(height: 18),
         for (var i = 0; i < _nav.length; i++)
           Opacity(
-            opacity: _selectedSection == i ? 1 : .68,
+            opacity: _selectedSection == i ? 1 : .67,
             child: WabTextButton(
               text: Text(
                 _nav[i],
                 style: TextStyle(
+                  fontSize: 9,
                   fontWeight: _selectedSection == i
                       ? FontWeight.w700
                       : FontWeight.w400,
@@ -191,7 +233,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
               ),
               callback: () => _jumpTo(i),
               mergeTop: i != 0,
-              padding: 12,
+              padding: 10,
             ),
           ),
         const Spacer(),
@@ -199,8 +241,8 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
           'LESS, BUT DEEPER.',
           style: TextStyle(
             color: WabTheme.mutedColor,
-            fontSize: 9,
-            letterSpacing: 3,
+            fontSize: 8,
+            letterSpacing: 2.6,
             fontFamilyFallback: kWabMonoFallback,
           ),
         ),
@@ -212,36 +254,36 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
-        final columns = width >= 1080 ? 3 : (width >= 720 ? 2 : 1);
-        final cardWidth = (width - 48 - (columns - 1) * 16) / columns;
+        final columns = width >= 980 ? 3 : (width >= 650 ? 2 : 1);
+        final cardWidth = (width - 44 - (columns - 1) * 12) / columns;
         return ListView(
-          padding: const EdgeInsets.fromLTRB(24, 26, 24, 72),
+          padding: const EdgeInsets.fromLTRB(22, 22, 22, 64),
           children: [
             Text(
               '取 法 自 然',
               style: TextStyle(
                 color: WabTheme.textColor,
-                fontSize: 34,
-                letterSpacing: 12,
+                fontSize: 30,
+                letterSpacing: 11,
                 fontFamilyFallback: kWabDisplayFallback,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 3),
             Text(
               'MATERIAL · TYPOGRAPHY · RHYTHM · COMPONENTS',
               style: TextStyle(
                 color: WabTheme.mutedColor,
-                fontSize: 10,
-                letterSpacing: 3,
+                fontSize: 8,
+                letterSpacing: 2.8,
                 fontFamilyFallback: kWabMonoFallback,
               ),
             ),
-            const SizedBox(height: 18),
+            const SizedBox(height: 15),
             WabBrushDivider(),
-            const SizedBox(height: 24),
+            const SizedBox(height: 18),
             Wrap(
-              spacing: 16,
-              runSpacing: 16,
+              spacing: 12,
+              runSpacing: 12,
               children: [
                 SizedBox(width: cardWidth, child: _section(0, _palette())),
                 SizedBox(width: cardWidth, child: _section(1, _materials())),
@@ -266,60 +308,51 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   Widget _section(int index, Widget child) {
     return KeyedSubtree(
       key: _sectionKeys[index],
-      child: WabRuleFrame(
-        kind: WabRuleKind.single,
-        fill: WabTheme.surfaceColor,
-        texture: WabPaperTexture(isDark: widget.isDark),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Text(
-                    _nav[index].substring(0, 2),
-                    style: TextStyle(
-                      color: WabTheme.textColor,
-                      fontSize: 18,
-                      fontFamilyFallback: kWabMonoFallback,
-                    ),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: WabTheme.lineColor.withOpacity(.42),
+            width: .55,
+          ),
+        ),
+        child: WabSurface(
+          kind: WabSurfaceKind.paper,
+          clip: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(13, 12, 13, 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _sectionTitle[index],
+                  style: TextStyle(
+                    color: WabTheme.textColor,
+                    fontSize: 14,
+                    letterSpacing: 1.1,
+                    fontWeight: FontWeight.w600,
+                    fontFamilyFallback: kWabDisplayFallback,
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      _nav[index].substring(3),
-                      style: TextStyle(
-                        color: WabTheme.textColor,
-                        fontSize: 18,
-                        letterSpacing: 1.5,
-                        fontFamilyFallback: kWabDisplayFallback,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 2),
-              Text(
-                _subtitles[index],
-                style: TextStyle(
-                  color: WabTheme.mutedColor,
-                  fontSize: 10,
-                  letterSpacing: 1,
-                  fontFamilyFallback: kWabKaiFallback,
                 ),
-              ),
-              const SizedBox(height: 10),
-              Divider(
-                color: WabTheme.lineColor,
-                thickness: WAB_RULE_HAIRLINE,
-                height: WAB_RULE_HAIRLINE,
-              ),
-              const SizedBox(height: 14),
-              child,
-            ],
+                const SizedBox(height: 3),
+                Text(
+                  _subtitles[index],
+                  style: TextStyle(
+                    color: WabTheme.mutedColor,
+                    fontSize: 8,
+                    letterSpacing: .7,
+                    fontFamilyFallback: kWabKaiFallback,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Divider(
+                  color: WabTheme.lineColor,
+                  thickness: WAB_RULE_HAIRLINE,
+                  height: WAB_RULE_HAIRLINE,
+                ),
+                const SizedBox(height: 11),
+                child,
+              ],
+            ),
           ),
         ),
       ),
@@ -332,36 +365,36 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       ('霧灰\nMIST', WabiSabiColors.mist),
       ('枯木\nDEADWOOD', WabiSabiColors.deadwood),
       ('墨\nINK', WabiSabiColors.ink),
-      ('青瓷\nJADE', WAB_JADE_BASE_LIGHT),
+      ('青瓷\nJADE', WAB_TEXTURE_JADE_BASE_LIGHT),
       ('黏土\nCLAY', WabiSabiColors.clay),
       ('竹青\nBAMBOO', WabiSabiColors.moss),
-      ('靛灰\nINDIGO', WabiSabiColors.indigoDye),
+      ('靛灰\nINDIGO', WAB_TEXTURE_CLOTH_BASE_LIGHT),
       ('秋褐\nRUST', WabiSabiColors.soil),
-      ('朱砂\nSEAL', WabiSabiColors.rust),
+      ('朱砂\nSEAL', WAB_LIGHT_SEAL),
     ];
     return Column(
       children: [
         Wrap(
-          spacing: 12,
-          runSpacing: 14,
+          spacing: 10,
+          runSpacing: 11,
           children: [for (final c in colors) _colorChip(c.$1, c.$2)],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         Row(
           children: [
-            Text('墨階', style: TextStyle(color: WabTheme.mutedColor, fontSize: 10)),
-            const SizedBox(width: 10),
+            Text('墨階', style: TextStyle(color: WabTheme.mutedColor, fontSize: 8)),
+            const SizedBox(width: 8),
             for (var i = 0; i < 7; i++) ...[
               Container(
-                width: 19,
-                height: 19,
+                width: 16,
+                height: 16,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Color.lerp(WabiSabiColors.washi, WabiSabiColors.ink, i / 6),
                   border: Border.all(color: WabTheme.lineColor),
                 ),
               ),
-              const SizedBox(width: 7),
+              const SizedBox(width: 5),
             ],
           ],
         ),
@@ -370,26 +403,26 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   }
 
   Widget _colorChip(String label, Color color) => SizedBox(
-        width: 58,
+        width: 51,
         child: Column(
           children: [
             Container(
-              width: 48,
-              height: 48,
+              width: 43,
+              height: 43,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: color,
                 border: Border.all(color: WabTheme.lineColor),
               ),
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 4),
             Text(
               label,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: WabTheme.mutedColor,
-                fontSize: 8,
-                height: 1.35,
+                fontSize: 7,
+                height: 1.3,
                 fontFamilyFallback: kWabKaiFallback,
               ),
             ),
@@ -399,34 +432,31 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
 
   Widget _materials() {
     final items = <(String, WabSurfaceKind)>[
-      ('紙 張 · PAPER', WabSurfaceKind.mottle),
+      ('紙 張 · PAPER', WabSurfaceKind.paper),
       ('木 板 · WOOD', WabSurfaceKind.woodGrain),
       ('布 料 · CLOTH', WabSurfaceKind.clothWeave),
       ('玉 石 · JADE', WabSurfaceKind.jadeSheen),
       ('白 文 · BAIWEN', WabSurfaceKind.rubbing),
-      ('朱 文 · ZHUWEN', WabSurfaceKind.patina),
+      ('朱 文 · ZHUWEN', WabSurfaceKind.cinnabar),
     ];
     return Wrap(
-      spacing: 10,
-      runSpacing: 10,
+      spacing: 9,
+      runSpacing: 9,
       children: [
         for (final item in items)
           SizedBox(
-            width: 112,
+            width: 105,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 62,
-                  width: 112,
-                  child: WabSurface(
-                    kind: item.$2,
-                    child: const SizedBox.expand(),
-                  ),
+                  height: 60,
+                  width: 105,
+                  child: WabSurface(kind: item.$2, child: const SizedBox.expand()),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 4),
                 Text(item.$1,
-                    style: TextStyle(color: WabTheme.mutedColor, fontSize: 8)),
+                    style: TextStyle(color: WabTheme.mutedColor, fontSize: 7)),
               ],
             ),
           ),
@@ -438,10 +468,10 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: _typeSpec('文', '正 文  SERIF', kWabKaiFallback, '天地有大美\n而不言')),
-        const SizedBox(width: 12),
+        Expanded(child: _typeSpec('文', '正文  SERIF', kWabKaiFallback, '天地有大美\n而不言')),
+        const SizedBox(width: 10),
         Expanded(child: _typeSpec('筆', '展示  DISPLAY', kWabDisplayFallback, '天地有大美\n而不言')),
-        const SizedBox(width: 12),
+        const SizedBox(width: 10),
         Expanded(child: _typeSpec('器', '等寬  MONO', kWabMonoFallback, '0123456789\nWabisabi()')),
       ],
     );
@@ -454,18 +484,18 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
         Text(glyph,
             style: TextStyle(
                 color: WabTheme.textColor,
-                fontSize: 42,
+                fontSize: 38,
                 height: 1,
                 fontFamilyFallback: family)),
-        const SizedBox(height: 8),
+        const SizedBox(height: 6),
         Text(label,
-            style: TextStyle(color: WabTheme.mutedColor, fontSize: 8, letterSpacing: 1)),
-        const SizedBox(height: 8),
+            style: TextStyle(color: WabTheme.mutedColor, fontSize: 7, letterSpacing: .8)),
+        const SizedBox(height: 6),
         Text(sample,
             style: TextStyle(
                 color: WabTheme.textColor,
-                fontSize: 14,
-                height: 1.4,
+                fontSize: 12,
+                height: 1.35,
                 fontFamilyFallback: family)),
       ],
     );
@@ -485,23 +515,23 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       ('毛邊 DECKLE', WabSurfaceKind.deckle),
     ];
     return Wrap(
-      spacing: 8,
-      runSpacing: 10,
+      spacing: 7,
+      runSpacing: 9,
       children: [
         for (final item in items)
           SizedBox(
-            width: 83,
+            width: 78,
             child: Column(
               children: [
                 SizedBox(
-                  height: 48,
-                  width: 83,
+                  height: 53,
+                  width: 78,
                   child: WabSurface(kind: item.$2, child: const SizedBox.expand()),
                 ),
                 const SizedBox(height: 4),
                 Text(item.$1,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: WabTheme.mutedColor, fontSize: 7.5)),
+                    style: TextStyle(color: WabTheme.mutedColor, fontSize: 6.5)),
               ],
             ),
           ),
@@ -511,6 +541,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
 
   Widget _rules() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -518,7 +549,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
               child: WabRuleFrame(
                 kind: WabRuleKind.single,
                 fill: WabTheme.paperWhite,
-                child: const SizedBox(height: 42),
+                child: const SizedBox(height: 37),
               ),
             ),
             const SizedBox(width: 12),
@@ -526,41 +557,43 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
               child: WabRuleFrame(
                 kind: WabRuleKind.double,
                 fill: WabTheme.paperWhite,
-                child: const SizedBox(height: 42),
+                child: const SizedBox(height: 37),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 5),
         Row(
           children: [
-            Expanded(child: Text('單欄  SINGLE RULE', style: TextStyle(color: WabTheme.mutedColor, fontSize: 8))),
+            Expanded(child: Text('單欄  SINGLE RULE', style: TextStyle(color: WabTheme.mutedColor, fontSize: 7))),
             const SizedBox(width: 12),
-            Expanded(child: Text('雙欄  DOUBLE RULE', style: TextStyle(color: WabTheme.mutedColor, fontSize: 8))),
+            Expanded(child: Text('雙欄  DOUBLE RULE', style: TextStyle(color: WabTheme.mutedColor, fontSize: 7))),
           ],
         ),
-        const SizedBox(height: 14),
-        WabPaperFold(
-          child: SizedBox(
-            height: 26,
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text('紙摺  PAPER FOLD', style: TextStyle(color: WabTheme.mutedColor, fontSize: 8)),
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 11),
+        WabPaperFold(height: 25),
+        const SizedBox(height: 4),
+        Text('紙摺  PAPER FOLD', style: TextStyle(color: WabTheme.mutedColor, fontSize: 7)),
+        const SizedBox(height: 8),
         WabBrushDivider(),
-        const SizedBox(height: 10),
-        DotGrid<int>(
-          rows: 1,
-          cols: 10,
-          states: List.generate(10, (i) => i),
-          styleOf: (s) => InkDotStyle(
-            color: s == 5 ? WabTheme.textColor : WabTheme.mutedColor.withOpacity(.48),
-          ),
-          dotSize: 7,
-          gap: 8,
+        const SizedBox(height: 2),
+        Row(
+          children: [
+            Text('筆觸分隔  BRUSH DIVIDER', style: TextStyle(color: WabTheme.mutedColor, fontSize: 7)),
+            const Spacer(),
+            DotGrid<int>(
+              rows: 1,
+              cols: 9,
+              states: List.generate(9, (i) => i),
+              styleOf: (s) => InkDotStyle(
+                color: s == 4
+                    ? WabTheme.textColor
+                    : WabTheme.mutedColor.withOpacity(.5),
+              ),
+              dotSize: 5,
+              gap: 7,
+            ),
+          ],
         ),
       ],
     );
@@ -575,88 +608,72 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       ('白文  BAIWEN', WabMaterialKind.baiwen),
       ('朱文  ZHUWEN', WabMaterialKind.zhuwen),
     ];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Wrap(
+      spacing: 10,
+      runSpacing: 10,
       children: [
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            for (final item in kinds)
-              SizedBox(
-                width: 118,
-                child: Column(
-                  children: [
-                    WabButton(
-                      kind: item.$2,
-                      onPressed: () {},
-                      expand: true,
-                      child: const Text('Button'),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(item.$1,
-                        style: TextStyle(color: WabTheme.mutedColor, fontSize: 8)),
-                  ],
+        for (final item in kinds)
+          SizedBox(
+            width: 112,
+            child: Column(
+              children: [
+                WabButton(
+                  kind: item.$2,
+                  onPressed: () {},
+                  expand: true,
+                  child: const Text('Button'),
                 ),
-              ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            Expanded(
-              child: WabElevatedButton(
-                text: const Text('WabElevatedButton'),
-                showChevron: true,
-                callback: () {},
-              ),
+                const SizedBox(height: 4),
+                Text(item.$1,
+                    style: TextStyle(color: WabTheme.mutedColor, fontSize: 7)),
+              ],
             ),
-            const SizedBox(width: 10),
-            WabIconButton(
-              icon: const Icon(Icons.brush, size: 17),
-              label: const Text('WabIconButton'),
-              callback: () {},
-            ),
-          ],
-        ),
+          ),
       ],
     );
   }
 
   Widget _states() {
-    final kinds = [WabMaterialKind.paper, WabMaterialKind.wood, WabMaterialKind.cloth];
-    Widget row(String label, {double opacity = 1, double dy = 0}) => Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Row(
-            children: [
-              SizedBox(width: 58, child: Text(label, style: TextStyle(color: WabTheme.mutedColor, fontSize: 9))),
-              for (final kind in kinds) ...[
-                Expanded(
-                  child: Transform.translate(
-                    offset: Offset(0, dy),
-                    child: Opacity(
-                      opacity: opacity,
-                      child: WabButton(
-                        kind: kind,
-                        onPressed: label == 'Disabled' ? null : () {},
-                        expand: true,
-                        child: const Text('Button'),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-              ],
-            ],
-          ),
-        );
+    const states = [
+      ('Default', WabButtonVisualState.normal),
+      ('Hover', WabButtonVisualState.hover),
+      ('Pressed', WabButtonVisualState.pressed),
+      ('Disabled', WabButtonVisualState.disabled),
+    ];
+    const kinds = [
+      WabMaterialKind.paper,
+      WabMaterialKind.wood,
+      WabMaterialKind.cloth,
+    ];
     return Column(
       children: [
-        row('Default'),
-        row('Hover', opacity: .9),
-        row('Pressed', dy: 1),
-        row('Disabled', opacity: .42),
-        const SizedBox(height: 8),
+        for (final state in states)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 7),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 52,
+                  child: Text(state.$1,
+                      style: TextStyle(color: WabTheme.mutedColor, fontSize: 7)),
+                ),
+                for (final kind in kinds) ...[
+                  Expanded(
+                    child: WabButton(
+                      kind: kind,
+                      state: state.$2,
+                      onPressed: state.$2 == WabButtonVisualState.disabled ? null : () {},
+                      expand: true,
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+                      child: const Text('Button'),
+                    ),
+                  ),
+                  const SizedBox(width: 7),
+                ],
+              ],
+            ),
+          ),
+        const SizedBox(height: 4),
         WabToggleButton(
           text: Text(_toggle ? 'ON · 玉印' : 'OFF · 玉印'),
           isOn: _toggle,
@@ -673,15 +690,15 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
         Row(
           children: [
             Expanded(child: WabTextFormField(hintText: '輸入文字…')),
-            const SizedBox(width: 10),
+            const SizedBox(width: 9),
             Expanded(child: WabSearchField(hintText: '搜尋…')),
           ],
         ),
-        const SizedBox(height: 10),
-        WabMultilineField(hintText: '多行輸入…', minLines: 2, maxLines: 3),
         const SizedBox(height: 8),
+        WabMultilineField(hintText: '多行輸入…', minLines: 2, maxLines: 3),
+        const SizedBox(height: 7),
         Wrap(
-          spacing: 10,
+          spacing: 8,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             WabCheckbox(
@@ -715,7 +732,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                 onChanged: (v) => setState(() => _dropdown = v ?? '春'),
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 9),
             Expanded(child: WabNumberFormField(value: 12, labelText: '數字')),
           ],
         ),
@@ -728,8 +745,8 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Wrap(
-          spacing: 8,
-          runSpacing: 8,
+          spacing: 7,
+          runSpacing: 7,
           children: [
             WabStatusBadge('Default'),
             WabStatusBadge('Primary', kind: WabBadgeKind.primary),
@@ -738,25 +755,17 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             WabStatusBadge('Error', kind: WabBadgeKind.error),
           ],
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 13),
         Row(
           children: [
-            WabSealMark(text: '侘寂', size: 54, seed: 3),
-            const SizedBox(width: 12),
-            WabSealMark(text: '留白', kind: WabSealMarkKind.zhuwen, size: 54, seed: 9),
-            const SizedBox(width: 12),
-            WabSurface(
-              kind: WabSurfaceKind.paper,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
-                child: Text('題\n簽', textAlign: TextAlign.center, style: TextStyle(color: WabTheme.textColor)),
-              ),
-            ),
+            WabSealMark(text: '侘寂', size: 50, seed: 3),
+            const SizedBox(width: 10),
+            WabSealMark(text: '留白', kind: WabSealMarkKind.zhuwen, size: 50, seed: 9),
             const Spacer(),
             const WabStarRating(rating: 4),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Row(
           children: [
             for (final color in [
@@ -765,8 +774,8 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
               WabTheme.mutedColor,
               WabTheme.offColor,
             ]) ...[
-              InkDot(style: InkDotStyle(color: color), size: 9),
-              const SizedBox(width: 7),
+              InkDot(style: InkDotStyle(color: color), size: 8),
+              const SizedBox(width: 6),
             ],
           ],
         ),
@@ -777,45 +786,46 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   Widget _cards() {
     return Column(
       children: [
+        WabPanel(
+          title: '面板標題',
+          trailing: const WabStatusBadge('PANEL'),
+          child: Text(
+            'WabPanel · 單欄紙面，內部只使用淡墨細線。',
+            style: TextStyle(color: WabTheme.mutedColor, fontSize: 9),
+          ),
+        ),
+        const SizedBox(height: 9),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: WabCollectionCard(
-                icon: Icon(Icons.auto_awesome_outlined, color: WabTheme.textColor, size: 32),
+                icon: Icon(Icons.auto_awesome_outlined,
+                    color: WabTheme.textColor, size: 26),
                 title: '基礎卡片',
                 description: '內容、題名與動作依古籍版心次序組織。',
                 buttonLabel: 'ACTION',
                 onPressed: () {},
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 9),
             Expanded(
-              child: WabPanel(
-                title: '面板標題',
-                trailing: const WabStatusBadge('PANEL'),
-                child: Text(
-                  'WabPanel 使用單粗欄，內部分隔仍保持淡墨細線。',
-                  style: TextStyle(color: WabTheme.mutedColor, fontSize: 11),
+              child: WabSurface(
+                kind: WabSurfaceKind.paper,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Text(
+                    '內容區塊\n\n用於放置具體內容，保持平面，不用不必要的 elevation。',
+                    style: TextStyle(
+                      color: WabTheme.textColor,
+                      fontSize: 9,
+                      height: 1.45,
+                    ),
+                  ),
                 ),
               ),
             ),
           ],
-        ),
-        const SizedBox(height: 10),
-        WabContentContainer(
-          child: Row(
-            children: [
-              WabImage(path: 'images/avatar.jpg', width: 54, height: 54, borderRadius: WAB_CARD_BORDER_RADIUS),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  'WabContentContainer · WabImage\n內容區塊保持平面，讓材質承擔層級。',
-                  style: TextStyle(color: WabTheme.textColor, fontSize: 10),
-                ),
-              ),
-            ],
-          ),
         ),
       ],
     );
@@ -826,26 +836,26 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
           child: Column(
             children: [
               Container(
-                height: 58,
+                height: 55,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
                   boxShadow: shadow,
                 ),
                 child: WabSurface(kind: kind, child: const SizedBox.expand()),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 5),
               Text(label,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: WabTheme.mutedColor, fontSize: 8)),
+                  style: TextStyle(color: WabTheme.mutedColor, fontSize: 7)),
             ],
           ),
         );
     return Row(
       children: [
-        sample('懸浮\nFLOATING', WabSurfaceKind.paper, WabTheme.elevationShadow),
-        const SizedBox(width: 12),
+        sample('紙 · 懸浮\nFLOATING', WabSurfaceKind.paper, WabTheme.elevationShadow),
+        const SizedBox(width: 10),
         sample('木 · 自然投影\nWOOD', WabSurfaceKind.woodGrain, WabTheme.elevationShadow),
-        const SizedBox(width: 12),
+        const SizedBox(width: 10),
         sample('玉 · 右下投影\nJADE', WabSurfaceKind.jadeSheen, WabTheme.elevationShadow),
       ],
     );
@@ -858,34 +868,34 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
           children: [
             Expanded(
               child: SizedBox(
-                height: 92,
+                height: 86,
                 child: WabSurface(
-                  kind: WabSurfaceKind.mottle,
+                  kind: WabSurfaceKind.paper,
                   isDark: false,
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(9),
                       child: Text('日：宣紙\nLIGHT THEME',
-                          style: TextStyle(color: WAB_LIGHT_TEXT, fontSize: 9)),
+                          style: TextStyle(color: WAB_LIGHT_TEXT, fontSize: 8)),
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 12),
             Expanded(
               child: SizedBox(
-                height: 92,
+                height: 86,
                 child: WabSurface(
                   kind: WabSurfaceKind.rubbing,
                   isDark: true,
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(9),
                       child: Text('夜：拓片\nDARK THEME',
-                          style: TextStyle(color: WAB_DARK_TEXT, fontSize: 9)),
+                          style: TextStyle(color: WAB_DARK_TEXT, fontSize: 8)),
                     ),
                   ),
                 ),
@@ -893,11 +903,11 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         WabTextButton(
           text: Text(widget.isDark ? '切換至宣紙 · LIGHT' : '切換至拓片 · DARK'),
           callback: widget.onToggleTheme,
-          padding: 12,
+          padding: 10,
         ),
       ],
     );
