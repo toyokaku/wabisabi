@@ -10,7 +10,7 @@ import '../materials/deckle_surface.dart';
 import '../materials/jade_texture.dart';
 import '../materials/paper_texture.dart';
 import '../materials/rubbing_texture.dart';
-import '../materials/wood_grain.dart';
+import '../materials/wood_slab.dart';
 
 /// Physical action surfaces. Material is part of state/meaning, not decoration.
 enum WabMaterialKind { paper, wood, cloth, seal, jade, baiwen, zhuwen }
@@ -245,12 +245,13 @@ class _WabButtonState extends State<WabButton> {
           child: content,
         ),
       WabMaterialKind.wood => _restingShadow(
-          ClipRRect(
-            borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
-            child: CustomPaint(
-              painter: WabWoodGrain(isDark: dark, showKnot: false),
-              child: content,
-            ),
+          WabWoodSlab(
+            isDark: dark,
+            seed: widget.seed ?? 201,
+            lifted: false,
+            showKnot: false,
+            radius: 3.0,
+            child: content,
           ),
           dark,
           state,
@@ -295,8 +296,6 @@ class _WabButtonState extends State<WabButton> {
     bool dark,
     WabButtonVisualState state,
   ) {
-    // Hover/pressed have a common interaction shadow outside the material.
-    // Keep the material's own resting shadow only in the normal state.
     final shadows = state == WabButtonVisualState.normal
         ? [
             BoxShadow(

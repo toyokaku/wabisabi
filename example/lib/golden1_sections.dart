@@ -91,7 +91,12 @@ Widget goldenMaterialsSection() {
               SizedBox(
                 height: 55,
                 width: 102,
-                child: WabSurface(kind: item.$2, child: const SizedBox.expand()),
+                child: item.$2 == WabSurfaceKind.woodGrain
+                    ? WabWoodSlab(
+                        radius: 3,
+                        child: const SizedBox.expand(),
+                      )
+                    : WabSurface(kind: item.$2, child: const SizedBox.expand()),
               ),
               const SizedBox(height: 3),
               Text(item.$1, style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6.2)),
