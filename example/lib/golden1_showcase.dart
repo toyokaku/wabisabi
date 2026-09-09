@@ -30,7 +30,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   // CI/local builds can override with --dart-define=WAB_BUILD_HASH=<sha>.
   static const _buildHash = String.fromEnvironment(
     'WAB_BUILD_HASH',
-    defaultValue: 'pending',
+    defaultValue: 'b16bd9d',
   );
 
   static const _nav = [
