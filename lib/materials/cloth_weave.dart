@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/texture.dart';
 
-/// 靛布布紋 — dense dyed warp/weft with small-scale over-under relief.
+/// 靛布布紋 — dyed warp/weft with small-scale over-under relief.
 ///
-/// There are no stray white slub lines; irregularity comes from yarn spacing
-/// and dye density so the swatch still reads as cloth when scaled down.
+/// Irregularity comes from yarn spacing and dye density, never stray white
+/// scratches. The pitch is dense enough to read as cloth at swatch scale but
+/// loose enough that individual warp/weft rhythm remains visible.
 class WabClothWeave extends CustomPainter {
   const WabClothWeave({this.isDark = false, this.seed = 509});
 
@@ -23,9 +24,9 @@ class WabClothWeave extends CustomPainter {
     final thread = isDark ? WAB_TEXTURE_CLOTH_THREAD_DARK : WAB_TEXTURE_CLOTH_THREAD_LIGHT;
     canvas.drawRect(Offset.zero & size, Paint()..color = base);
 
-    // Subtle indigo dye variation below the weave.
+    // Quiet indigo dye variation beneath the weave.
     for (var i = 0; i < 5; i++) {
-      final r = math.min(size.width, size.height) * (.16 + rnd.nextDouble() * .20);
+      final r = math.min(size.width, size.height) * (.16 + rnd.nextDouble() * .22);
       canvas.drawCircle(
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
@@ -35,30 +36,31 @@ class WabClothWeave extends CustomPainter {
       );
     }
 
-    // Smaller pitch than before: reads as woven cloth, not graph paper.
-    const pitch = 1.85;
+    // Slightly looser than the previous 1.85 pitch: still textile-dense, but
+    // no longer visually collapses into a solid micro-grid.
+    const pitch = 2.55;
     var row = 0;
     for (var y = -pitch; y <= size.height + pitch; y += pitch, row++) {
       var col = 0;
       for (var x = -pitch; x <= size.width + pitch; x += pitch, col++) {
         final over = (row + col).isEven;
-        final jy = (rnd.nextDouble() - .5) * .16;
-        final jx = (rnd.nextDouble() - .5) * .14;
+        final jy = (rnd.nextDouble() - .5) * .18;
+        final jx = (rnd.nextDouble() - .5) * .16;
 
         canvas.drawLine(
           Offset(x + jx, y + jy),
           Offset(x + pitch * .94 + jx, y + jy),
           Paint()
-            ..color = (over ? thread : deep).withOpacity(over ? .25 : .23)
-            ..strokeWidth = over ? .54 : .42
+            ..color = (over ? thread : deep).withOpacity(over ? .27 : .24)
+            ..strokeWidth = over ? .58 : .44
             ..strokeCap = StrokeCap.round,
         );
         canvas.drawLine(
           Offset(x + pitch * .47 + jx, y - pitch * .47 + jy),
           Offset(x + pitch * .47 + jx, y + pitch * .47 + jy),
           Paint()
-            ..color = (over ? deep : thread).withOpacity(over ? .21 : .24)
-            ..strokeWidth = over ? .40 : .52
+            ..color = (over ? deep : thread).withOpacity(over ? .22 : .25)
+            ..strokeWidth = over ? .42 : .55
             ..strokeCap = StrokeCap.round,
         );
       }
