@@ -27,10 +27,10 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   bool _toggle = true;
 
   // CI/local builds can override with --dart-define=WAB_BUILD_HASH=<sha>.
-  // The fallback is updated at the end of each visual refinement round.
+  // Fallback points at the visual-code baseline immediately before this stamp.
   static const _buildHash = String.fromEnvironment(
     'WAB_BUILD_HASH',
-    defaultValue: 'pending',
+    defaultValue: '1a6aa6b',
   );
 
   static const _nav = [
