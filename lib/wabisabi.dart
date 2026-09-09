@@ -18,12 +18,14 @@ export 'materials/brush_divider.dart';
 export 'materials/ink_wash.dart';
 export 'materials/rule_frame.dart';
 export 'materials/seal_mark.dart';
+export 'materials/surface.dart';
 
 // Components — widgets that read exclusively from the theme
 export 'components/wab_utils.dart';
 export 'components/scaffold.dart';
 export 'components/button.dart';
 export 'components/text.dart';
+export 'components/form.dart';
 export 'components/image.dart';
 export 'components/divider.dart';
 export 'components/panel.dart';

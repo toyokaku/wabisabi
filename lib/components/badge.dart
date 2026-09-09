@@ -3,25 +3,37 @@ import '../theme/wab_theme.dart';
 import '../tokens/spacing.dart';
 
 /// Semantic kinds for a [WabStatusBadge].
-enum WabBadgeKind { progress, done, neutral }
+///
+/// [progress] and [done] remain as compatibility aliases for older consumers;
+/// the golden board names the same semantic colors primary/success.
+enum WabBadgeKind {
+  neutral,
+  primary,
+  success,
+  warning,
+  error,
+  progress,
+  done,
+}
 
-/// A small pill badge for statuses like "進行中" (progress) or "完成" (done).
+/// A small status badge. Color comes from operational theme roles rather than
+/// from literal palette values.
 class WabStatusBadge extends StatelessWidget {
   const WabStatusBadge(this.label, {super.key, this.kind = WabBadgeKind.neutral});
 
   final String label;
   final WabBadgeKind kind;
 
-  Color get _bg {
-    switch (kind) {
-      case WabBadgeKind.progress:
-        return WabTheme.progressColor;
-      case WabBadgeKind.done:
-        return WabTheme.onColor;
-      case WabBadgeKind.neutral:
-        return WabTheme.woodyColor;
-    }
-  }
+  Color get _bg => switch (kind) {
+        WabBadgeKind.neutral => WabTheme.secondaryColor,
+        WabBadgeKind.primary || WabBadgeKind.progress => WabTheme.progressColor,
+        WabBadgeKind.success || WabBadgeKind.done => WabTheme.onColor,
+        WabBadgeKind.warning => WabTheme.accentColor,
+        WabBadgeKind.error => WabTheme.sealColor,
+      };
+
+  bool get _darkText =>
+      kind == WabBadgeKind.neutral || kind == WabBadgeKind.warning;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +46,7 @@ class WabStatusBadge extends StatelessWidget {
       child: Text(
         label,
         style: TextStyle(
-          // Neutral sits on light wood, so use the readable text color there.
-          color: kind == WabBadgeKind.neutral ? WabTheme.textColor : Colors.white,
+          color: _darkText ? WabTheme.textColor : WabTheme.paperWhite,
           fontSize: 13,
           fontWeight: FontWeight.w600,
           fontFamilyFallback: kWabKaiFallback,
