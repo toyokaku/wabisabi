@@ -155,7 +155,7 @@ class WabSwitch extends StatelessWidget {
               height: 25,
               child: CustomPaint(
                 painter: _FishTailTrackPainter(
-                  value: value ? 1 : 0,
+                  value: value ? 1.0 : 0.0,
                   enabled: onChanged != null,
                   binary: true,
                 ),
@@ -186,13 +186,16 @@ class WabSlider extends StatelessWidget {
   final double max;
 
   double _fromDx(double dx, double width) {
-    final t = ((dx - 10) / (width - 20)).clamp(0.0, 1.0);
+    if (width <= 20) return min;
+    final t = ((dx - 10) / (width - 20)).clamp(0.0, 1.0).toDouble();
     return min + (max - min) * t;
   }
 
   @override
   Widget build(BuildContext context) {
-    final t = max == min ? 0.0 : ((value - min) / (max - min)).clamp(0.0, 1.0);
+    final t = max == min
+        ? 0.0
+        : ((value - min) / (max - min)).clamp(0.0, 1.0).toDouble();
     return SizedBox(
       height: 27,
       child: LayoutBuilder(
@@ -237,7 +240,8 @@ class _FishTailTrackPainter extends CustomPainter {
     final y = size.height / 2;
     final left = 9.0;
     final right = size.width - 9.0;
-    final x = left + (right - left) * value.clamp(0.0, 1.0);
+    final t = value.clamp(0.0, 1.0).toDouble();
+    final x = left + (right - left) * t;
 
     canvas.drawLine(
       Offset(left, y),
@@ -256,7 +260,6 @@ class _FishTailTrackPainter extends CustomPainter {
       );
     }
 
-    // Horizontalized 魚尾: two black corners point toward the central rule.
     final top = Path()
       ..moveTo(x - 6.5, y - 8)
       ..lineTo(x + 6.5, y - 8)
