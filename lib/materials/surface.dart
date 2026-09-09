@@ -28,7 +28,7 @@ enum WabSurfaceKind {
   deckle,
 }
 
-/// Public material façade. Every catalogue material must come through the kit.
+/// Public material façade. Every catalogue material comes through the kit.
 class WabSurface extends StatelessWidget {
   WabSurface({
     super.key,
@@ -49,6 +49,9 @@ class WabSurface extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = isDark ?? WabTheme.isDark;
     final paper = dark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT;
+    final fibrePaper = dark
+        ? paper
+        : Color.alphaBlend(WAB_TEXTURE_PAPER_AGE_LIGHT.withOpacity(.055), paper);
     final content = Padding(padding: padding, child: child);
 
     Widget surface = switch (kind) {
@@ -57,15 +60,15 @@ class WabSurface extends StatelessWidget {
           child: WabPaperTexture(
             isDark: dark,
             strength: 1.05,
-            child: WabFiberTexture(isDark: dark, strength: .24, child: content),
+            child: WabFiberTexture(isDark: dark, strength: .12, child: content),
           ),
         ),
       WabSurfaceKind.fiber => ColoredBox(
-          color: paper,
+          color: fibrePaper,
           child: WabPaperTexture(
             isDark: dark,
-            strength: .85,
-            child: WabFiberTexture(isDark: dark, strength: 1.18, child: content),
+            strength: .70,
+            child: WabFiberTexture(isDark: dark, strength: .54, child: content),
           ),
         ),
       WabSurfaceKind.mottle => ColoredBox(
@@ -73,7 +76,7 @@ class WabSurface extends StatelessWidget {
           child: WabPaperTexture(
             isDark: dark,
             kind: WabPaperTextureKind.mottle,
-            strength: 1.35,
+            strength: 1.20,
             child: content,
           ),
         ),
@@ -85,7 +88,7 @@ class WabSurface extends StatelessWidget {
           color: paper,
           child: WabPaperTexture(
             isDark: dark,
-            strength: .65,
+            strength: .28,
             child: CustomPaint(painter: WabInkWash(isDark: dark), child: content),
           ),
         ),
@@ -93,7 +96,7 @@ class WabSurface extends StatelessWidget {
       WabSurfaceKind.cinnabar => WabCinnabarTexture(isDark: dark, child: content),
       WabSurfaceKind.deckle => WabDeckleSurface(
           fill: paper,
-          texture: WabPaperTexture(isDark: dark, strength: 1.05),
+          texture: WabPaperTexture(isDark: dark, strength: 1.0),
           roughness: 3.1,
           child: content,
         ),
