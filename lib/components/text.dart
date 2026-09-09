@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+
+import 'form.dart';
 import 'wab_widget.dart';
+import '../materials/rule_frame.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/spacing.dart';
 
+BoxDecoration _cupertinoFieldDecoration(WabRuleKind kind) => BoxDecoration(
+      color: WabTheme.scratchColor.withOpacity(.58),
+      border: Border.all(
+        color: WabTheme.lineColor.withOpacity(.82),
+        width: WabRuleFrame.ruleWidth(kind),
+      ),
+    );
+
 class WabWarningText extends Text {
   WabWarningText({required String text})
-      : super(text, style: TextStyle(color: Colors.red, fontSize: 15));
+      : super(text, style: const TextStyle(color: Colors.red, fontSize: 15));
 }
 
+/// Single-line text field uses the thin book rule (the inner rule of a double
+/// frame). Multi-line fields use [WabRuleKind.single] in `form.dart`.
 class WabTextFormField
     extends WabWidget<CupertinoTextFormFieldRow, Widget> {
   WabTextFormField({
@@ -18,7 +31,7 @@ class WabTextFormField
     this.hint,
     this.hintText,
     this.obscureText = false,
-    this.borderRadius = 8.0,
+    this.borderRadius = 0.0,
     this.padding = 15.0,
   });
 
@@ -39,10 +52,7 @@ class WabTextFormField
         placeholder: hint ?? hintText,
         padding: EdgeInsets.all(padding),
         style: TextStyle(color: WabTheme.textColor),
-        decoration: BoxDecoration(
-          color: WabTheme.scratchColor,
-          borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-        ),
+        decoration: _cupertinoFieldDecoration(WabRuleKind.thin),
       );
 
   @override
@@ -51,16 +61,11 @@ class WabTextFormField
         validator: validator,
         onChanged: callback,
         style: TextStyle(color: WabTheme.textColor),
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: EdgeInsets.symmetric(horizontal: padding),
-          fillColor: WabTheme.scratchColor,
-          filled: true,
+        decoration: wabInputDecoration(
           hintText: hint ?? hintText,
-          hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
+          kind: WabRuleKind.thin,
+        ).copyWith(
+          contentPadding: EdgeInsets.symmetric(horizontal: padding, vertical: 12),
         ),
       );
 }
@@ -82,11 +87,8 @@ class WabNumberFormField extends WabWidget<CupertinoTextField, Widget> {
         placeholder: labelText,
         keyboardType: TextInputType.number,
         style: TextStyle(color: WabTheme.textColor),
-        decoration: BoxDecoration(
-          color: WabTheme.scratchColor,
-          borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: _cupertinoFieldDecoration(WabRuleKind.thin),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
           LengthLimitingTextInputFormatter(maxLength),
@@ -98,16 +100,13 @@ class WabNumberFormField extends WabWidget<CupertinoTextField, Widget> {
         controller: TextEditingController(text: value.toString()),
         onSubmitted: callback,
         style: TextStyle(color: WabTheme.textColor),
-        decoration: InputDecoration(
+        decoration: wabInputDecoration(
+          hintText: labelText,
+          kind: WabRuleKind.thin,
+        ).copyWith(
           labelText: labelText,
           labelStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.7)),
-          fillColor: WabTheme.scratchColor,
-          filled: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
         keyboardType: TextInputType.number,
         inputFormatters: [
@@ -137,12 +136,12 @@ class WabSearchField extends WabWidget<CupertinoSearchTextField, Widget> {
         onChanged: onChanged,
         onSubmitted: onSubmitted,
         placeholder: hintText,
-        backgroundColor: WabTheme.scratchColor,
+        backgroundColor: WabTheme.scratchColor.withOpacity(.58),
         style: TextStyle(color: WabTheme.textColor),
         placeholderStyle:
             TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
-        borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-        padding: EdgeInsets.symmetric(vertical: 12),
+        borderRadius: BorderRadius.zero,
+        padding: const EdgeInsets.symmetric(vertical: 12),
       );
 
   @override
@@ -152,25 +151,12 @@ class WabSearchField extends WabWidget<CupertinoSearchTextField, Widget> {
         onSubmitted: onSubmitted,
         style: TextStyle(color: WabTheme.textColor),
         cursorColor: WabTheme.textColor,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: WabTheme.scratchColor,
+        decoration: wabInputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           prefixIcon: Icon(Icons.search, color: WabTheme.textColor),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            borderSide: BorderSide.none,
-          ),
+          kind: WabRuleKind.thin,
+        ).copyWith(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
       );
 }
