@@ -7,9 +7,9 @@ import 'paper_texture.dart';
 
 /// A large aged xuan sheet used as an application ground.
 ///
-/// It combines one physical paper base, pulp/mottle, long fibres, edge aging and
-/// optional broad fold lines. The sheet sizes itself to [child], so it also works
-/// inside scroll views.
+/// It combines one physical paper base, pulp/mottle, sparse fibres, edge aging
+/// and optional broad fold lines. The ground stays quieter than material
+/// specimens: it should support content rather than compete with it.
 class WabPaperSheet extends StatelessWidget {
   WabPaperSheet({
     super.key,
@@ -36,14 +36,14 @@ class WabPaperSheet extends StatelessWidget {
             child: WabPaperTexture(
               isDark: dark,
               kind: WabPaperTextureKind.mottle,
-              strength: dark ? .75 : 1.05,
+              strength: dark ? .58 : .72,
             ),
           ),
           Positioned.fill(
             child: WabFiberTexture(
               isDark: dark,
               seed: 991,
-              strength: dark ? .34 : .48,
+              strength: dark ? .12 : .16,
             ),
           ),
           Positioned.fill(
@@ -98,7 +98,13 @@ class _SheetAgePainter extends CustomPainter {
             ],
           ).createShader(band),
       );
-      canvas.drawLine(Offset(0, y), Offset(size.width, y + .35), Paint()..color = shadow.withOpacity(.25)..strokeWidth = .65);
+      canvas.drawLine(
+        Offset(0, y),
+        Offset(size.width, y + .35),
+        Paint()
+          ..color = shadow.withOpacity(.25)
+          ..strokeWidth = .65,
+      );
     }
 
     void vFold(double t) {
@@ -108,10 +114,21 @@ class _SheetAgePainter extends CustomPainter {
         band,
         Paint()
           ..shader = LinearGradient(
-            colors: [Colors.transparent, shadow.withOpacity(.055), light.withOpacity(.18), Colors.transparent],
+            colors: [
+              Colors.transparent,
+              shadow.withOpacity(.055),
+              light.withOpacity(.18),
+              Colors.transparent,
+            ],
           ).createShader(band),
       );
-      canvas.drawLine(Offset(x, 0), Offset(x + .3, size.height), Paint()..color = shadow.withOpacity(.18)..strokeWidth = .55);
+      canvas.drawLine(
+        Offset(x, 0),
+        Offset(x + .3, size.height),
+        Paint()
+          ..color = shadow.withOpacity(.18)
+          ..strokeWidth = .55,
+      );
     }
 
     for (final y in horizontalFolds) hFold(y);
@@ -126,5 +143,7 @@ class _SheetAgePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_SheetAgePainter old) =>
-      old.isDark != isDark || old.horizontalFolds != horizontalFolds || old.verticalFolds != verticalFolds;
+      old.isDark != isDark ||
+      old.horizontalFolds != horizontalFolds ||
+      old.verticalFolds != verticalFolds;
 }
