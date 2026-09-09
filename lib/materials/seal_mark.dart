@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../components/seal_text.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import 'cinnabar_texture.dart';
 import 'deckle_border.dart';
 
 /// Seal marks are cinnabar ink in both 白文 and 朱文 forms.
-/// 白文 = cinnabar face with paper-coloured carved glyphs.
-/// 朱文 = transparent paper face with cinnabar outline/glyphs.
 class WabSealMark extends StatelessWidget {
   WabSealMark({
     super.key,
@@ -27,10 +26,10 @@ class WabSealMark extends StatelessWidget {
     final bai = kind == WabSealMarkKind.baiwen;
     final red = WabTheme.sealColor;
     final shape = DeckleBorder(
-      roughness: .9,
-      horizontalRoughness: .9,
+      roughness: .46,
+      horizontalRoughness: .42,
       seed: seed,
-      radius: 3,
+      radius: 2.5,
       side: BorderSide(
         color: red,
         width: bai ? 1.0 : WAB_ZHUWEN_RULE_WIDTH,
@@ -56,21 +55,16 @@ class WabSealMark extends StatelessWidget {
             child: CustomPaint(painter: _SealOutlinePainter(shape)),
           ),
           Padding(
-            padding: EdgeInsets.all(size * .10),
+            padding: EdgeInsets.all(size * .085),
             child: FittedBox(
               fit: BoxFit.contain,
-              child: Transform.scale(
-                scaleX: 1.12,
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    color: bai ? WabTheme.paperWhite : red,
-                    fontWeight: FontWeight.w700,
-                    height: 1,
-                    letterSpacing: 0,
-                    fontFamilyFallback: kWabDisplayFallback,
-                  ),
-                ),
+              child: WabSealText(
+                text,
+                fontSize: size * .52,
+                color: bai ? WabTheme.paperWhite : red,
+                strokeWidth: size * .014,
+                widthScale: 1.05,
+                heightScale: .96,
               ),
             ),
           ),
