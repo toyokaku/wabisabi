@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
-import '../tokens/spacing.dart';
+import '../tokens/material.dart';
 
 enum WabBadgeKind {
   neutral,
