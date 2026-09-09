@@ -6,10 +6,6 @@ import 'fiber_texture.dart';
 import 'paper_texture.dart';
 
 /// A large aged xuan sheet used as an application ground.
-///
-/// It combines one physical paper base, pulp/mottle, sparse fibres, edge aging
-/// and optional broad fold lines. The ground stays quieter than material
-/// specimens: it should support content rather than compete with it.
 class WabPaperSheet extends StatelessWidget {
   WabPaperSheet({
     super.key,
@@ -80,9 +76,11 @@ class _SheetAgePainter extends CustomPainter {
     final light = isDark ? WAB_TEXTURE_PAPER_HIGHLIGHT_DARK : WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT;
     final age = isDark ? WAB_TEXTURE_PAPER_AGE_DARK : WAB_TEXTURE_PAPER_AGE_LIGHT;
 
+    // Internal grid folds are gapless: mostly a shallow shadow ridge, with only
+    // a hair of reflected light. No bright band that reads as spacing.
     void hFold(double t) {
       final y = size.height * t.clamp(0.0, 1.0);
-      final band = Rect.fromLTWH(0, y - 4, size.width, 9);
+      final band = Rect.fromLTWH(0, y - 2.8, size.width, 5.6);
       canvas.drawRect(
         band,
         Paint()
@@ -91,43 +89,44 @@ class _SheetAgePainter extends CustomPainter {
             end: Alignment.bottomCenter,
             colors: [
               Colors.transparent,
-              shadow.withOpacity(.07),
-              shadow.withOpacity(.15),
-              light.withOpacity(.22),
+              shadow.withOpacity(.055),
+              shadow.withOpacity(.14),
+              light.withOpacity(isDark ? .025 : .045),
               Colors.transparent,
             ],
           ).createShader(band),
       );
       canvas.drawLine(
         Offset(0, y),
-        Offset(size.width, y + .35),
+        Offset(size.width, y + .25),
         Paint()
-          ..color = shadow.withOpacity(.25)
-          ..strokeWidth = .65,
+          ..color = shadow.withOpacity(.22)
+          ..strokeWidth = .55,
       );
     }
 
     void vFold(double t) {
       final x = size.width * t.clamp(0.0, 1.0);
-      final band = Rect.fromLTWH(x - 4, 0, 9, size.height);
+      final band = Rect.fromLTWH(x - 2.8, 0, 5.6, size.height);
       canvas.drawRect(
         band,
         Paint()
           ..shader = LinearGradient(
             colors: [
               Colors.transparent,
-              shadow.withOpacity(.055),
-              light.withOpacity(.18),
+              shadow.withOpacity(.045),
+              shadow.withOpacity(.115),
+              light.withOpacity(isDark ? .020 : .035),
               Colors.transparent,
             ],
           ).createShader(band),
       );
       canvas.drawLine(
         Offset(x, 0),
-        Offset(x + .3, size.height),
+        Offset(x + .22, size.height),
         Paint()
-          ..color = shadow.withOpacity(.18)
-          ..strokeWidth = .55,
+          ..color = shadow.withOpacity(.17)
+          ..strokeWidth = .5,
       );
     }
 
