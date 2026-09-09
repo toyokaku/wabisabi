@@ -5,16 +5,13 @@ import 'button.dart';
 import 'seal_text.dart';
 
 /// Canonical full-face cinnabar seal action.
-///
-/// Use [WabMaterialKind.zhuwen] when an outlined 朱文 button is desired; this
-/// component represents the pressed red seal face itself.
 class WabSealButton extends StatelessWidget {
   const WabSealButton({
     super.key,
     required this.label,
     this.onPressed,
     this.expand = false,
-    this.fontSize = 22,
+    this.fontSize = 24,
   });
 
   final String label;
@@ -27,12 +24,12 @@ class WabSealButton extends StatelessWidget {
         kind: WabMaterialKind.seal,
         onPressed: onPressed,
         expand: expand,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 4),
         child: WabSealText(
           label,
           fontSize: fontSize,
           color: WabTheme.paperWhite,
-          strokeWidth: .72,
+          strokeWidth: .82,
         ),
       );
 }
