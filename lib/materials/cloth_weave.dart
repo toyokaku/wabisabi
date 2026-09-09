@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/texture.dart';
 
-/// 靛布布紋 — dyed warp/weft with over-under relief, uneven yarn and dye clouds.
+/// 靛布布紋 — dense dyed warp/weft with small-scale over-under relief.
+///
+/// There are no stray white slub lines; irregularity comes from yarn spacing
+/// and dye density so the swatch still reads as cloth when scaled down.
 class WabClothWeave extends CustomPainter {
   const WabClothWeave({this.isDark = false, this.seed = 509});
 
@@ -20,59 +23,45 @@ class WabClothWeave extends CustomPainter {
     final thread = isDark ? WAB_TEXTURE_CLOTH_THREAD_DARK : WAB_TEXTURE_CLOTH_THREAD_LIGHT;
     canvas.drawRect(Offset.zero & size, Paint()..color = base);
 
-    // Uneven indigo dye patches beneath the weave.
-    for (var i = 0; i < 7; i++) {
-      final r = math.min(size.width, size.height) * (.14 + rnd.nextDouble() * .24);
+    // Subtle indigo dye variation below the weave.
+    for (var i = 0; i < 5; i++) {
+      final r = math.min(size.width, size.height) * (.16 + rnd.nextDouble() * .20);
       canvas.drawCircle(
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
         Paint()
-          ..color = (i.isEven ? deep : thread).withOpacity(i.isEven ? .18 : .07)
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.max(4, r * .7)),
+          ..color = deep.withOpacity(.075 + rnd.nextDouble() * .045)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.max(4, r * .8)),
       );
     }
 
-    const pitch = 3.05;
-    // Draw short alternating segments instead of a perfect graph-paper grid.
+    // Smaller pitch than before: reads as woven cloth, not graph paper.
+    const pitch = 1.85;
     var row = 0;
     for (var y = -pitch; y <= size.height + pitch; y += pitch, row++) {
       var col = 0;
       for (var x = -pitch; x <= size.width + pitch; x += pitch, col++) {
         final over = (row + col).isEven;
-        final jy = (rnd.nextDouble() - .5) * .35;
-        final jx = (rnd.nextDouble() - .5) * .30;
+        final jy = (rnd.nextDouble() - .5) * .16;
+        final jx = (rnd.nextDouble() - .5) * .14;
+
         canvas.drawLine(
           Offset(x + jx, y + jy),
-          Offset(x + pitch * .92 + jx, y + jy),
+          Offset(x + pitch * .94 + jx, y + jy),
           Paint()
-            ..color = (over ? thread : deep).withOpacity(over ? .38 : .31)
-            ..strokeWidth = over ? .82 : .62
+            ..color = (over ? thread : deep).withOpacity(over ? .25 : .23)
+            ..strokeWidth = over ? .54 : .42
             ..strokeCap = StrokeCap.round,
         );
         canvas.drawLine(
-          Offset(x + pitch * .48 + jx, y - pitch * .48 + jy),
-          Offset(x + pitch * .48 + jx, y + pitch * .48 + jy),
+          Offset(x + pitch * .47 + jx, y - pitch * .47 + jy),
+          Offset(x + pitch * .47 + jx, y + pitch * .47 + jy),
           Paint()
-            ..color = (over ? deep : thread).withOpacity(over ? .29 : .34)
-            ..strokeWidth = over ? .58 : .76
+            ..color = (over ? deep : thread).withOpacity(over ? .21 : .24)
+            ..strokeWidth = over ? .40 : .52
             ..strokeCap = StrokeCap.round,
         );
       }
-    }
-
-    final slubs = (size.width * size.height / 1500).clamp(8, 70).round();
-    for (var i = 0; i < slubs; i++) {
-      final x = rnd.nextDouble() * size.width;
-      final y = rnd.nextDouble() * size.height;
-      final len = 4.0 + rnd.nextDouble() * 13;
-      canvas.drawLine(
-        Offset(x, y),
-        Offset(x + len, y + (rnd.nextDouble() - .5) * 1.7),
-        Paint()
-          ..color = thread.withOpacity(.13 + rnd.nextDouble() * .18)
-          ..strokeWidth = .75 + rnd.nextDouble() * 1.1
-          ..strokeCap = StrokeCap.round,
-      );
     }
   }
 
