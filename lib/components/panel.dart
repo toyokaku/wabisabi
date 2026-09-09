@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../theme/wab_theme.dart';
+import '../materials/paper_lift.dart';
 import '../materials/surface.dart';
+import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 
-/// Flat titled content surface. Panels intentionally use a hairline boundary;
-/// the heavier single/double book rules remain separate material primitives.
+/// Frameless titled paper panel. A subtle irregular contact shadow replaces the
+/// outer border; internal hairlines remain available for structure.
 class WabPanel extends StatelessWidget {
   const WabPanel({
     super.key,
@@ -47,7 +48,7 @@ class WabPanel extends StatelessWidget {
         ),
         const SizedBox(height: 7),
         Divider(
-          color: WabTheme.lineColor,
+          color: WabTheme.lineColor.withOpacity(.68),
           thickness: WAB_RULE_HAIRLINE,
           height: WAB_RULE_HAIRLINE,
         ),
@@ -56,13 +57,8 @@ class WabPanel extends StatelessWidget {
       ],
     );
 
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: WabTheme.lineColor,
-          width: WAB_RULE_HAIRLINE,
-        ),
-      ),
+    return WabPaperLift(
+      seed: 53,
       child: WabSurface(
         kind: WabSurfaceKind.paper,
         clip: false,
