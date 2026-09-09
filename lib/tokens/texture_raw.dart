@@ -3,6 +3,14 @@
 
 const int kTextureFiberLight = 0xFF9F927D;
 const int kTextureFiberDark = 0xFF9C9589;
+
+// Physical xuan sheet — warmer/darker than card white.
+const int kTexturePaperBaseLight = 0xFFE8E2D7;
+const int kTexturePaperBaseDark = 0xFF2A2620;
+const int kTexturePaperPulpLight = 0xFFB9AA94;
+const int kTexturePaperPulpDark = 0xFF777064;
+const int kTexturePaperAgeLight = 0xFF9D8060;
+const int kTexturePaperAgeDark = 0xFF544638;
 const int kTexturePaperCreaseLight = 0xFFBEB3A0;
 const int kTexturePaperHighlightLight = 0xFFFFFCF3;
 const int kTexturePaperCreaseDark = 0xFF5F5A50;
@@ -15,9 +23,9 @@ const int kTextureWoodBaseDark = 0xFF4A3425;
 const int kTextureWoodDeepDark = 0xFF241A14;
 const int kTextureWoodLightDark = 0xFF6B513A;
 
-const int kTextureClothBaseLight = 0xFF2C4A55;
-const int kTextureClothDeepLight = 0xFF172E37;
-const int kTextureClothThreadLight = 0xFF809099;
+const int kTextureClothBaseLight = 0xFF314B57;
+const int kTextureClothDeepLight = 0xFF182C34;
+const int kTextureClothThreadLight = 0xFF91A1A7;
 const int kTextureClothBaseDark = 0xFF203740;
 const int kTextureClothDeepDark = 0xFF0E2027;
 const int kTextureClothThreadDark = 0xFF61757E;
@@ -33,7 +41,7 @@ const int kTextureJadeVeinDark = 0xFFAFC0B5;
 
 const int kTextureRubbingBase = 0xFF24231F;
 const int kTextureRubbingDeep = 0xFF10100E;
-const int kTextureRubbingDust = 0xFF77756E;
+const int kTextureRubbingDust = 0xFF8A877E;
 const int kTextureRubbingFiber = 0xFFD5D0C5;
 
 const int kTexturePatinaBaseLight = 0xFFB28B60;
@@ -43,13 +51,13 @@ const int kTexturePatinaBaseDark = 0xFF65492F;
 const int kTexturePatinaDeepDark = 0xFF34271E;
 const int kTexturePatinaLightDark = 0xFF92704D;
 
-// Muted cinnabar sampled toward the golden board rather than orange lacquer.
-const int kTextureCinnabarBaseLight = 0xFF9A4337;
-const int kTextureCinnabarDeepLight = 0xFF6D2E27;
-const int kTextureCinnabarLightLight = 0xFFC77E70;
+// Muted cinnabar: a mineral red, not orange lacquer.
+const int kTextureCinnabarBaseLight = 0xFF96382F;
+const int kTextureCinnabarDeepLight = 0xFF67251F;
+const int kTextureCinnabarLightLight = 0xFFC06C61;
 const int kTextureCinnabarBaseDark = 0xFF9E493C;
 const int kTextureCinnabarDeepDark = 0xFF55241F;
 const int kTextureCinnabarLightDark = 0xFFC37A6C;
 
-const int kTextureFoldShadowLight = 0x555A5242;
+const int kTextureFoldShadowLight = 0x665A5242;
 const int kTextureFoldShadowDark = 0x66000000;

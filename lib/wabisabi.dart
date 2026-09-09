@@ -1,6 +1,6 @@
 library wabisabi;
 
-// Tokens
+// Tokens — raw semantic and physical values
 export 'tokens/palette.dart';
 export 'tokens/spacing.dart';
 export 'tokens/material.dart';
@@ -13,6 +13,8 @@ export 'theme/wab_theme.dart';
 export 'materials/deckle_border.dart';
 export 'materials/deckle_surface.dart';
 export 'materials/paper_texture.dart';
+export 'materials/paper_sheet.dart';
+export 'materials/paper_fold.dart';
 export 'materials/fiber_texture.dart';
 export 'materials/wood_grain.dart';
 export 'materials/cloth_weave.dart';
@@ -20,7 +22,6 @@ export 'materials/jade_texture.dart';
 export 'materials/rubbing_texture.dart';
 export 'materials/patina_texture.dart';
 export 'materials/cinnabar_texture.dart';
-export 'materials/paper_fold.dart';
 export 'materials/brush_divider.dart';
 export 'materials/ink_wash.dart';
 export 'materials/rule_frame.dart';

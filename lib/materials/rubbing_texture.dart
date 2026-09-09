@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../tokens/texture.dart';
 
-/// 拓片 / 白文石面 — charcoal stone with pale rubbed fibres and scratches.
+/// 拓片 / 白文石面 — dense charcoal rubbing, stone bloom, rubbed paper fibres.
 class WabRubbingTexture extends StatelessWidget {
   const WabRubbingTexture({super.key, this.child, this.seed = 613});
-
   final Widget? child;
   final int seed;
 
@@ -23,41 +22,52 @@ class _RubbingPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (size.isEmpty) return;
     final rnd = math.Random(seed);
     canvas.drawRect(Offset.zero & size, Paint()..color = WAB_TEXTURE_RUBBING_BASE);
 
-    for (var i = 0; i < 9; i++) {
-      final r = math.min(size.width, size.height) * (.10 + rnd.nextDouble() * .18);
-      canvas.drawCircle(
-        Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
-        r,
+    // Stone bloom: overlapping black and grey pressure patches.
+    for (var i = 0; i < 16; i++) {
+      final rx = math.max(8.0, size.width * (.07 + rnd.nextDouble() * .18));
+      final ry = math.max(7.0, size.height * (.08 + rnd.nextDouble() * .20));
+      canvas.drawOval(
+        Rect.fromCenter(
+          center: Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
+          width: rx * 2,
+          height: ry * 2,
+        ),
         Paint()
-          ..color = (i.isEven ? WAB_TEXTURE_RUBBING_DEEP : WAB_TEXTURE_RUBBING_DUST)
-              .withOpacity(i.isEven ? .28 : .12)
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * .55),
+          ..color = (i % 3 == 0 ? WAB_TEXTURE_RUBBING_DUST : WAB_TEXTURE_RUBBING_DEEP)
+              .withOpacity(i % 3 == 0 ? .18 : .34)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.max(3, rx * .42)),
       );
     }
 
-    final count = (size.width * size.height / 1800).clamp(16, 90).round();
-    for (var i = 0; i < count; i++) {
-      final x = rnd.nextDouble() * size.width;
-      final y = rnd.nextDouble() * size.height;
-      final len = 4.0 + rnd.nextDouble() * 20;
-      final angle = rnd.nextDouble() * math.pi * 2;
-      final path = Path()
-        ..moveTo(x, y)
-        ..quadraticBezierTo(
-          x + math.cos(angle) * len * .5 + (rnd.nextDouble() - .5) * 5,
-          y + math.sin(angle) * len * .5 + (rnd.nextDouble() - .5) * 5,
-          x + math.cos(angle) * len,
-          y + math.sin(angle) * len,
-        );
+    // Rubbed pinholes / exposed stone.
+    final specks = (size.width * size.height / 55).clamp(45, 1200).round();
+    for (var i = 0; i < specks; i++) {
+      final r = .25 + rnd.nextDouble() * (i % 17 == 0 ? 1.8 : .75);
+      canvas.drawCircle(
+        Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
+        r,
+        Paint()..color = WAB_TEXTURE_RUBBING_DUST.withOpacity(.07 + rnd.nextDouble() * .16),
+      );
+    }
+
+    // Fibres and scratches from the rubbing paper.
+    final fibres = (size.width * size.height / 720).clamp(20, 230).round();
+    for (var i = 0; i < fibres; i++) {
+      final p = Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height);
+      final a = rnd.nextDouble() * math.pi * 2;
+      final len = 5.0 + rnd.nextDouble() * 28;
+      final end = p + Offset(math.cos(a) * len, math.sin(a) * len);
+      final ctrl = Offset.lerp(p, end, .5)! + Offset((rnd.nextDouble() - .5) * 6, (rnd.nextDouble() - .5) * 6);
       canvas.drawPath(
-        path,
+        Path()..moveTo(p.dx, p.dy)..quadraticBezierTo(ctrl.dx, ctrl.dy, end.dx, end.dy),
         Paint()
-          ..color = WAB_TEXTURE_RUBBING_FIBER.withOpacity(.05 + rnd.nextDouble() * .13)
+          ..color = WAB_TEXTURE_RUBBING_FIBER.withOpacity(.06 + rnd.nextDouble() * .16)
           ..style = PaintingStyle.stroke
-          ..strokeWidth = .35 + rnd.nextDouble() * .65,
+          ..strokeWidth = .35 + rnd.nextDouble() * .75,
       );
     }
   }

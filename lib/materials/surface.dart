@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
-import '../tokens/palette.dart';
 import '../tokens/spacing.dart';
+import '../tokens/texture.dart';
 import 'cinnabar_texture.dart';
 import 'cloth_weave.dart';
 import 'deckle_surface.dart';
@@ -28,8 +28,7 @@ enum WabSurfaceKind {
   deckle,
 }
 
-/// Public material façade. Catalogue code should use this instead of local
-/// painters so every visible material remains part of the theme kit.
+/// Public material façade. Every catalogue material must come through the kit.
 class WabSurface extends StatelessWidget {
   WabSurface({
     super.key,
@@ -49,45 +48,52 @@ class WabSurface extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = isDark ?? WabTheme.isDark;
-    final paper = dark ? WAB_DARK_PAPER : WabiSabiColors.paperWhite;
+    final paper = dark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT;
     final content = Padding(padding: padding, child: child);
 
     Widget surface = switch (kind) {
       WabSurfaceKind.paper => ColoredBox(
           color: paper,
-          child: WabPaperTexture(isDark: dark, child: content),
+          child: WabPaperTexture(
+            isDark: dark,
+            strength: 1.05,
+            child: WabFiberTexture(isDark: dark, strength: .24, child: content),
+          ),
         ),
       WabSurfaceKind.fiber => ColoredBox(
           color: paper,
-          child: WabFiberTexture(isDark: dark, child: content),
+          child: WabPaperTexture(
+            isDark: dark,
+            strength: .85,
+            child: WabFiberTexture(isDark: dark, strength: 1.18, child: content),
+          ),
         ),
       WabSurfaceKind.mottle => ColoredBox(
           color: paper,
           child: WabPaperTexture(
             isDark: dark,
             kind: WabPaperTextureKind.mottle,
+            strength: 1.35,
             child: content,
           ),
         ),
-      WabSurfaceKind.woodGrain => CustomPaint(
-          painter: WabWoodGrain(isDark: dark),
-          child: content,
-        ),
+      WabSurfaceKind.woodGrain => CustomPaint(painter: WabWoodGrain(isDark: dark), child: content),
       WabSurfaceKind.clothWeave => WabClothTexture(isDark: dark, child: content),
       WabSurfaceKind.jadeSheen => WabJadeTexture(isDark: dark, child: content),
       WabSurfaceKind.rubbing => WabRubbingTexture(child: content),
       WabSurfaceKind.inkWash => ColoredBox(
           color: paper,
-          child: CustomPaint(
-            painter: WabInkWash(isDark: dark),
-            child: content,
+          child: WabPaperTexture(
+            isDark: dark,
+            strength: .65,
+            child: CustomPaint(painter: WabInkWash(isDark: dark), child: content),
           ),
         ),
       WabSurfaceKind.patina => WabPatinaTexture(isDark: dark, child: content),
       WabSurfaceKind.cinnabar => WabCinnabarTexture(isDark: dark, child: content),
       WabSurfaceKind.deckle => WabDeckleSurface(
           fill: paper,
-          texture: WabPaperTexture(isDark: dark),
+          texture: WabPaperTexture(isDark: dark, strength: 1.05),
           roughness: 3.1,
           child: content,
         ),

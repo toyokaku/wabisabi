@@ -3,6 +3,12 @@ import 'texture_raw.dart';
 
 const Color WAB_TEXTURE_FIBER_LIGHT = Color(kTextureFiberLight);
 const Color WAB_TEXTURE_FIBER_DARK = Color(kTextureFiberDark);
+const Color WAB_TEXTURE_PAPER_BASE_LIGHT = Color(kTexturePaperBaseLight);
+const Color WAB_TEXTURE_PAPER_BASE_DARK = Color(kTexturePaperBaseDark);
+const Color WAB_TEXTURE_PAPER_PULP_LIGHT = Color(kTexturePaperPulpLight);
+const Color WAB_TEXTURE_PAPER_PULP_DARK = Color(kTexturePaperPulpDark);
+const Color WAB_TEXTURE_PAPER_AGE_LIGHT = Color(kTexturePaperAgeLight);
+const Color WAB_TEXTURE_PAPER_AGE_DARK = Color(kTexturePaperAgeDark);
 const Color WAB_TEXTURE_PAPER_CREASE_LIGHT = Color(kTexturePaperCreaseLight);
 const Color WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT = Color(kTexturePaperHighlightLight);
 const Color WAB_TEXTURE_PAPER_CREASE_DARK = Color(kTexturePaperCreaseDark);
