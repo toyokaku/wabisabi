@@ -24,8 +24,14 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   int _radio = 0;
   bool _switch = true;
   double _slider = .42;
-  String _dropdown = '春';
   bool _toggle = true;
+
+  // CI/local builds can override with --dart-define=WAB_BUILD_HASH=<sha>.
+  // The fallback is updated at the end of each visual refinement round.
+  static const _buildHash = String.fromEnvironment(
+    'WAB_BUILD_HASH',
+    defaultValue: 'pending',
+  );
 
   static const _nav = [
     '01 色 · PALETTE',
@@ -65,10 +71,10 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '源自古籍的欄界語言',
     '多材質按鈕體系',
     '克制而自然的狀態變化',
-    '通用於現代應用的克制表單元素',
+    '欄界語言延伸至現代輸入控件',
     '源自印章與題簽的標記語言',
     '內容容器與信息組織',
-    '源自實物的自然投影',
+    '源自實物紙邊的接觸投影',
     '行墨與拓片的雙重世界',
   ];
 
@@ -105,22 +111,20 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                 seal: WabSealMark(text: '侘寂', size: 25, seed: 17),
                 trailing: [
                   Text(
-                    'v0.2\nLESS, BUT DEEPER.',
+                    'v0.2 · BUILD $_buildHash\nLESS, BUT DEEPER.',
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       color: WabTheme.mutedColor,
                       fontFamily: kWabMonoFamily,
                       fontSize: 7,
-                      letterSpacing: 1.7,
+                      letterSpacing: 1.45,
                       height: 1.35,
                     ),
                   ),
                   const SizedBox(width: 12),
                   WabIconButton(
                     icon: Icon(
-                      widget.isDark
-                          ? Icons.light_mode_outlined
-                          : Icons.dark_mode_outlined,
+                      widget.isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
                       size: 15,
                     ),
                     kind: WabMaterialKind.zhuwen,
@@ -129,11 +133,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                 ],
               ),
             ),
-            Divider(
-              height: 1,
-              thickness: WAB_RULE_HAIRLINE,
-              color: WabTheme.lineColor,
-            ),
+            Divider(height: 1, thickness: WAB_RULE_HAIRLINE, color: WabTheme.lineColor),
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -194,8 +194,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   style: TextStyle(
                     fontFamily: kWabMonoFamily,
                     fontSize: 8,
-                    fontWeight:
-                        _selected == i ? FontWeight.w500 : FontWeight.w400,
+                    fontWeight: _selected == i ? FontWeight.w500 : FontWeight.w400,
                     letterSpacing: .8,
                   ),
                 ),
@@ -223,19 +222,13 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth < 900) return _mobileBoard();
-
-        const totalHeight = 1100.0;
         return SingleChildScrollView(
           child: WabPaperSheet(
             isDark: widget.isDark,
-            horizontalFolds: const [
-              0.2227272727,
-              0.5,
-              0.7727272727,
-            ],
-            verticalFolds: const [0.3333333333, 0.6666666667],
-            child: SizedBox(
-              height: totalHeight,
+            horizontalFolds: const [.224, .505, .782],
+            verticalFolds: const [.333, .666],
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 30),
               child: Column(
                 children: [
                   _row(245, [0, 1, 2]),
@@ -278,9 +271,16 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          for (final index in indices)
+          for (var i = 0; i < indices.length; i++)
             Expanded(
-              child: ClipRect(child: _section(index)),
+              child: ClipRect(
+                child: Transform.scale(
+                  scaleX: 1.002,
+                  scaleY: 1.002,
+                  alignment: Alignment.center,
+                  child: _section(indices[i]),
+                ),
+              ),
             ),
         ],
       ),
@@ -304,12 +304,10 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
           radio: _radio,
           switchValue: _switch,
           slider: _slider,
-          dropdown: _dropdown,
           onCheck: (v) => setState(() => _check = v ?? false),
           onRadio: (v) => setState(() => _radio = v ?? 0),
           onSwitch: (v) => setState(() => _switch = v),
           onSlider: (v) => setState(() => _slider = v),
-          onDropdown: (v) => setState(() => _dropdown = v ?? '春'),
         ),
       8 => goldenMarksSection(),
       9 => goldenCardsSection(),
