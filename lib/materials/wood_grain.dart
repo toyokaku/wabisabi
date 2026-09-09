@@ -1,72 +1,69 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
-import '../tokens/material.dart';
+import '../tokens/texture.dart';
 
-/// 木紋 wood grain — sine grain lines + one knot + a lit top edge.
-/// Base and deep colors come from the material tokens, chosen by [isDark].
-/// Denser and finer than the RAG prototype (tight pitch, thin stroke).
-///
-/// Use as the background of a thick wooden surface:
-/// `CustomPaint(painter: WabWoodGrain(isDark: WabTheme.isDark), child: ...)`.
+/// 木紋 — warm timber with layered grain, pores, knot and a restrained top sheen.
 class WabWoodGrain extends CustomPainter {
-  const WabWoodGrain({this.isDark = false, this.seed = WAB_WOOD_SEED, this.showKnot = true});
+  const WabWoodGrain({this.isDark = false, this.seed = 3.0, this.showKnot = true});
 
   final bool isDark;
-
-  /// Grain wobble seed.
   final double seed;
-
-  /// Small surfaces (buttons) read better without a knot.
   final bool showKnot;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-    final base = isDark ? WAB_WOOD_BASE_DARK : WAB_WOOD_BASE_LIGHT;
-    final deep = isDark ? WAB_WOOD_DEEP_DARK : WAB_WOOD_DEEP_LIGHT;
+    final base = isDark ? WAB_TEXTURE_WOOD_BASE_DARK : WAB_TEXTURE_WOOD_BASE_LIGHT;
+    final deep = isDark ? WAB_TEXTURE_WOOD_DEEP_DARK : WAB_TEXTURE_WOOD_DEEP_LIGHT;
+    final light = isDark ? WAB_TEXTURE_WOOD_LIGHT_DARK : WAB_TEXTURE_WOOD_LIGHT_LIGHT;
+    canvas.drawRect(Offset.zero & size, Paint()..color = base);
 
-    canvas.drawRect(rect, Paint()..color = base);
-
-    final grainPaint = Paint()
-      ..color = deep.withOpacity(
-          isDark ? WAB_WOOD_GRAIN_OPACITY_DARK : WAB_WOOD_GRAIN_OPACITY_LIGHT)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = WAB_WOOD_GRAIN_STROKE;
-    final lines = (size.height / WAB_WOOD_GRAIN_SPACING).ceil();
+    final lines = (size.height / 3.4).ceil();
     for (var i = 0; i < lines; i++) {
-      final y0 = i * WAB_WOOD_GRAIN_SPACING + 1;
+      final y0 = i * 3.4 + 1;
       final path = Path()..moveTo(0, y0);
-      for (var x = 0.0; x <= size.width; x += WAB_WOOD_GRAIN_STEP) {
-        final wobble = math.sin(x * 0.02 + i * 1.3 + seed) * 2.6 +
-            math.sin(x * 0.061 + i * 0.7) * 1.2 +
-            math.sin(x * 0.15 + i * 2.1) * 0.5;
+      for (var x = 0.0; x <= size.width + 5; x += 3.5) {
+        final wobble = math.sin(x * .026 + i * 1.31 + seed) * 2.2 +
+            math.sin(x * .071 + i * .73) * .8 +
+            math.sin(x * .15 + i * 2.03) * .28;
         path.lineTo(x, y0 + wobble);
       }
-      canvas.drawPath(path, grainPaint);
+      canvas.drawPath(
+        path,
+        Paint()
+          ..color = (i % 4 == 0 ? light : deep)
+              .withOpacity(i % 4 == 0 ? .18 : .24)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = i % 5 == 0 ? .85 : .55,
+      );
     }
 
-    // One knot.
-    if (showKnot) {
-      final knotC = Offset(size.width * 0.70, size.height * 0.58);
-      for (var r = 2.0; r < 17.0; r += 2.8) {
+    // Fine longitudinal pores break the synthetic sine-wave regularity.
+    for (var i = 0; i < (size.width / 22).ceil(); i++) {
+      final x = ((i * 37.0 + seed * 11) % math.max(1, size.width));
+      final y = ((i * 19.0 + seed * 7) % math.max(1, size.height));
+      canvas.drawOval(
+        Rect.fromCenter(center: Offset(x, y), width: 4 + i % 7, height: .7),
+        Paint()..color = deep.withOpacity(.14),
+      );
+    }
+
+    if (showKnot && size.width > 70 && size.height > 35) {
+      final c = Offset(size.width * .72, size.height * .58);
+      for (var r = 3.0; r < math.min(17, size.height * .28); r += 3.1) {
         canvas.drawOval(
-          Rect.fromCenter(center: knotC, width: r * 2.5, height: r * 1.6),
+          Rect.fromCenter(center: c, width: r * 2.7, height: r * 1.5),
           Paint()
-            ..color = deep.withOpacity(WAB_WOOD_KNOT_OPACITY)
+            ..color = deep.withOpacity(.22)
             ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.1,
+            ..strokeWidth = .75,
         );
       }
     }
 
-    // Lit top edge.
     canvas.drawRect(
-      Rect.fromLTWH(0, 0, size.width, 1.5),
-      Paint()
-        ..color = Colors.white.withOpacity(
-            isDark ? WAB_WOOD_EDGE_OPACITY_DARK : WAB_WOOD_EDGE_OPACITY_LIGHT),
+      Rect.fromLTWH(0, 0, size.width, 1.2),
+      Paint()..color = light.withOpacity(isDark ? .08 : .24),
     );
   }
 

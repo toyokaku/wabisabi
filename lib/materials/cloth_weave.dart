@@ -1,64 +1,81 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
-import '../tokens/material.dart';
+import '../tokens/texture.dart';
 
-/// 布紋 cloth weave — 漢服材質. Two perpendicular sets of fine lines at a
-/// tight pitch, denser than the RAG prototype's textures. Base/deep colors
-/// come from the material tokens, chosen by [isDark].
-///
-/// The painter fills whatever area it is given; clip with a deckle shape
-/// when used on a wavy-edged cloth surface.
+/// 布紋 — visible indigo warp/weft with alternating thread relief and small
+/// slubs. This is intentionally textile, not a blue fill.
 class WabClothWeave extends CustomPainter {
-  const WabClothWeave({this.isDark = false});
+  const WabClothWeave({this.isDark = false, this.seed = 509});
 
   final bool isDark;
+  final int seed;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-    final base = isDark ? WAB_CLOTH_BASE_DARK : WAB_CLOTH_BASE_LIGHT;
-    final deep = isDark ? WAB_CLOTH_DEEP_DARK : WAB_CLOTH_DEEP_LIGHT;
-    final op =
-        isDark ? WAB_CLOTH_WEAVE_OPACITY_DARK : WAB_CLOTH_WEAVE_OPACITY_LIGHT;
+    final rnd = math.Random(seed);
+    final base = isDark ? WAB_TEXTURE_CLOTH_BASE_DARK : WAB_TEXTURE_CLOTH_BASE_LIGHT;
+    final deep = isDark ? WAB_TEXTURE_CLOTH_DEEP_DARK : WAB_TEXTURE_CLOTH_DEEP_LIGHT;
+    final thread = isDark ? WAB_TEXTURE_CLOTH_THREAD_DARK : WAB_TEXTURE_CLOTH_THREAD_LIGHT;
+    canvas.drawRect(Offset.zero & size, Paint()..color = base);
 
-    canvas.drawRect(rect, Paint()..color = base);
-
-    final weave = Paint()
-      ..color = deep.withOpacity(op)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.6;
-    // Warp (vertical) and weft (horizontal) at a fine pitch.
-    for (var x = 0.0; x <= size.width; x += WAB_CLOTH_WEAVE_SPACING) {
-      canvas.drawLine(Offset(x, 0), Offset(x, size.height), weave);
+    const pitch = 2.35;
+    var i = 0;
+    for (var x = 0.0; x <= size.width; x += pitch, i++) {
+      canvas.drawLine(
+        Offset(x, 0),
+        Offset(x + math.sin(i * .7) * .45, size.height),
+        Paint()
+          ..color = (i.isEven ? thread : deep).withOpacity(i.isEven ? .22 : .34)
+          ..strokeWidth = i % 5 == 0 ? .75 : .45,
+      );
     }
-    final weft = Paint()
-      ..color = deep.withOpacity(op * 0.8)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.6;
-    for (var y = 0.0; y <= size.height; y += WAB_CLOTH_WEAVE_SPACING) {
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), weft);
+    i = 0;
+    for (var y = 0.0; y <= size.height; y += pitch, i++) {
+      canvas.drawLine(
+        Offset(0, y),
+        Offset(size.width, y + math.cos(i * .61) * .38),
+        Paint()
+          ..color = (i.isEven ? deep : thread).withOpacity(i.isEven ? .30 : .16)
+          ..strokeWidth = i % 6 == 0 ? .72 : .42,
+      );
+    }
+
+    final slubs = (size.width * size.height / 2400).clamp(5, 45).round();
+    for (var s = 0; s < slubs; s++) {
+      final x = rnd.nextDouble() * size.width;
+      final y = rnd.nextDouble() * size.height;
+      final len = 3.0 + rnd.nextDouble() * 10;
+      canvas.drawLine(
+        Offset(x, y),
+        Offset(x + len, y + (rnd.nextDouble() - .5) * 1.5),
+        Paint()
+          ..color = thread.withOpacity(.10 + rnd.nextDouble() * .13)
+          ..strokeWidth = .7 + rnd.nextDouble() * .7
+          ..strokeCap = StrokeCap.round,
+      );
     }
   }
 
   @override
-  bool shouldRepaint(WabClothWeave old) => old.isDark != isDark;
+  bool shouldRepaint(WabClothWeave old) =>
+      old.isDark != isDark || old.seed != seed;
 }
 
-/// Convenience overlay widget form of [WabClothWeave], mirroring
-/// [WabPaperTexture]. [isDark] defaults to `WabTheme.isDark`.
 class WabClothTexture extends StatelessWidget {
-  // Non-const by design: reads WabTheme.isDark at build.
-  WabClothTexture({super.key, this.isDark, this.child});
+  WabClothTexture({super.key, this.isDark, this.child, this.seed = 509});
 
   final bool? isDark;
   final Widget? child;
+  final int seed;
 
   @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: WabClothWeave(isDark: isDark ?? WabTheme.isDark),
-      child: child,
-    );
-  }
+  Widget build(BuildContext context) => CustomPaint(
+        painter: WabClothWeave(
+          isDark: isDark ?? WabTheme.isDark,
+          seed: seed,
+        ),
+        child: child,
+      );
 }
