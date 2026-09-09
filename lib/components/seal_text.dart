@@ -27,10 +27,11 @@ class WabSealText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ink = color ?? WabTheme.textColor;
+    final effectiveSize = fontSize < 24 ? 24.0 : fontSize;
     final base = TextStyle(
       fontFamily: kWabDisplayFamily,
       fontFamilyFallback: kWabKaiFallback,
-      fontSize: fontSize,
+      fontSize: effectiveSize,
       fontWeight: FontWeight.w500,
       height: .92,
       letterSpacing: -.05,
