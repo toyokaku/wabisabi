@@ -3,6 +3,10 @@ import 'package:wabisabi/wabisabi.dart';
 
 /// Composition only: all visible primitives are public wabisabi APIs.
 Widget refinedRulesSection() {
+  final ruleFill = WabTheme.isDark
+      ? WabTheme.scratchColor
+      : WAB_TEXTURE_PAPER_BASE_LIGHT;
+
   Widget specimen(WabRuleKind kind, String label) => Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -11,7 +15,7 @@ Widget refinedRulesSection() {
               height: 52,
               child: WabRuleFrame(
                 kind: kind,
-                fill: WabTheme.scratchColor,
+                fill: ruleFill,
                 child: const SizedBox.expand(),
               ),
             ),
