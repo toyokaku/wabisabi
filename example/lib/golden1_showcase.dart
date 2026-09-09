@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wabisabi/wabisabi.dart';
 
+import 'golden1_refinements.dart';
 import 'golden1_sections.dart';
 
 class Golden1Showcase extends StatefulWidget {
@@ -27,10 +28,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   bool _toggle = true;
 
   // CI/local builds can override with --dart-define=WAB_BUILD_HASH=<sha>.
-  // Fallback points at the visual-code baseline immediately before this stamp.
   static const _buildHash = String.fromEnvironment(
     'WAB_BUILD_HASH',
-    defaultValue: '1a6aa6b',
+    defaultValue: 'pending',
   );
 
   static const _nav = [
@@ -68,7 +68,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '數字化的東方材質語言',
     '標題、正文、數字：統一的文字體系',
     '生成式材質表面（無圖片資產）',
-    '源自古籍的欄界語言',
+    '源自古籍的欄界與紙摺語言',
     '多材質按鈕體系',
     '克制而自然的狀態變化',
     '欄界語言延伸至現代輸入控件',
@@ -77,6 +77,23 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '源自實物紙邊的接觸投影',
     '行墨與拓片的雙重世界',
   ];
+
+  static const _desktopRows = <double>[245, 305, 300, 250];
+  static const _boardTop = 10.0;
+  static const _boardBottom = 30.0;
+
+  List<double> get _desktopFolds {
+    final total = _boardTop +
+        _boardBottom +
+        _desktopRows.fold<double>(0, (sum, value) => sum + value);
+    var cursor = _boardTop;
+    final result = <double>[];
+    for (var i = 0; i < _desktopRows.length - 1; i++) {
+      cursor += _desktopRows[i];
+      result.add(cursor / total);
+    }
+    return result;
+  }
 
   void _jumpTo(int index) {
     setState(() => _selected = index);
@@ -124,7 +141,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   const SizedBox(width: 12),
                   WabIconButton(
                     icon: Icon(
-                      widget.isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+                      widget.isDark
+                          ? Icons.light_mode_outlined
+                          : Icons.dark_mode_outlined,
                       size: 15,
                     ),
                     kind: WabMaterialKind.zhuwen,
@@ -133,7 +152,11 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                 ],
               ),
             ),
-            Divider(height: 1, thickness: WAB_RULE_HAIRLINE, color: WabTheme.lineColor),
+            Divider(
+              height: 1,
+              thickness: WAB_RULE_HAIRLINE,
+              color: WabTheme.lineColor,
+            ),
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -194,7 +217,8 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   style: TextStyle(
                     fontFamily: kWabMonoFamily,
                     fontSize: 8,
-                    fontWeight: _selected == i ? FontWeight.w500 : FontWeight.w400,
+                    fontWeight:
+                        _selected == i ? FontWeight.w500 : FontWeight.w400,
                     letterSpacing: .8,
                   ),
                 ),
@@ -225,16 +249,16 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
         return SingleChildScrollView(
           child: WabPaperSheet(
             isDark: widget.isDark,
-            horizontalFolds: const [.224, .505, .782],
-            verticalFolds: const [.333, .666],
+            horizontalFolds: _desktopFolds,
+            verticalFolds: const [.333333, .666667],
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 10, 16, 30),
+              padding: const EdgeInsets.fromLTRB(16, _boardTop, 16, _boardBottom),
               child: Column(
                 children: [
-                  _row(245, [0, 1, 2]),
-                  _row(305, [3, 4, 5]),
-                  _row(300, [6, 7, 8]),
-                  _row(250, [9, 10, 11]),
+                  _row(_desktopRows[0], [0, 1, 2]),
+                  _row(_desktopRows[1], [3, 4, 5]),
+                  _row(_desktopRows[2], [6, 7, 8]),
+                  _row(_desktopRows[3], [9, 10, 11]),
                 ],
               ),
             ),
@@ -271,14 +295,14 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          for (var i = 0; i < indices.length; i++)
+          for (final index in indices)
             Expanded(
               child: ClipRect(
                 child: Transform.scale(
                   scaleX: 1.002,
                   scaleY: 1.002,
-                  alignment: Alignment.center,
-                  child: _section(indices[i]),
+                  alignment: Alignment.topLeft,
+                  child: _section(index),
                 ),
               ),
             ),
@@ -293,8 +317,8 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       1 => goldenMaterialsSection(),
       2 => goldenTypographySection(),
       3 => goldenSurfacesSection(),
-      4 => goldenRulesSection(),
-      5 => goldenButtonsSection(),
+      4 => refinedRulesSection(),
+      5 => refinedButtonsSection(),
       6 => goldenStatesSection(
           toggle: _toggle,
           onToggle: () => setState(() => _toggle = !_toggle),
