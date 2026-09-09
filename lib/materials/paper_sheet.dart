@@ -8,8 +8,8 @@ import 'paper_texture.dart';
 /// A large aged xuan sheet used as an application ground.
 ///
 /// It combines one physical paper base, pulp/mottle, long fibres, edge aging and
-/// optional broad fold lines. This prevents applications from stacking a near-
-/// white card texture over the warm page and losing all material character.
+/// optional broad fold lines. The sheet sizes itself to [child], so it also works
+/// inside scroll views.
 class WabPaperSheet extends StatelessWidget {
   WabPaperSheet({
     super.key,
@@ -31,19 +31,28 @@ class WabPaperSheet extends StatelessWidget {
     return ColoredBox(
       color: base,
       child: Stack(
-        fit: StackFit.expand,
         children: [
-          WabPaperTexture(
-            isDark: dark,
-            kind: WabPaperTextureKind.mottle,
-            strength: dark ? .75 : 1.05,
-          ),
-          WabFiberTexture(isDark: dark, seed: 991, strength: dark ? .34 : .48),
-          CustomPaint(
-            painter: _SheetAgePainter(
+          Positioned.fill(
+            child: WabPaperTexture(
               isDark: dark,
-              horizontalFolds: horizontalFolds,
-              verticalFolds: verticalFolds,
+              kind: WabPaperTextureKind.mottle,
+              strength: dark ? .75 : 1.05,
+            ),
+          ),
+          Positioned.fill(
+            child: WabFiberTexture(
+              isDark: dark,
+              seed: 991,
+              strength: dark ? .34 : .48,
+            ),
+          ),
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _SheetAgePainter(
+                isDark: dark,
+                horizontalFolds: horizontalFolds,
+                verticalFolds: verticalFolds,
+              ),
             ),
           ),
           child,
@@ -73,26 +82,34 @@ class _SheetAgePainter extends CustomPainter {
 
     void hFold(double t) {
       final y = size.height * t.clamp(0.0, 1.0);
+      final band = Rect.fromLTWH(0, y - 4, size.width, 9);
       canvas.drawRect(
-        Rect.fromLTWH(0, y - 4, size.width, 9),
+        band,
         Paint()
           ..shader = LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.transparent, shadow.withOpacity(.07), shadow.withOpacity(.15), light.withOpacity(.22), Colors.transparent],
-          ).createShader(Rect.fromLTWH(0, y - 4, size.width, 9)),
+            colors: [
+              Colors.transparent,
+              shadow.withOpacity(.07),
+              shadow.withOpacity(.15),
+              light.withOpacity(.22),
+              Colors.transparent,
+            ],
+          ).createShader(band),
       );
       canvas.drawLine(Offset(0, y), Offset(size.width, y + .35), Paint()..color = shadow.withOpacity(.25)..strokeWidth = .65);
     }
 
     void vFold(double t) {
       final x = size.width * t.clamp(0.0, 1.0);
+      final band = Rect.fromLTWH(x - 4, 0, 9, size.height);
       canvas.drawRect(
-        Rect.fromLTWH(x - 4, 0, 9, size.height),
+        band,
         Paint()
           ..shader = LinearGradient(
             colors: [Colors.transparent, shadow.withOpacity(.055), light.withOpacity(.18), Colors.transparent],
-          ).createShader(Rect.fromLTWH(x - 4, 0, 9, size.height)),
+          ).createShader(band),
       );
       canvas.drawLine(Offset(x, 0), Offset(x + .3, size.height), Paint()..color = shadow.withOpacity(.18)..strokeWidth = .55);
     }
@@ -100,7 +117,6 @@ class _SheetAgePainter extends CustomPainter {
     for (final y in horizontalFolds) hFold(y);
     for (final x in verticalFolds) vFold(x);
 
-    // Old-sheet edge falloff, very soft and uneven.
     final edge = Paint()..color = age.withOpacity(isDark ? .05 : .055);
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, 2.2), edge);
     canvas.drawRect(Rect.fromLTWH(0, size.height - 3.2, size.width, 3.2), edge);
