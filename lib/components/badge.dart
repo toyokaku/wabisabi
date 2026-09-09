@@ -14,8 +14,8 @@ enum WabBadgeKind {
   done,
 }
 
-/// Small semantic status label. Edges are intentionally only barely irregular
-/// so badges and archival tags share the same material grammar.
+/// Small semantic status label. Edges share the same restrained deckle amount
+/// as seals and archival tags, so none reads as either plastic-perfect or torn.
 class WabStatusBadge extends StatelessWidget {
   const WabStatusBadge(
     this.label, {
@@ -43,8 +43,8 @@ class WabStatusBadge extends StatelessWidget {
         ? BorderSide(color: WabTheme.lineColor, width: WAB_RULE_HAIRLINE)
         : BorderSide.none;
     final shape = DeckleBorder(
-      roughness: .34,
-      horizontalRoughness: .30,
+      roughness: .42,
+      horizontalRoughness: .42,
       seed: 120 + kind.index * 17,
       radius: 10,
       side: side,
