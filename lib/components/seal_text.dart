@@ -26,7 +26,11 @@ class WabSealText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ink = color ?? WabTheme.textColor;
+    // Inherit the surrounding component ink first. This is important for
+    // negative/白文 surfaces: a WabButton can declare white seal ink and
+    // WabSealText follows it in both light and dark themes.
+    final inherited = DefaultTextStyle.of(context).style.color;
+    final ink = color ?? inherited ?? WabTheme.textColor;
     final effectiveSize = fontSize < 24 ? 24.0 : fontSize;
     final base = TextStyle(
       fontFamily: kWabDisplayFamily,
