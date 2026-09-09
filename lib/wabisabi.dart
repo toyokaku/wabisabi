@@ -1,6 +1,6 @@
 library wabisabi;
 
-// Tokens — raw semantic and physical values
+// Tokens
 export 'tokens/palette.dart';
 export 'tokens/spacing.dart';
 export 'tokens/material.dart';
@@ -8,6 +8,7 @@ export 'tokens/texture.dart';
 
 // Theme
 export 'theme/wab_theme.dart';
+export 'theme/typography.dart';
 
 // Materials
 export 'materials/deckle_border.dart';
@@ -40,5 +41,8 @@ export 'components/panel.dart';
 export 'components/badge.dart';
 export 'components/sidebar.dart';
 export 'components/banner.dart';
+export 'components/editorial_banner.dart';
+export 'components/tag.dart';
+export 'components/notice.dart';
 export 'components/card.dart';
 export 'components/dot_grid.dart';
