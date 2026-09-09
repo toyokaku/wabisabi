@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../materials/deckle_border.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 
@@ -13,7 +14,8 @@ enum WabBadgeKind {
   done,
 }
 
-/// Small semantic pill used for status labels on the material board.
+/// Small semantic status label. Edges are intentionally only barely irregular
+/// so badges and archival tags share the same material grammar.
 class WabStatusBadge extends StatelessWidget {
   const WabStatusBadge(
     this.label, {
@@ -36,15 +38,21 @@ class WabStatusBadge extends StatelessWidget {
       kind == WabBadgeKind.neutral || kind == WabBadgeKind.warning;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) {
+    final side = kind == WabBadgeKind.neutral
+        ? BorderSide(color: WabTheme.lineColor, width: WAB_RULE_HAIRLINE)
+        : BorderSide.none;
+    final shape = DeckleBorder(
+      roughness: .34,
+      horizontalRoughness: .30,
+      seed: 120 + kind.index * 17,
+      radius: 10,
+      side: side,
+    );
+    return DecoratedBox(
+      decoration: ShapeDecoration(color: _bg, shape: shape),
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-        decoration: BoxDecoration(
-          color: _bg,
-          borderRadius: BorderRadius.circular(999),
-          border: kind == WabBadgeKind.neutral
-              ? Border.all(color: WabTheme.lineColor, width: WAB_RULE_HAIRLINE)
-              : null,
-        ),
         child: Text(
           label,
           style: TextStyle(
@@ -55,7 +63,9 @@ class WabStatusBadge extends StatelessWidget {
             fontFamilyFallback: kWabKaiFallback,
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class WabStarRating extends StatelessWidget {
