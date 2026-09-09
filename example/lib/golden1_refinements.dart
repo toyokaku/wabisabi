@@ -48,7 +48,7 @@ Widget refinedRulesSection() {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 7, child: WabPaperFold(height: 7)),
+                SizedBox(height: 7, child: WabPaperFold(height: 7)),
                 const SizedBox(height: 4),
                 Text(
                   '紙摺分隔 · PAPER FOLD',
