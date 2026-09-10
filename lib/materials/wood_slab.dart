@@ -6,7 +6,7 @@ import 'wood_grain.dart';
 /// 木板 — a rigid wood material form built on top of [WabWoodGrain].
 ///
 /// This is intentionally different from a plain wood-grain surface: a slab has
-/// a restrained physical edge, directional bevel light and a right/down contact
+/// a small physical edge, directional bevel light and a right/down contact
 /// shadow. Use the flat [WabWoodGrain] painter when only surface texture is
 /// desired.
 class WabWoodSlab extends StatelessWidget {
@@ -37,20 +37,11 @@ class WabWoodSlab extends StatelessWidget {
         borderRadius: shape,
         boxShadow: lifted
             ? [
-                // Tight contact shadow: gives the slab a physical footprint,
-                // similar in weight to jade without making wood look polished.
                 BoxShadow(
-                  color: Colors.black.withOpacity(dark ? .30 : .17),
-                  blurRadius: 3.2,
-                  spreadRadius: -.35,
-                  offset: const Offset(1.8, 2.5),
-                ),
-                // Soft lift behind the contact edge.
-                BoxShadow(
-                  color: Colors.black.withOpacity(dark ? .16 : .085),
-                  blurRadius: 7.0,
-                  spreadRadius: -1.0,
-                  offset: const Offset(2.8, 4.0),
+                  color: Colors.black.withOpacity(dark ? .28 : .14),
+                  blurRadius: 5.5,
+                  spreadRadius: -.7,
+                  offset: const Offset(2.2, 3.0),
                 ),
               ]
             : const <BoxShadow>[],
@@ -80,61 +71,30 @@ class _WoodSlabEdgePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (size.isEmpty) return;
 
-    final highlight = Colors.white.withOpacity(dark ? .09 : .27);
-    final side = Colors.black.withOpacity(dark ? .29 : .20);
-    final sideSoft = Colors.black.withOpacity(dark ? .13 : .085);
+    final light = Colors.white.withOpacity(dark ? .08 : .24);
+    final darkEdge = Colors.black.withOpacity(dark ? .26 : .18);
 
-    // Wood should read as a slab, but with a noticeably smaller bevel than jade.
-    // The upper/left face catches light; lower/right expose a narrow thickness.
-    final topPaint = Paint()
-      ..color = highlight
-      ..strokeWidth = 1.15
+    final highlight = Paint()
+      ..color = light
+      ..strokeWidth = .85
+      ..style = PaintingStyle.stroke;
+    final shade = Paint()
+      ..color = darkEdge
+      ..strokeWidth = 1.0
       ..style = PaintingStyle.stroke;
 
+    // The top/left catch light while the lower/right edges reveal thickness.
+    canvas.drawLine(const Offset(.8, .8), Offset(size.width - 1.0, .8), highlight);
+    canvas.drawLine(const Offset(.8, .8), Offset(.8, size.height - 1.0), highlight);
     canvas.drawLine(
-      const Offset(.9, .9),
-      Offset(size.width - 1.2, .9),
-      topPaint,
-    );
-    canvas.drawLine(
-      const Offset(.9, .9),
-      Offset(.9, size.height - 1.2),
-      topPaint,
-    );
-
-    // A narrow side face instead of a single hairline. This is intentionally
-    // subtler than the jade edge, but thick enough to survive small specimens.
-    final bottomFace = Rect.fromLTWH(
-      1.0,
-      size.height - 1.75,
-      (size.width - 2.75).clamp(0.0, size.width).toDouble(),
-      1.75,
-    );
-    final rightFace = Rect.fromLTWH(
-      size.width - 1.65,
-      1.0,
-      1.65,
-      (size.height - 2.65).clamp(0.0, size.height).toDouble(),
-    );
-
-    canvas.drawRect(bottomFace, Paint()..color = side);
-    canvas.drawRect(rightFace, Paint()..color = side);
-
-    // Feather the side face inward so the bevel feels cut from wood rather than
-    // drawn as a hard UI border.
-    canvas.drawLine(
-      Offset(1.1, size.height - 2.1),
-      Offset(size.width - 2.0, size.height - 2.1),
-      Paint()
-        ..color = sideSoft
-        ..strokeWidth = .7,
+      Offset(1.0, size.height - .8),
+      Offset(size.width - .8, size.height - .8),
+      shade,
     );
     canvas.drawLine(
-      Offset(size.width - 2.0, 1.1),
-      Offset(size.width - 2.0, size.height - 2.0),
-      Paint()
-        ..color = sideSoft
-        ..strokeWidth = .7,
+      Offset(size.width - .8, 1.0),
+      Offset(size.width - .8, size.height - .8),
+      shade,
     );
   }
 
