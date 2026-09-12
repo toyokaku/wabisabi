@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:wabisabi/wabisabi.dart';
 
 /// Composition only: all visible primitives are public wabisabi APIs.
-Widget refinedRulesSection() {
-  final ruleFill = WabTheme.isDark
-      ? WabTheme.scratchColor
+Widget refinedRulesSection(BuildContext context) {
+  final wab = WabTheme.of(context);
+  final ruleFill = wab.isDark
+      ? wab.scratchColor
       : WAB_TEXTURE_PAPER_BASE_LIGHT;
 
   Widget specimen(WabRuleKind kind, String label) => Expanded(
@@ -23,9 +24,9 @@ Widget refinedRulesSection() {
             Text(
               label,
               style: TextStyle(
-                color: WabTheme.mutedColor,
+                color: wab.mutedColor,
                 fontFamily: kWabMonoFamily,
-                fontSize: 5.7,
+                fontSize: WabType.annotation,
               ),
             ),
           ],
@@ -57,9 +58,9 @@ Widget refinedRulesSection() {
                 Text(
                   '紙摺分隔 · PAPER FOLD',
                   style: TextStyle(
-                    color: WabTheme.mutedColor,
+                    color: wab.mutedColor,
                     fontFamily: kWabMonoFamily,
-                    fontSize: 5.8,
+                    fontSize: WabType.annotation,
                   ),
                 ),
               ],
@@ -73,14 +74,14 @@ Widget refinedRulesSection() {
                 SizedBox(
                   height: 42,
                   child: WabFoldFrame(
-                    fill: WabTheme.backgroundColor,
+                    fill: wab.backgroundColor,
                     padding: const EdgeInsets.all(7),
                     child: Center(
                       child: Text(
                         '四 摺 紙 格',
                         style: TextStyle(
-                          color: WabTheme.mutedColor,
-                          fontSize: 7,
+                          color: wab.mutedColor,
+                          fontSize: WabType.annotation,
                           letterSpacing: 1.2,
                         ),
                       ),
@@ -91,9 +92,9 @@ Widget refinedRulesSection() {
                 Text(
                   '四摺紙格 · FOLD FRAME',
                   style: TextStyle(
-                    color: WabTheme.mutedColor,
+                    color: wab.mutedColor,
                     fontFamily: kWabMonoFamily,
-                    fontSize: 5.8,
+                    fontSize: WabType.annotation,
                   ),
                 ),
               ],
@@ -109,20 +110,20 @@ Widget refinedRulesSection() {
           Text(
             '筆觸分隔 · BRUSH',
             style: TextStyle(
-              color: WabTheme.mutedColor,
+              color: wab.mutedColor,
               fontFamily: kWabMonoFamily,
-              fontSize: 5.8,
+              fontSize: WabType.annotation,
             ),
           ),
           const Spacer(),
-          DotGrid<int>(
+          WabDotGrid<int>(
             rows: 1,
             cols: 9,
             states: List.generate(9, (i) => i),
-            styleOf: (s) => InkDotStyle(
+            styleOf: (s) => WabInkDotStyle(
               color: s == 4
-                  ? WabTheme.textColor
-                  : WabTheme.mutedColor.withOpacity(.5),
+                  ? wab.textColor
+                  : wab.mutedColor.withValues(alpha: .5),
             ),
             dotSize: 5,
             gap: 7,
@@ -133,7 +134,8 @@ Widget refinedRulesSection() {
   );
 }
 
-Widget refinedButtonsSection() {
+Widget refinedButtonsSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   final items = <(String, String, WabMaterialKind)>[
     ('次 之', '紙 · PAPER', WabMaterialKind.paper),
     ('木 牌', '木 · WOOD', WabMaterialKind.wood),
@@ -159,16 +161,16 @@ Widget refinedButtonsSection() {
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 6),
                 child: item.$3 == WabMaterialKind.baiwen ||
                         item.$3 == WabMaterialKind.zhuwen
-                    ? WabSealText(item.$1, fontSize: 20, strokeWidth: .7)
+                    ? WabSealText(item.$1, fontSize: WabType.title, strokeWidth: .7)
                     : Text(item.$1),
               ),
               const SizedBox(height: 3),
               Text(
                 item.$2,
                 style: TextStyle(
-                  color: WabTheme.mutedColor,
+                  color: wab.mutedColor,
                   fontFamily: kWabMonoFamily,
-                  fontSize: 5.8,
+                  fontSize: WabType.annotation,
                 ),
               ),
             ],
@@ -182,15 +184,61 @@ Widget refinedButtonsSection() {
               label: '落 印',
               onPressed: () {},
               expand: true,
-              fontSize: 20,
+              fontSize: WabType.title,
             ),
             const SizedBox(height: 3),
             Text(
               '印章 · SEAL',
               style: TextStyle(
-                color: WabTheme.mutedColor,
+                color: wab.mutedColor,
                 fontFamily: kWabMonoFamily,
-                fontSize: 5.8,
+                fontSize: WabType.annotation,
+              ),
+            ),
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 88,
+        child: Column(
+          children: [
+            WabFloatingActionButton(
+              FloatingActionButton(
+                onPressed: () {},
+                child: const Icon(Icons.add),
+              ),
+            ),
+            const SizedBox(height: 3),
+            Text(
+              '落印 · FAB',
+              style: TextStyle(
+                color: wab.mutedColor,
+                fontFamily: kWabMonoFamily,
+                fontSize: WabType.annotation,
+              ),
+            ),
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 184,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            WabElevatedButton(
+              text: const Text('取 茶'),
+              icon: const Icon(Icons.local_cafe_outlined, size: 14),
+              showChevron: true,
+              callback: () {},
+            ),
+            const SizedBox(height: 3),
+            Text(
+              '列 · ELEVATED',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: wab.mutedColor,
+                fontFamily: kWabMonoFamily,
+                fontSize: WabType.annotation,
               ),
             ),
           ],

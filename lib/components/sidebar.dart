@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/spacing.dart';
+import '../theme/type_scale.dart';
 
 /// Left navigation rail container. The rail is transparent by default so a
 /// WabPaperSheet / other material ground remains visible through it.
@@ -48,21 +49,22 @@ class WabProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return Row(
       children: [
         Container(
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            color: WabTheme.primaryColor,
+            color: wab.primaryColor,
             borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            border: Border.all(color: WabTheme.accentColor.withOpacity(0.6)),
+            border: Border.all(color: wab.accentColor.withValues(alpha: 0.6)),
             image: avatar == null
                 ? null
                 : DecorationImage(image: avatar!, fit: BoxFit.cover),
           ),
           child: avatar == null
-              ? Icon(Icons.person, color: WabTheme.accentColor, size: 26)
+              ? Icon(Icons.person, color: wab.accentColor, size: 26)
               : null,
         ),
         const SizedBox(width: 12),
@@ -73,8 +75,8 @@ class WabProfileHeader extends StatelessWidget {
             Text(
               name,
               style: TextStyle(
-                color: WabTheme.textColor,
-                fontSize: 16,
+                color: wab.textColor,
+                fontSize: WabType.label,
                 fontWeight: FontWeight.w700,
                 fontFamilyFallback: kWabKaiFallback,
               ),
@@ -83,8 +85,8 @@ class WabProfileHeader extends StatelessWidget {
               Text(
                 subtitle!,
                 style: TextStyle(
-                  color: WabTheme.textColor.withOpacity(0.6),
-                  fontSize: 12,
+                  color: wab.textColor.withValues(alpha: 0.6),
+                  fontSize: WabType.gloss,
                   fontFamilyFallback: kWabKaiFallback,
                 ),
               ),
@@ -95,8 +97,10 @@ class WabProfileHeader extends StatelessWidget {
   }
 }
 
-/// Legacy outlined nav item. The catalogue itself uses WabTextButton for the
-/// ruled-text navigation language.
+/// Legacy outlined nav item.
+@Deprecated('The kit navigates with WabTextButton and its ruled-text language; '
+    'this outlined box predates it and matches nothing else. Goes at the next '
+    'major version.')
 class WabNavItem extends StatelessWidget {
   const WabNavItem({
     super.key,
@@ -111,6 +115,7 @@ class WabNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Material(
@@ -122,15 +127,15 @@ class WabNavItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
               border: Border.all(
-                color: selected ? WabTheme.accentColor : Colors.transparent,
+                color: selected ? wab.accentColor : Colors.transparent,
                 width: 1,
               ),
             ),
             child: Text(
               label,
               style: TextStyle(
-                color: WabTheme.textColor,
-                fontSize: 16,
+                color: wab.textColor,
+                fontSize: WabType.label,
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                 fontFamilyFallback: kWabKaiFallback,
               ),

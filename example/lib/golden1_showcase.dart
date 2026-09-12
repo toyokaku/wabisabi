@@ -3,15 +3,11 @@ import 'package:wabisabi/wabisabi.dart';
 
 import 'golden1_refinements.dart';
 import 'golden1_sections.dart';
+import 'kit_coverage_sections.dart';
 
 class Golden1Showcase extends StatefulWidget {
-  const Golden1Showcase({
-    super.key,
-    required this.isDark,
-    required this.onToggleTheme,
-  });
+  const Golden1Showcase({super.key, required this.onToggleTheme});
 
-  final bool isDark;
   final VoidCallback onToggleTheme;
 
   @override
@@ -19,7 +15,7 @@ class Golden1Showcase extends StatefulWidget {
 }
 
 class _Golden1ShowcaseState extends State<Golden1Showcase> {
-  final _sectionKeys = List<GlobalKey>.generate(12, (_) => GlobalKey());
+  final _sectionKeys = List<GlobalKey>.generate(13, (_) => GlobalKey());
   int _selected = 0;
   bool _check = true;
   int _radio = 0;
@@ -37,37 +33,38 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '01 色 · PALETTE',
     '02 材 · MATERIALS',
     '03 書 · TYPOGRAPHY',
-    '04 面 · SURFACES',
-    '05 邊 · BORDERS & RULES',
-    '06 器 · COMPONENTS',
-    '07 狀態 · STATES',
-    '08 表單 · INPUTS',
-    '09 標記 · BADGES & SEALS',
-    '10 卡片 · CARDS & PANELS',
-    '11 陰影 · SHADOWS',
-    '12 明暗 · LIGHT & DARK',
+    '04 邊 · BORDERS & RULES',
+    '05 器 · COMPONENTS',
+    '06 狀態 · STATES',
+    '07 表單 · INPUTS',
+    '08 標記 · BADGES & SEALS',
+    '09 卡片 · CARDS & PANELS',
+    '10 陰影 · SHADOWS',
+    '11 明暗 · LIGHT & DARK',
+    '12 骨架 · SCAFFOLD & CHROME',
+    '13 零件 · ODDS & ENDS',
   ];
 
   static const _titles = [
     '01  色 | PALETTE',
     '02  材 | MATERIALS',
     '03  書 | TYPOGRAPHY',
-    '04  面 | SURFACES',
-    '05  邊 | BORDERS & RULES',
-    '06  器 | COMPONENTS · BUTTONS',
-    '07  狀態 | STATES',
-    '08  表單 | INPUTS',
-    '09  標記 | BADGES & SEALS',
-    '10  卡片 | CARDS & PANELS',
-    '11  陰影 | SHADOWS',
-    '12  明暗 | LIGHT & DARK',
+    '04  邊 | BORDERS & RULES',
+    '05  器 | COMPONENTS · BUTTONS',
+    '06  狀態 | STATES',
+    '07  表單 | INPUTS',
+    '08  標記 | BADGES & SEALS',
+    '09  卡片 | CARDS & PANELS',
+    '10  陰影 | SHADOWS',
+    '11  明暗 | LIGHT & DARK',
+    '12  骨架 | SCAFFOLD & CHROME',
+    '13  零件 | ODDS & ENDS',
   ];
 
   static const _subtitles = [
     '調煉紙、墨、木、土、釉的克制色系',
-    '數字化的東方材質語言',
+    '生成式材質，一material一筆：WabSurface 即由此組成',
     '標題、正文、數字：統一的文字體系',
-    '生成式材質表面（無圖片資產）',
     '源自古籍的欄界與紙摺語言',
     '多材質按鈕體系',
     '克制而自然的狀態變化',
@@ -76,23 +73,40 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '內容容器與信息組織',
     '源自實物紙邊的接觸投影',
     '行墨與拓片的雙重世界',
+    '頁面骨架、題頭與導覽家具',
+    '其餘導出組件，含自持狀態者',
   ];
 
-  static const _desktopRows = <double>[245, 305, 300, 250];
+  /// φ. The board's proportions come from it, as the type ladder does.
+  static const _phi = 1.6180339887;
+
+  /// The width one board cell gets on a full-size desktop board. Every section
+  /// is composed against it, so the narrow layout renders at the same geometry
+  /// and scales the whole cell down rather than re-flowing each specimen.
+  static const _cellDesignWidth = 460.0;
+
+  /// Each cell is a golden rectangle — φ wider than it is tall.
+  static const _cellDesignHeight = _cellDesignWidth / _phi;
+
+  /// The index rail is one more golden section in from the cell width, so the
+  /// rail, a cell and the board all sit on the same series.
+  static const _sidebarWidth = _cellDesignWidth / (_phi * _phi);
+
+  /// Below this the sidebar and the three-column board are dropped for a
+  /// single scrolling column of cells.
+  static const _compactWidth = 900.0;
   static const _boardTop = 10.0;
   static const _boardBottom = 30.0;
 
+  int get _rowCount => (_nav.length / 3).ceil();
+
+  /// A fold at every row boundary, so the sheet creases between cells.
   List<double> get _desktopFolds {
-    final total = _boardTop +
-        _boardBottom +
-        _desktopRows.fold<double>(0, (sum, value) => sum + value);
-    var cursor = _boardTop;
-    final result = <double>[];
-    for (var i = 0; i < _desktopRows.length - 1; i++) {
-      cursor += _desktopRows[i];
-      result.add(cursor / total);
-    }
-    return result;
+    final total = _boardTop + _boardBottom + _rowCount * _cellDesignHeight;
+    return [
+      for (var i = 1; i < _rowCount; i++)
+        (_boardTop + i * _cellDesignHeight) / total,
+    ];
   }
 
   void _jumpTo(int index) {
@@ -110,13 +124,20 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return WabTypographyScope(
       child: Scaffold(
-        backgroundColor: WabTheme.backgroundColor,
+        backgroundColor: wab.backgroundColor,
         body: Column(
           children: [
-            WabPaperSheet(
-              isDark: widget.isDark,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                // The build stamp is the widest thing in the masthead; on a
+                // narrow sheet the theme toggle is the only action worth the
+                // room it costs.
+                final compact = constraints.maxWidth < _compactWidth;
+                return WabPaperSheet(
+              isDark: wab.isDark,
               horizontalFolds: const [],
               verticalFolds: const [],
               child: WabEditorialBanner(
@@ -127,21 +148,23 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                 motto: '取法自然 · 材質為語 · 克制為美 · 留白生境',
                 seal: WabSealMark(text: '侘寂', size: 25, seed: 17),
                 trailing: [
-                  Text(
-                    'v0.2 · BUILD $_buildHash\nLESS, BUT DEEPER.',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: WabTheme.mutedColor,
-                      fontFamily: kWabMonoFamily,
-                      fontSize: 7,
-                      letterSpacing: 1.45,
-                      height: 1.35,
+                  if (!compact) ...[
+                    Text(
+                      'v0.2 · BUILD $_buildHash\nLESS, BUT DEEPER.',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: wab.mutedColor,
+                        fontFamily: kWabMonoFamily,
+                        fontSize: WabType.annotation,
+                        letterSpacing: 1.45,
+                        height: 1.35,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
+                    const SizedBox(width: 12),
+                  ],
                   WabIconButton(
                     icon: Icon(
-                      widget.isDark
+                      wab.isDark
                           ? Icons.light_mode_outlined
                           : Icons.dark_mode_outlined,
                       size: 15,
@@ -151,24 +174,36 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   ),
                 ],
               ),
+                );
+              },
             ),
             Divider(
               height: 1,
               thickness: WAB_RULE_HAIRLINE,
-              color: WabTheme.lineColor,
+              color: wab.lineColor,
             ),
             Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _sidebar(),
-                  VerticalDivider(
-                    width: 1,
-                    thickness: WAB_RULE_HAIRLINE,
-                    color: WabTheme.lineColor,
-                  ),
-                  Expanded(child: _board()),
-                ],
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  // A large text preference needs the room a single column has,
+                  // so it counts against the width when choosing a layout.
+                  if (constraints.maxWidth / _textScale(context) <
+                      _compactWidth) {
+                    return _mobileBoard();
+                  }
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _sidebar(context),
+                      VerticalDivider(
+                        width: 1,
+                        thickness: WAB_RULE_HAIRLINE,
+                        color: wab.lineColor,
+                      ),
+                      Expanded(child: _board(context)),
+                    ],
+                  );
+                },
               ),
             ),
           ],
@@ -177,21 +212,22 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     );
   }
 
-  Widget _sidebar() {
+  Widget _sidebar(BuildContext context) {
+    final wab = WabTheme.of(context);
     return WabPaperSheet(
-      isDark: widget.isDark,
+      isDark: wab.isDark,
       horizontalFolds: const [],
       verticalFolds: const [],
       child: WabSidebar(
-        width: 184,
+        width: _sidebarWidth,
         padding: const EdgeInsets.fromLTRB(15, 18, 15, 18),
         children: [
           Text(
             '素 材 庫',
             style: TextStyle(
-              color: WabTheme.textColor,
+              color: wab.textColor,
               fontFamily: kWabDisplayFamily,
-              fontSize: 15,
+              fontSize: WabType.label,
               fontWeight: FontWeight.w500,
               letterSpacing: 3,
             ),
@@ -200,9 +236,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
           Text(
             'MATERIAL INDEX · v0.2',
             style: TextStyle(
-              color: WabTheme.mutedColor,
+              color: wab.mutedColor,
               fontFamily: kWabMonoFamily,
-              fontSize: 7,
+              fontSize: WabType.annotation,
               letterSpacing: 1.4,
             ),
           ),
@@ -216,7 +252,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: kWabMonoFamily,
-                    fontSize: 8,
+                    fontSize: WabType.caption,
                     fontWeight:
                         _selected == i ? FontWeight.w500 : FontWeight.w400,
                     letterSpacing: .8,
@@ -231,9 +267,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
           Text(
             'LESS, BUT DEEPER.',
             style: TextStyle(
-              color: WabTheme.mutedColor,
+              color: wab.mutedColor,
               fontFamily: kWabMonoFamily,
-              fontSize: 7,
+              fontSize: WabType.annotation,
               letterSpacing: 2.5,
             ),
           ),
@@ -242,23 +278,59 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     );
   }
 
-  Widget _board() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth < 900) return _mobileBoard();
-        return SingleChildScrollView(
+  Widget _board(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return SingleChildScrollView(
           child: WabPaperSheet(
-            isDark: widget.isDark,
+            isDark: wab.isDark,
             horizontalFolds: _desktopFolds,
             verticalFolds: const [.333333, .666667],
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, _boardTop, 16, _boardBottom),
               child: Column(
                 children: [
-                  _row(_desktopRows[0], [0, 1, 2]),
-                  _row(_desktopRows[1], [3, 4, 5]),
-                  _row(_desktopRows[2], [6, 7, 8]),
-                  _row(_desktopRows[3], [9, 10, 11]),
+                  for (var row = 0; row < _rowCount; row++)
+                    _row([
+                      for (var slot = 0; slot < 3; slot++)
+                        if (row * 3 + slot < _nav.length) row * 3 + slot,
+                    ]),
+                ],
+              ),
+            ),
+          ),
+        );
+  }
+
+  /// Narrow layout: one column of cells, each drawn at [_cellDesignWidth] and
+  /// scaled to the sheet. The sections were composed for a fixed cell — they
+  /// use Expanded and Spacer against a known box — so scaling the finished cell
+  /// keeps the composition intact where re-flowing it would not.
+  ///
+  /// Past native size it only magnifies as far as the viewer asked for with
+  /// their text-size setting, and only as far as the sheet has room for.
+  Widget _mobileBoard() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final wab = WabTheme.of(context);
+        const sheetPadding = 14.0;
+        final available = constraints.maxWidth - sheetPadding * 2;
+        final fit = available / _cellDesignWidth;
+        final scale =
+            (fit.clamp(.4, 1.0) * _textScale(context)).clamp(.4, fit).toDouble();
+
+        return SingleChildScrollView(
+          child: WabPaperSheet(
+            isDark: wab.isDark,
+            horizontalFolds: const [],
+            verticalFolds: const [],
+            child: Padding(
+              padding: const EdgeInsets.all(sheetPadding),
+              child: Column(
+                children: [
+                  for (var i = 0; i < _nav.length; i++) ...[
+                    _scaledCell(context, i, scale),
+                    const SizedBox(height: 18),
+                  ],
                 ],
               ),
             ),
@@ -268,41 +340,69 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     );
   }
 
-  Widget _mobileBoard() {
-    return SingleChildScrollView(
-      child: WabPaperSheet(
-        isDark: widget.isDark,
-        horizontalFolds: const [],
-        verticalFolds: const [],
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            children: [
-              for (var i = 0; i < 12; i++) ...[
-                SizedBox(height: 310, child: _section(i)),
-                const SizedBox(height: 18),
-              ],
-            ],
-          ),
+  Widget _scaledCell(BuildContext context, int index, double scale) {
+    const height = _cellDesignHeight;
+    return SizedBox(
+      width: _cellDesignWidth * scale,
+      height: height * scale,
+      child: FittedBox(
+        fit: BoxFit.contain,
+        alignment: Alignment.topCenter,
+        child: _cell(
+          width: _cellDesignWidth,
+          height: height,
+          child: _section(context, index),
         ),
       ),
     );
   }
 
-  Widget _row(double height, List<int> indices) {
+  /// A cell at exact design geometry.
+  ///
+  /// The sections are composed against a fixed box — Expanded and Spacer
+  /// against a known height — so the viewer's text-size setting must not be
+  /// allowed to grow type inside one; it would clip, silently, in release. The
+  /// setting is honoured by magnifying the whole cell instead (see
+  /// [_textScale]), which grows the type and everything holding it together.
+  Widget _cell({
+    required double width,
+    required double height,
+    required Widget child,
+  }) =>
+      MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+        child: SizedBox(width: width, height: height, child: child),
+      );
+
+  /// The viewer's text-size preference as a plain multiplier.
+  double _textScale(BuildContext context) =>
+      MediaQuery.textScalerOf(context).scale(WabType.body) / WabType.body;
+
+  Widget _row(List<int> indices) {
     return SizedBox(
-      height: height,
+      height: _cellDesignHeight,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          for (final index in indices)
-            Expanded(
+          for (var slot = 0; slot < 3; slot++)
+            if (slot >= indices.length)
+              const Expanded(child: SizedBox.shrink())
+            else
+              Expanded(
               child: ClipRect(
                 child: Transform.scale(
                   scaleX: 1.002,
                   scaleY: 1.002,
                   alignment: Alignment.topLeft,
-                  child: _section(index),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.topCenter,
+                    child: _cell(
+                      width: _cellDesignWidth,
+                      height: _cellDesignHeight,
+                      child: _section(context, indices[slot]),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -311,19 +411,21 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     );
   }
 
-  Widget _section(int index) {
+  Widget _section(BuildContext context, int index) {
+    final wab = WabTheme.of(context);
     final content = switch (index) {
-      0 => goldenPaletteSection(),
-      1 => goldenMaterialsSection(),
-      2 => goldenTypographySection(),
-      3 => goldenSurfacesSection(),
-      4 => refinedRulesSection(),
-      5 => refinedButtonsSection(),
-      6 => goldenStatesSection(
+      0 => goldenPaletteSection(context),
+      1 => kitMaterialsSection(context),
+      2 => goldenTypographySection(context),
+      3 => refinedRulesSection(context),
+      4 => refinedButtonsSection(context),
+      5 => goldenStatesSection(
+          context,
           toggle: _toggle,
           onToggle: () => setState(() => _toggle = !_toggle),
         ),
-      7 => goldenInputsSection(
+      6 => goldenInputsSection(
+          context,
           check: _check,
           radio: _radio,
           switchValue: _switch,
@@ -333,13 +435,16 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
           onSwitch: (v) => setState(() => _switch = v),
           onSlider: (v) => setState(() => _slider = v),
         ),
-      8 => goldenMarksSection(),
-      9 => goldenCardsSection(),
-      10 => goldenShadowsSection(),
-      _ => goldenLightDarkSection(
-          isDark: widget.isDark,
+      7 => goldenMarksSection(context),
+      8 => goldenCardsSection(context),
+      9 => goldenShadowsSection(context),
+      10 => goldenLightDarkSection(
+          context,
+          isDark: wab.isDark,
           onToggle: widget.onToggleTheme,
         ),
+      11 => kitChromeSection(context),
+      _ => const KitOddsAndEndsSection(),
     };
 
     return KeyedSubtree(
@@ -352,9 +457,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             Text(
               _titles[index],
               style: TextStyle(
-                color: WabTheme.textColor,
+                color: wab.textColor,
                 fontFamily: kWabKaiFamily,
-                fontSize: 13,
+                fontSize: WabType.body,
                 fontWeight: FontWeight.w500,
                 letterSpacing: .7,
               ),
@@ -363,9 +468,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             Text(
               _subtitles[index],
               style: TextStyle(
-                color: WabTheme.mutedColor,
+                color: wab.mutedColor,
                 fontFamily: kWabKaiFamily,
-                fontSize: 7.5,
+                fontSize: WabType.annotation,
                 letterSpacing: .4,
               ),
             ),
@@ -373,7 +478,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             Divider(
               height: 1,
               thickness: WAB_RULE_HAIRLINE,
-              color: WabTheme.lineColor.withOpacity(.55),
+              color: wab.lineColor.withValues(alpha: .55),
             ),
             const SizedBox(height: 10),
             Expanded(child: content),

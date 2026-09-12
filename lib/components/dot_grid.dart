@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-/// Visual style for a single [InkDot]. Pure data — no semantics.
-class InkDotStyle {
-  const InkDotStyle({
+/// Visual style for a single [WabInkDot]. Pure data — no semantics.
+class WabInkDotStyle {
+  const WabInkDotStyle({
     required this.color,
     this.borderColor,
     this.borderWidth = 0,
@@ -14,7 +14,7 @@ class InkDotStyle {
 
   @override
   bool operator ==(Object other) =>
-      other is InkDotStyle &&
+      other is WabInkDotStyle &&
       other.color == color &&
       other.borderColor == borderColor &&
       other.borderWidth == borderWidth;
@@ -23,12 +23,12 @@ class InkDotStyle {
   int get hashCode => Object.hash(color, borderColor, borderWidth);
 }
 
-/// A single round ink dot rendered from a passed [InkDotStyle].
+/// A single round ink dot rendered from a passed [WabInkDotStyle].
 /// Dumb widget: it renders what it is told, nothing more.
-class InkDot extends StatelessWidget {
-  const InkDot({super.key, required this.style, this.size = 10});
+class WabInkDot extends StatelessWidget {
+  const WabInkDot({super.key, required this.style, this.size = 10});
 
-  final InkDotStyle style;
+  final WabInkDotStyle style;
   final double size;
 
   @override
@@ -50,10 +50,10 @@ class InkDot extends StatelessWidget {
 /// A generic `rows × cols` matrix of round dots.
 ///
 /// Dumb widget: it takes a flat, row-major array of cell [states] and a
-/// [styleOf] mapping from a state to an [InkDotStyle]. It carries no domain
+/// [styleOf] mapping from a state to an [WabInkDotStyle]. It carries no domain
 /// semantics (no "week", "life", etc.) — consumers own that meaning.
-class DotGrid<S> extends StatelessWidget {
-  const DotGrid({
+class WabDotGrid<S> extends StatelessWidget {
+  const WabDotGrid({
     super.key,
     required this.rows,
     required this.cols,
@@ -71,7 +71,7 @@ class DotGrid<S> extends StatelessWidget {
   final List<S> states;
 
   /// Maps a cell state to its dot style.
-  final InkDotStyle Function(S state) styleOf;
+  final WabInkDotStyle Function(S state) styleOf;
 
   final double dotSize;
   final double gap;
@@ -90,7 +90,7 @@ class DotGrid<S> extends StatelessWidget {
                 for (int c = 0; c < cols; c++)
                   Padding(
                     padding: EdgeInsets.only(right: c == cols - 1 ? 0 : gap),
-                    child: InkDot(
+                    child: WabInkDot(
                       style: styleOf(states[r * cols + c]),
                       size: dotSize,
                     ),
@@ -102,3 +102,13 @@ class DotGrid<S> extends StatelessWidget {
     );
   }
 }
+
+/// Old names, kept so consumers can migrate without a broken build.
+@Deprecated('Renamed to WabDotGrid. This alias goes at the next major version.')
+typedef DotGrid<S> = WabDotGrid<S>;
+
+@Deprecated('Renamed to WabInkDot. This alias goes at the next major version.')
+typedef InkDot = WabInkDot;
+
+@Deprecated('Renamed to WabInkDotStyle. This alias goes at the next major version.')
+typedef InkDotStyle = WabInkDotStyle;

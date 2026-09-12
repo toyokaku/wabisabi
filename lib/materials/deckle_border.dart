@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
-import '../tokens/material_raw.dart' show kDeckleFreq1, kDeckleFreq2, kDeckleFreq3;
 
 /// 毛邊 deckle edge — an [OutlinedBorder] whose four edges wobble with a
 /// fixed-seed multi-frequency sine noise, so the irregular edge is stable
 /// across rebuilds. No radius, no shadow — the paper state of a surface.
 ///
-/// The default [side] color is the theme 淡墨 hairline (`WabTheme.lineColor`).
-class DeckleBorder extends OutlinedBorder {
-  DeckleBorder({
+/// Pass [side] built from `WabTheme.of(context).lineColor`. A ShapeBorder is
+/// constructed outside the widget tree and has no context of its own, so the
+/// default falls back to the legacy static — the one place in the kit that
+/// still must.
+class WabDeckleBorder extends OutlinedBorder {
+  WabDeckleBorder({
     BorderSide? side,
     this.roughness = WAB_DECKLE_ROUGHNESS,
     this.horizontalRoughness = WAB_DECKLE_ROUGHNESS_H,
@@ -40,9 +42,9 @@ class DeckleBorder extends OutlinedBorder {
 
   double _noise(int edge, double t) {
     final s = seed * 0.37 + edge * 17.0;
-    return math.sin(t * kDeckleFreq1 + s) * 0.55 +
-        math.sin(t * kDeckleFreq2 + s * 1.7) * 0.30 +
-        math.sin(t * kDeckleFreq3 + s * 2.3) * 0.15;
+    return math.sin(t * WAB_DECKLE_FREQ1 + s) * 0.55 +
+        math.sin(t * WAB_DECKLE_FREQ2 + s * 1.7) * 0.30 +
+        math.sin(t * WAB_DECKLE_FREQ3 + s * 2.3) * 0.15;
   }
 
   Path _decklePath(Rect rect) {
@@ -97,7 +99,7 @@ class DeckleBorder extends OutlinedBorder {
   }
 
   @override
-  OutlinedBorder copyWith({BorderSide? side}) => DeckleBorder(
+  OutlinedBorder copyWith({BorderSide? side}) => WabDeckleBorder(
       side: side ?? this.side,
       roughness: roughness,
       horizontalRoughness: horizontalRoughness,
@@ -122,3 +124,9 @@ class DeckleBorder extends OutlinedBorder {
   @override
   ShapeBorder scale(double t) => this;
 }
+
+/// Old name, kept so consumers can migrate without a broken build.
+@Deprecated('Renamed to WabDeckleBorder. Every type the barrel exports carries '
+    'the Wab prefix, because the barrel lands in the consumer namespace. This '
+    'alias goes at the next major version.')
+typedef DeckleBorder = WabDeckleBorder;

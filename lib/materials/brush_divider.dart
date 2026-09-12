@@ -13,8 +13,7 @@ import '../tokens/material.dart';
 ///
 /// This is the decorative divider; `WabDivider` stays the functional hairline.
 class WabBrushDivider extends StatelessWidget {
-  // Non-const by design: defaults color from WabTheme.lineColor at build.
-  WabBrushDivider({super.key, this.color});
+  const WabBrushDivider({super.key, this.color});
 
   /// Stroke color override; defaults to `WabTheme.lineColor`.
   final Color? color;
@@ -25,7 +24,7 @@ class WabBrushDivider extends StatelessWidget {
       height: 12,
       width: double.infinity,
       child: CustomPaint(
-        painter: _BrushLinePainter(color ?? WabTheme.lineColor),
+        painter: _BrushLinePainter(color ?? WabTheme.of(context).lineColor),
       ),
     );
   }
@@ -57,7 +56,7 @@ class _BrushLinePainter extends CustomPainter {
     canvas.drawPath(
       path,
       Paint()
-        ..color = color.withOpacity(op)
+        ..color = color.withValues(alpha: op)
         ..style = PaintingStyle.fill,
     );
   }

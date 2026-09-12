@@ -6,7 +6,7 @@ import '../tokens/texture.dart';
 
 /// 朱砂漆面 — muted cinnabar with fine mineral/crackle traces.
 class WabCinnabarTexture extends StatelessWidget {
-  WabCinnabarTexture({super.key, this.isDark, this.child, this.seed = 337});
+  const WabCinnabarTexture({super.key, this.isDark, this.child, this.seed = 337});
 
   final bool? isDark;
   final Widget? child;
@@ -14,7 +14,7 @@ class WabCinnabarTexture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _CinnabarPainter(isDark: isDark ?? WabTheme.isDark, seed: seed),
+        painter: _CinnabarPainter(isDark: isDark ?? WabTheme.of(context).isDark, seed: seed),
         child: child,
       );
 }
@@ -38,7 +38,7 @@ class _CinnabarPainter extends CustomPainter {
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
         Paint()
-          ..color = (i.isEven ? deep : light).withOpacity(.10 + rnd.nextDouble() * .08)
+          ..color = (i.isEven ? deep : light).withValues(alpha: .10 + rnd.nextDouble() * .08)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * .42),
       );
     }
@@ -63,7 +63,7 @@ class _CinnabarPainter extends CustomPainter {
       canvas.drawPath(
         Path()..moveTo(p0.dx, p0.dy)..lineTo(p1.dx, p1.dy)..lineTo(p2.dx, p2.dy),
         Paint()
-          ..color = light.withOpacity(.16)
+          ..color = light.withValues(alpha: .16)
           ..style = PaintingStyle.stroke
           ..strokeWidth = .45,
       );

@@ -6,7 +6,7 @@ import '../tokens/texture.dart';
 
 /// 舊化 / PATINA — warm oxidised ground with a sparse crackle network.
 class WabPatinaTexture extends StatelessWidget {
-  WabPatinaTexture({super.key, this.isDark, this.child, this.seed = 877});
+  const WabPatinaTexture({super.key, this.isDark, this.child, this.seed = 877});
 
   final bool? isDark;
   final Widget? child;
@@ -14,7 +14,7 @@ class WabPatinaTexture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _PatinaPainter(isDark: isDark ?? WabTheme.isDark, seed: seed),
+        painter: _PatinaPainter(isDark: isDark ?? WabTheme.of(context).isDark, seed: seed),
         child: child,
       );
 }
@@ -38,7 +38,7 @@ class _PatinaPainter extends CustomPainter {
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
         Paint()
-          ..color = (i.isEven ? deep : light).withOpacity(.12 + rnd.nextDouble() * .09)
+          ..color = (i.isEven ? deep : light).withValues(alpha: .12 + rnd.nextDouble() * .09)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * .5),
       );
     }
@@ -59,7 +59,7 @@ class _PatinaPainter extends CustomPainter {
       canvas.drawPath(
         path,
         Paint()
-          ..color = deep.withOpacity(.12 + rnd.nextDouble() * .10)
+          ..color = deep.withValues(alpha: .12 + rnd.nextDouble() * .10)
           ..style = PaintingStyle.stroke
           ..strokeWidth = .35 + rnd.nextDouble() * .45,
       );

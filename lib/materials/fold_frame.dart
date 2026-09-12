@@ -28,7 +28,7 @@ class WabFoldFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget body = CustomPaint(
       foregroundPainter: _FoldFramePainter(
-        dark: isDark ?? WabTheme.isDark,
+        dark: isDark ?? WabTheme.of(context).isDark,
         depth: depth,
       ),
       child: Padding(padding: padding, child: child),
@@ -68,9 +68,9 @@ class _FoldFramePainter extends CustomPainter {
       );
     }
 
-    final c0 = crease.withOpacity(dark ? .18 : .12);
-    final c1 = crease.withOpacity(dark ? .10 : .07);
-    final hi = highlight.withOpacity(dark ? .08 : .22);
+    final c0 = crease.withValues(alpha: dark ? .18 : .12);
+    final c1 = crease.withValues(alpha: dark ? .10 : .07);
+    final hi = highlight.withValues(alpha: dark ? .08 : .22);
 
     band(
       Rect.fromLTWH(0, 0, size.width, d),
@@ -98,7 +98,7 @@ class _FoldFramePainter extends CustomPainter {
     );
 
     final line = Paint()
-      ..color = crease.withOpacity(dark ? .22 : .15)
+      ..color = crease.withValues(alpha: dark ? .22 : .15)
       ..strokeWidth = .55;
     canvas.drawLine(Offset(0, .5), Offset(size.width, .5), line);
     canvas.drawLine(

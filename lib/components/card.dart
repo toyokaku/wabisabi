@@ -5,6 +5,7 @@ import '../materials/surface.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import 'button.dart';
+import '../theme/type_scale.dart';
 
 /// Collection/content card: frameless paper lifted by an irregular contact
 /// shadow. Hierarchy comes from paper depth rather than a dashboard border.
@@ -27,7 +28,9 @@ class WabCollectionCard extends StatelessWidget {
   final bool highlighted;
 
   @override
-  Widget build(BuildContext context) => WabPaperLift(
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return WabPaperLift(
         seed: highlighted ? 67 : 31,
         child: WabSurface(
           kind: WabSurfaceKind.paper,
@@ -44,31 +47,35 @@ class WabCollectionCard extends StatelessWidget {
                   title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: WabTheme.textColor,
-                    fontSize: 13,
+                    color: wab.textColor,
+                    fontSize: WabType.body,
                     fontWeight: FontWeight.w600,
                     fontFamilyFallback: kWabKaiFallback,
                   ),
                 ),
                 const SizedBox(height: 6),
                 Divider(
-                  color: WabTheme.lineColor.withOpacity(.65),
+                  color: wab.lineColor.withValues(alpha: .65),
                   thickness: WAB_RULE_HAIRLINE,
                   height: WAB_RULE_HAIRLINE,
                   indent: 18,
                   endIndent: 18,
                 ),
                 const SizedBox(height: 6),
-                Text(
-                  description,
-                  textAlign: TextAlign.center,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: WabTheme.mutedColor,
-                    fontSize: 9,
-                    height: 1.35,
-                    fontFamilyFallback: kWabKaiFallback,
+                // Flexible so a tight grid cell ellipsizes the description
+                // instead of overflowing the card.
+                Flexible(
+                  child: Text(
+                    description,
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: wab.mutedColor,
+                      fontSize: WabType.annotation,
+                      height: 1.35,
+                      fontFamilyFallback: kWabKaiFallback,
+                    ),
                   ),
                 ),
                 if (buttonLabel != null) ...[
@@ -84,5 +91,6 @@ class WabCollectionCard extends StatelessWidget {
             ),
           ),
         ),
-      );
+    );
+  }
 }

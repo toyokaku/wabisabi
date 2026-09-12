@@ -1,4 +1,4 @@
-library wabisabi;
+library;
 
 // Tokens
 export 'tokens/palette.dart';
@@ -8,7 +8,10 @@ export 'tokens/texture.dart';
 
 // Theme
 export 'theme/wab_theme.dart';
+export 'theme/wab_colors.dart';
 export 'theme/typography.dart';
+export 'theme/type_scale.dart';
+export 'theme/seal_text.dart';
 
 // Materials
 export 'materials/deckle_border.dart';
@@ -36,7 +39,6 @@ export 'materials/surface.dart';
 export 'components/wab_utils.dart';
 export 'components/scaffold.dart';
 export 'components/button.dart';
-export 'components/seal_text.dart';
 export 'components/seal_button.dart';
 export 'components/text.dart';
 export 'components/form.dart';

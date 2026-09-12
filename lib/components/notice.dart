@@ -4,11 +4,12 @@ import '../materials/surface.dart';
 import '../theme/typography.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
+import '../theme/type_scale.dart';
 
 /// A quiet notice/toast specimen using paper + ink rather than a filled modern
 /// alert card.
 class WabNotice extends StatelessWidget {
-  WabNotice({
+  const WabNotice({
     super.key,
     required this.title,
     this.message,
@@ -23,9 +24,10 @@ class WabNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: WabTheme.lineColor, width: WAB_RULE_HAIRLINE),
+        border: Border.all(color: wab.lineColor, width: WAB_RULE_HAIRLINE),
       ),
       child: WabSurface(
         kind: WabSurfaceKind.paper,
@@ -41,7 +43,7 @@ class WabNotice extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 3, right: 8),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: dotColor ?? WabTheme.sealColor,
+                  color: dotColor ?? wab.sealColor,
                 ),
               ),
               Expanded(
@@ -51,10 +53,10 @@ class WabNotice extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                        color: WabTheme.textColor,
+                        color: wab.textColor,
                         fontFamily: kWabKaiFamily,
                         fontFamilyFallback: kWabKaiFallback,
-                        fontSize: 10,
+                        fontSize: WabType.caption,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -63,10 +65,10 @@ class WabNotice extends StatelessWidget {
                       Text(
                         message!,
                         style: TextStyle(
-                          color: WabTheme.mutedColor,
+                          color: wab.mutedColor,
                           fontFamily: kWabKaiFamily,
                           fontFamilyFallback: kWabKaiFallback,
-                          fontSize: 8,
+                          fontSize: WabType.annotation,
                         ),
                       ),
                     ],
@@ -76,7 +78,7 @@ class WabNotice extends StatelessWidget {
               if (onDismiss != null)
                 GestureDetector(
                   onTap: onDismiss,
-                  child: Icon(Icons.close, size: 12, color: WabTheme.mutedColor),
+                  child: Icon(Icons.close, size: 12, color: wab.mutedColor),
                 ),
             ],
           ),

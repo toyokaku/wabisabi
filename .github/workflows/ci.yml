@@ -19,6 +19,23 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
 
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.2'
+          channel: stable
+      - run: flutter pub get
+      - run: flutter test
+      # The catalogue smoke test lives with the example it renders.
+      - run: flutter pub get
+        working-directory: example
+      - run: flutter test
+        working-directory: example
+
   check_web_tokens:
     name: Web token drift
     runs-on: ubuntu-latest
@@ -27,6 +44,20 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - run: dart tool/export_tokens.dart
       - run: git diff --exit-code web/quarto/
+
+  check_contract:
+    name: Architecture contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      # Import direction, acyclicity, sealed raw tokens. See ARCHITECTURE.md.
+      - run: dart tool/check_layering.dart
+      # Public-surface naming + example coverage, ratcheted against
+      # tool/public_api_baseline.txt.
+      - run: dart tool/check_public_api.dart
+      # Ink and paper only, every font size on the WabType ladder.
+      - run: dart tool/check_house_rules.dart
 
   build_apk:
     name: Build APK

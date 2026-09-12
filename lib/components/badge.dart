@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../materials/deckle_border.dart';
+import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
+import '../theme/type_scale.dart';
 
 enum WabBadgeKind {
   neutral,
@@ -26,12 +28,12 @@ class WabStatusBadge extends StatelessWidget {
   final String label;
   final WabBadgeKind kind;
 
-  Color get _bg => switch (kind) {
-        WabBadgeKind.neutral => WabTheme.secondaryColor.withOpacity(.72),
-        WabBadgeKind.primary || WabBadgeKind.progress => WabTheme.progressColor,
-        WabBadgeKind.success || WabBadgeKind.done => WabTheme.onColor,
-        WabBadgeKind.warning => WabTheme.accentColor.withOpacity(.82),
-        WabBadgeKind.error => WabTheme.sealColor,
+  Color _bg(WabColors wab) => switch (kind) {
+        WabBadgeKind.neutral => wab.secondaryColor.withValues(alpha: .72),
+        WabBadgeKind.primary || WabBadgeKind.progress => wab.progressColor,
+        WabBadgeKind.success || WabBadgeKind.done => wab.onColor,
+        WabBadgeKind.warning => wab.accentColor.withValues(alpha: .82),
+        WabBadgeKind.error => wab.sealColor,
       };
 
   bool get _darkText =>
@@ -39,10 +41,11 @@ class WabStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     final side = kind == WabBadgeKind.neutral
-        ? BorderSide(color: WabTheme.lineColor, width: WAB_RULE_HAIRLINE)
+        ? BorderSide(color: wab.lineColor, width: WAB_RULE_HAIRLINE)
         : BorderSide.none;
-    final shape = DeckleBorder(
+    final shape = WabDeckleBorder(
       roughness: .42,
       horizontalRoughness: .42,
       seed: 120 + kind.index * 17,
@@ -50,14 +53,14 @@ class WabStatusBadge extends StatelessWidget {
       side: side,
     );
     return DecoratedBox(
-      decoration: ShapeDecoration(color: _bg, shape: shape),
+      decoration: ShapeDecoration(color: _bg(wab), shape: shape),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
         child: Text(
           label,
           style: TextStyle(
-            color: _darkText ? WabTheme.textColor : WabTheme.paperWhite,
-            fontSize: 11,
+            color: _darkText ? wab.textColor : wab.paperWhite,
+            fontSize: WabType.gloss,
             fontWeight: FontWeight.w600,
             height: 1,
             fontFamilyFallback: kWabKaiFallback,
@@ -81,15 +84,18 @@ class WabStarRating extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) => Row(
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return Row(
         mainAxisSize: MainAxisSize.min,
         children: List.generate(max, (i) {
           final filled = i < rating;
           return Icon(
             filled ? Icons.star : Icons.star_border,
             size: size,
-            color: filled ? WabTheme.accentColor : WabTheme.secondaryColor,
+            color: filled ? wab.accentColor : wab.secondaryColor,
           );
         }),
-      );
+    );
+  }
 }

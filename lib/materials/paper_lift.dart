@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
+import '../tokens/texture.dart';
 
 /// 紙翹陰影 — an irregular contact shadow made by a slightly lifted paper edge.
 ///
@@ -22,6 +23,7 @@ class WabPaperLift extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return Padding(
       padding: EdgeInsets.only(right: depth, bottom: depth),
       child: Stack(
@@ -35,7 +37,7 @@ class WabPaperLift extends StatelessWidget {
             child: IgnorePointer(
               child: CustomPaint(
                 painter: _PaperLiftPainter(
-                  dark: WabTheme.isDark,
+                  dark: wab.isDark,
                   seed: seed,
                   axis: Axis.horizontal,
                 ),
@@ -50,7 +52,7 @@ class WabPaperLift extends StatelessWidget {
             child: IgnorePointer(
               child: CustomPaint(
                 painter: _PaperLiftPainter(
-                  dark: WabTheme.isDark,
+                  dark: wab.isDark,
                   seed: seed + 7,
                   axis: Axis.vertical,
                 ),
@@ -118,7 +120,7 @@ class _PaperLiftPainter extends CustomPainter {
     canvas.drawPath(
       soft,
       Paint()
-        ..color = Colors.black.withOpacity(dark ? .27 : .115)
+        ..color = WAB_TEXTURE_INK.withValues(alpha: dark ? .27 : .115)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.8),
     );
 
@@ -130,7 +132,7 @@ class _PaperLiftPainter extends CustomPainter {
     canvas.drawPath(
       contact,
       Paint()
-        ..color = Colors.black.withOpacity(dark ? .24 : .105)
+        ..color = WAB_TEXTURE_INK.withValues(alpha: dark ? .24 : .105)
         ..style = PaintingStyle.stroke
         ..strokeWidth = .75
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.3),

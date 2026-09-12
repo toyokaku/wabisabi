@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
+import '../tokens/texture.dart';
 import 'wood_grain.dart';
 
 /// 木板 — a rigid wood material form built on top of [WabWoodGrain].
@@ -29,7 +30,7 @@ class WabWoodSlab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = isDark ?? WabTheme.isDark;
+    final dark = isDark ?? WabTheme.of(context).isDark;
     final shape = BorderRadius.circular(radius);
 
     return Container(
@@ -38,7 +39,7 @@ class WabWoodSlab extends StatelessWidget {
         boxShadow: lifted
             ? [
                 BoxShadow(
-                  color: Colors.black.withOpacity(dark ? .28 : .14),
+                  color: WAB_TEXTURE_INK.withValues(alpha: dark ? .28 : .14),
                   blurRadius: 5.5,
                   spreadRadius: -.7,
                   offset: const Offset(2.2, 3.0),
@@ -71,8 +72,9 @@ class _WoodSlabEdgePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (size.isEmpty) return;
 
-    final light = Colors.white.withOpacity(dark ? .08 : .24);
-    final darkEdge = Colors.black.withOpacity(dark ? .26 : .18);
+    final light =
+        WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT.withValues(alpha: dark ? .08 : .24);
+    final darkEdge = WAB_TEXTURE_INK.withValues(alpha: dark ? .26 : .18);
 
     final highlight = Paint()
       ..color = light

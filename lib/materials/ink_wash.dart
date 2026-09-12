@@ -1,23 +1,41 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
+import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
+import '../tokens/texture.dart';
 
 /// 墨暈 — layered wet-ink clouds with soft capillary spread.
 ///
 /// No scratch or contour lines are drawn; the material reads through density,
 /// overlap and blur alone.
 class WabInkWash extends CustomPainter {
-  WabInkWash({this.isDark, this.seed = 943});
+  /// Resolves the theme once, at construction, so [shouldRepaint] can compare
+  /// what the painter will actually draw with. Reading the theme inside
+  /// [paint] leaves a stale wash behind when light/dark flips.
+  /// Pass [colors] — `WabTheme.of(context)` — so the wash follows the ambient
+  /// theme. A painter has no context of its own; without it the palette falls
+  /// back to the legacy statics.
+  factory WabInkWash({WabColors? colors, bool? isDark, int seed = 943}) {
+    final dark = isDark ?? colors?.isDark ?? WabTheme.isDark;
+    final ink = dark
+        ? (colors?.mutedLight ?? WabTheme.mutedLight)
+        : (colors?.textColor ?? WabTheme.textColor);
+    return WabInkWash._(dark, ink, seed);
+  }
 
-  final bool? isDark;
+  const WabInkWash._(this.isDark, this.ink, this.seed);
+
+  final bool isDark;
+
+  /// The wash colour, resolved from the theme at construction.
+  final Color ink;
   final int seed;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final dark = isDark ?? WabTheme.isDark;
+    final dark = isDark;
     final rnd = math.Random(seed);
-    final ink = dark ? WabTheme.mutedLight : WabTheme.textColor;
 
     for (var i = 0; i < 9; i++) {
       final rx = size.width * (.10 + rnd.nextDouble() * .20);
@@ -27,7 +45,7 @@ class WabInkWash extends CustomPainter {
       canvas.drawOval(
         Rect.fromCenter(center: center, width: rx * 2, height: ry * 2),
         Paint()
-          ..color = ink.withOpacity(op)
+          ..color = ink.withValues(alpha: op)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.min(rx, ry) * .46),
       );
     }
@@ -39,12 +57,14 @@ class WabInkWash extends CustomPainter {
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
         Paint()
-          ..color = (dark ? Colors.black : Colors.white).withOpacity(dark ? .035 : .10)
+          ..color = (dark ? WAB_TEXTURE_INK : WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT)
+              .withValues(alpha: dark ? .035 : .10)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * .65),
       );
     }
   }
 
   @override
-  bool shouldRepaint(WabInkWash old) => old.isDark != isDark || old.seed != seed;
+  bool shouldRepaint(WabInkWash old) =>
+      old.isDark != isDark || old.ink != ink || old.seed != seed;
 }

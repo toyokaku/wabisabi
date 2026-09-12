@@ -4,6 +4,7 @@ import '../materials/paper_lift.dart';
 import '../materials/surface.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
+import '../theme/type_scale.dart';
 
 /// Frameless titled paper panel. A subtle irregular contact shadow replaces the
 /// outer border; internal hairlines remain available for structure.
@@ -25,6 +26,7 @@ class WabPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     final body = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
@@ -35,8 +37,8 @@ class WabPanel extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: WabTheme.textColor,
-                  fontSize: 15,
+                  color: wab.textColor,
+                  fontSize: WabType.label,
                   fontWeight: FontWeight.w600,
                   letterSpacing: .5,
                   fontFamilyFallback: kWabKaiFallback,
@@ -48,7 +50,7 @@ class WabPanel extends StatelessWidget {
         ),
         const SizedBox(height: 7),
         Divider(
-          color: WabTheme.lineColor.withOpacity(.68),
+          color: wab.lineColor.withValues(alpha: .68),
           thickness: WAB_RULE_HAIRLINE,
           height: WAB_RULE_HAIRLINE,
         ),
@@ -56,8 +58,8 @@ class WabPanel extends StatelessWidget {
         DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyMedium ??
               TextStyle(
-                color: WabTheme.textColor,
-                fontSize: 14,
+                color: wab.textColor,
+                fontSize: WabType.body,
                 fontFamilyFallback: kWabKaiFallback,
                 decoration: TextDecoration.none,
               ),

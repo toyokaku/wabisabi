@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/typography.dart';
-import '../theme/wab_theme.dart';
+import 'typography.dart';
+import 'wab_theme.dart';
 
 /// 印體 — a readable seal-adjacent display treatment built from the bundled
 /// WabKai face. The glyph is widened, slightly flattened and reinforced with a
@@ -30,7 +30,7 @@ class WabSealText extends StatelessWidget {
     // negative/白文 surfaces: a WabButton can declare white seal ink and
     // WabSealText follows it in both light and dark themes.
     final inherited = DefaultTextStyle.of(context).style.color;
-    final ink = color ?? inherited ?? WabTheme.textColor;
+    final ink = color ?? inherited ?? WabTheme.of(context).textColor;
     final effectiveSize = fontSize < 24 ? 24.0 : fontSize;
     final base = TextStyle(
       fontFamily: kWabDisplayFamily,

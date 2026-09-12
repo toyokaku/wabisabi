@@ -30,7 +30,7 @@ enum WabSurfaceKind {
 
 /// Public material façade. Every catalogue material comes through the kit.
 class WabSurface extends StatelessWidget {
-  WabSurface({
+  const WabSurface({
     super.key,
     required this.kind,
     required this.child,
@@ -47,11 +47,11 @@ class WabSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = isDark ?? WabTheme.isDark;
+    final dark = isDark ?? WabTheme.of(context).isDark;
     final paper = dark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT;
     final fibrePaper = dark
         ? paper
-        : Color.alphaBlend(WAB_TEXTURE_PAPER_AGE_LIGHT.withOpacity(.055), paper);
+        : Color.alphaBlend(WAB_TEXTURE_PAPER_AGE_LIGHT.withValues(alpha: .055), paper);
     final content = Padding(padding: padding, child: child);
 
     Widget surface = switch (kind) {
@@ -89,7 +89,10 @@ class WabSurface extends StatelessWidget {
           child: WabPaperTexture(
             isDark: dark,
             strength: .28,
-            child: CustomPaint(painter: WabInkWash(isDark: dark), child: content),
+            child: CustomPaint(
+            painter: WabInkWash(colors: WabTheme.of(context), isDark: dark),
+            child: content,
+          ),
           ),
         ),
       WabSurfaceKind.patina => WabPatinaTexture(isDark: dark, child: content),

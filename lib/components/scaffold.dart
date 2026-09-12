@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'wab_widget.dart';
+import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import '../tokens/spacing.dart';
+import '../theme/type_scale.dart';
 
-export 'wab_utils.dart' show isIos;
-
-class WabScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
-  WabScaffold({
+class WabScaffold extends WabWidget {
+  const WabScaffold({
+    super.key,
     required this.body,
     this.title,
     this.appBar,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.floatingActionButtonAnimator,
+    this.textured = false,
   });
 
   final Widget body;
@@ -24,12 +26,44 @@ class WabScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
+  /// Paints the ambient washi / lacquer ground behind [body].
+  /// [WabTexturedScaffold] is this flag with a name.
+  final bool textured;
+
+  Widget _ground(WabColors wab, Widget content) {
+    if (!textured) return content;
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: CustomPaint(painter: WabTexturePainter(isDark: wab.isDark)),
+        ),
+        content,
+      ],
+    );
+  }
+
+  /// CupertinoPageScaffold has no floating-action slot, so place the button
+  /// where Material would rather than dropping it.
+  Widget _withFloatingAction(Widget content) {
+    if (floatingActionButton == null) return content;
+    return Stack(
+      children: [
+        Positioned.fill(child: content),
+        Positioned(
+          right: 16,
+          bottom: 16,
+          child: SafeArea(child: floatingActionButton!),
+        ),
+      ],
+    );
+  }
+
   Widget _wrapCupertinoBody(BuildContext context, Widget content) {
     final theme = Theme.of(context);
     final defaultStyle = theme.textTheme.bodyMedium ??
         TextStyle(
-          color: WabTheme.textColor,
-          fontSize: 14,
+          color: WabTheme.of(context).textColor,
+          fontSize: WabType.body,
           fontFamilyFallback: kWabKaiFallback,
           decoration: TextDecoration.none,
         );
@@ -43,31 +77,49 @@ class WabScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
   }
 
   @override
-  CupertinoPageScaffold createCupertinoWidget(BuildContext context) =>
-      CupertinoPageScaffold(
-        navigationBar: appBar?.createCupertinoWidget(context) ??
-            WabAppBar(title: title).createCupertinoWidget(context),
-        child: _wrapCupertinoBody(
-          context,
-          floatingActionButton == null
-              ? body
-              : PageView(children: [body]),
-        ),
-      );
+  CupertinoPageScaffold createCupertinoWidget(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return CupertinoPageScaffold(
+      backgroundColor: textured ? wab.backgroundColor : null,
+      navigationBar: appBar?.createCupertinoWidget(context) ??
+          WabAppBar(title: title).createCupertinoWidget(context),
+      child: _wrapCupertinoBody(
+        context,
+        _ground(wab, _withFloatingAction(body)),
+      ),
+    );
+  }
 
   @override
-  Scaffold createMaterialWidget(BuildContext context) => Scaffold(
+  Scaffold createMaterialWidget(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return Scaffold(
+        backgroundColor: textured ? wab.backgroundColor : null,
         appBar: appBar?.createMaterialWidget(context) ??
             WabAppBar(title: title).createMaterialWidget(context),
-        body: body,
+        body: _ground(wab, body),
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,
         floatingActionButtonAnimator: floatingActionButtonAnimator,
-      );
+    );
+  }
 }
 
-class WabAppBar extends WabWidget<CupertinoNavigationBar, PreferredSize> {
-  WabAppBar({this.title, this.action, this.leading});
+/// [WabScaffold] with the ambient material ground painted behind the body.
+class WabTexturedScaffold extends WabScaffold {
+  const WabTexturedScaffold({
+    super.key,
+    required super.body,
+    super.title,
+    super.appBar,
+    super.floatingActionButton,
+    super.floatingActionButtonLocation,
+    super.floatingActionButtonAnimator,
+  }) : super(textured: true);
+}
+
+class WabAppBar extends WabWidget {
+  const WabAppBar({super.key, this.title, this.action, this.leading});
 
   final Text? title;
   final Widget? action;
@@ -92,134 +144,88 @@ class WabAppBar extends WabWidget<CupertinoNavigationBar, PreferredSize> {
       );
 }
 
-class WabContainer extends Container {
-  WabContainer({required Widget child, EdgeInsets? padding})
-      : super(
-          padding: padding ?? WAB_PADDING_CONTAINER_SMALL,
-          margin: WAB_PADDING_ALL,
-          decoration: BoxDecoration(
-            color: WabTheme.primaryColor,
-            borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
-            boxShadow: WabTheme.elevationShadow,
-            border: Border.all(
-              color: WabTheme.isDark
-                  ? WabTheme.accentColor.withOpacity(0.28)
-                  : WabTheme.secondaryColor,
-              width: 0.8,
-            ),
-          ),
-          child: child,
-        );
-}
+/// Lifted panel on the primary ground.
+///
+/// Composes a [Container] rather than extending one: the decoration is built
+/// at build time from the ambient theme, so it follows a theme change instead
+/// of freezing whatever palette existed when the widget was constructed.
+class WabContainer extends StatelessWidget {
+  const WabContainer({super.key, required this.child, this.padding});
 
-class WabLiteContainer extends Container {
-  WabLiteContainer({required Widget child})
-      : super(
-          margin: WAB_PADDING_ALL,
-          padding: WAB_PADDING_CONTAINER_SMALL,
-          decoration: BoxDecoration(
-            color: WabTheme.surfaceColor,
-            borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
-            boxShadow: WabTheme.elevationShadow,
-            border: Border.all(
-              color: WabTheme.isDark
-                  ? WabTheme.accentColor.withOpacity(0.28)
-                  : WabTheme.secondaryColor,
-              width: 0.8,
-            ),
-          ),
-          child: child,
-        );
-}
+  final Widget child;
+  final EdgeInsets? padding;
 
-class WabContentContainer extends Container {
-  WabContentContainer({
-    required Widget child,
-    EdgeInsets? padding,
-    EdgeInsets? margin,
-    double? maxWidth,
-  }) : super(
-          padding: padding,
-          margin: margin ?? EdgeInsets.only(bottom: 8),
-          // No default width cap — opt in via [maxWidth] only when needed.
-          constraints:
-              maxWidth == null ? null : BoxConstraints(maxWidth: maxWidth),
-          child: child,
-        );
-}
-
-class WabTexturedScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
-  WabTexturedScaffold({
-    required this.body,
-    this.title,
-    this.appBar,
-    this.floatingActionButton,
-    this.floatingActionButtonLocation,
-    this.floatingActionButtonAnimator,
-  });
-
-  final Widget body;
-  final Text? title;
-  final WabAppBar? appBar;
-  final FloatingActionButton? floatingActionButton;
-  final FloatingActionButtonLocation? floatingActionButtonLocation;
-  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
-
-  Widget _wrapCupertinoBody(BuildContext context, Widget content) {
-    final theme = Theme.of(context);
-    final defaultStyle = theme.textTheme.bodyMedium ??
-        TextStyle(
-          color: WabTheme.textColor,
-          fontSize: 14,
-          fontFamilyFallback: kWabKaiFallback,
-          decoration: TextDecoration.none,
-        );
-    return Material(
-      type: MaterialType.transparency,
-      child: DefaultTextStyle(
-        style: defaultStyle,
-        child: content,
-      ),
+  @override
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return Container(
+      padding: padding ?? WAB_PADDING_CONTAINER_SMALL,
+      margin: WAB_PADDING_ALL,
+      decoration: _lifted(wab, wab.primaryColor),
+      child: child,
     );
   }
+}
+
+/// [WabContainer] on the surface ground.
+class WabLiteContainer extends StatelessWidget {
+  const WabLiteContainer({super.key, required this.child});
+
+  final Widget child;
 
   @override
-  CupertinoPageScaffold createCupertinoWidget(BuildContext context) =>
-      CupertinoPageScaffold(
-        backgroundColor: WabTheme.backgroundColor,
-        navigationBar: appBar?.createCupertinoWidget(context) ??
-            WabAppBar(title: title).createCupertinoWidget(context),
-        child: _wrapCupertinoBody(
-          context,
-          Stack(children: [
-            Positioned.fill(
-                child: CustomPaint(
-                    painter: TexturePainter(isDark: WabTheme.isDark))),
-            floatingActionButton == null ? body : PageView(children: [body]),
-          ]),
-        ),
-      );
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return Container(
+      margin: WAB_PADDING_ALL,
+      padding: WAB_PADDING_CONTAINER_SMALL,
+      decoration: _lifted(wab, wab.surfaceColor),
+      child: child,
+    );
+  }
+}
+
+BoxDecoration _lifted(WabColors wab, Color fill) => BoxDecoration(
+      color: fill,
+      borderRadius: BorderRadius.circular(WAB_SECTION_BORDER_RADIUS),
+      boxShadow: wab.elevationShadow,
+      border: Border.all(
+        color: wab.isDark
+            ? wab.accentColor.withValues(alpha: 0.28)
+            : wab.secondaryColor,
+        width: 0.8,
+      ),
+    );
+
+/// Content bounds only — no ground, no elevation.
+class WabContentContainer extends StatelessWidget {
+  const WabContentContainer({
+    super.key,
+    required this.child,
+    this.padding,
+    this.margin,
+    this.maxWidth,
+  });
+
+  final Widget child;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final double? maxWidth;
 
   @override
-  Scaffold createMaterialWidget(BuildContext context) => Scaffold(
-        backgroundColor: WabTheme.backgroundColor,
-        appBar: appBar?.createMaterialWidget(context) ??
-            WabAppBar(title: title).createMaterialWidget(context),
-        body: Stack(children: [
-          Positioned.fill(
-              child: CustomPaint(
-                  painter: TexturePainter(isDark: WabTheme.isDark))),
-          body,
-        ]),
-        floatingActionButton: floatingActionButton,
-        floatingActionButtonLocation: floatingActionButtonLocation,
-        floatingActionButtonAnimator: floatingActionButtonAnimator,
+  Widget build(BuildContext context) => Container(
+        padding: padding,
+        margin: margin ?? const EdgeInsets.only(bottom: 8),
+        // No default width cap — opt in via [maxWidth] only when needed.
+        constraints:
+            maxWidth == null ? null : BoxConstraints(maxWidth: maxWidth!),
+        child: child,
       );
 }
 
-class TexturePainter extends CustomPainter {
+class WabTexturePainter extends CustomPainter {
   final bool isDark;
-  TexturePainter({required this.isDark});
+  WabTexturePainter({required this.isDark});
 
   // Deterministic pseudo-random in [0,1) from two ints.
   static double _rand(int a, int b) =>
@@ -266,9 +272,9 @@ class TexturePainter extends CustomPainter {
     double jPos = 0;
     int row = 0;
     while (jPos < h) {
-      final opacity = (0x06 + (_rand(row, 7).clamp(0, 1) * 0x0E).toInt()) / 255;
+      final opacity = (0x06 + (_rand(row, 7) * 0x0E).toInt()) / 255;
       final strokeW = 0.3 + _rand(row, 11) * 0.7;
-      fiberBase.color = WAB_WASHI_FIBER.withOpacity(opacity);
+      fiberBase.color = WAB_WASHI_FIBER.withValues(alpha: opacity);
       fiberBase.strokeWidth = strokeW;
 
       if (_rand(row, 3) < 0.62) {
@@ -333,5 +339,11 @@ class TexturePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant WabTexturePainter oldDelegate) =>
+      oldDelegate.isDark != isDark;
 }
+
+/// Old name, kept so consumers can migrate without a broken build.
+@Deprecated('Renamed to WabTexturePainter. This alias goes at the next major '
+    'version.')
+typedef TexturePainter = WabTexturePainter;

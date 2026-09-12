@@ -10,7 +10,7 @@ import '../tokens/texture.dart';
 /// not a standalone paper strip: use it where a sheet would naturally fold or
 /// where a tactile divider is needed.
 class WabPaperFold extends StatelessWidget {
-  WabPaperFold({
+  const WabPaperFold({
     super.key,
     this.child,
     this.height = 12,
@@ -27,7 +27,7 @@ class WabPaperFold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = isDark ?? WabTheme.isDark;
+    final dark = isDark ?? WabTheme.of(context).isDark;
     return SizedBox(
       width: double.infinity,
       height: height,
@@ -66,10 +66,10 @@ class _PaperFoldPainter extends CustomPainter {
           end: Alignment.bottomCenter,
           colors: [
             Colors.transparent,
-            highlight.withOpacity(isDark ? .06 : .16),
-            crease.withOpacity(isDark ? .12 : .10),
-            crease.withOpacity(isDark ? .19 : .16),
-            highlight.withOpacity(isDark ? .04 : .20),
+            highlight.withValues(alpha: isDark ? .06 : .16),
+            crease.withValues(alpha: isDark ? .12 : .10),
+            crease.withValues(alpha: isDark ? .19 : .16),
+            highlight.withValues(alpha: isDark ? .04 : .20),
             Colors.transparent,
           ],
         ).createShader(band),
@@ -86,7 +86,7 @@ class _PaperFoldPainter extends CustomPainter {
     canvas.drawPath(
       creasePath,
       Paint()
-        ..color = crease.withOpacity(isDark ? .30 : .24)
+        ..color = crease.withValues(alpha: isDark ? .30 : .24)
         ..style = PaintingStyle.stroke
         ..strokeWidth = .85
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, .8),
@@ -94,7 +94,7 @@ class _PaperFoldPainter extends CustomPainter {
     canvas.drawPath(
       highlightPath,
       Paint()
-        ..color = highlight.withOpacity(isDark ? .10 : .46)
+        ..color = highlight.withValues(alpha: isDark ? .10 : .46)
         ..style = PaintingStyle.stroke
         ..strokeWidth = .55,
     );

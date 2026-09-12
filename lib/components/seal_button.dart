@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../theme/seal_text.dart';
 import '../theme/wab_theme.dart';
 import 'button.dart';
-import 'seal_text.dart';
 
 /// Canonical full-face cinnabar seal action.
 class WabSealButton extends StatelessWidget {
@@ -20,7 +20,8 @@ class WabSealButton extends StatelessWidget {
   final double fontSize;
 
   @override
-  Widget build(BuildContext context) => WabButton(
+  Widget build(BuildContext context) {
+    return WabButton(
         kind: WabMaterialKind.seal,
         onPressed: onPressed,
         expand: expand,
@@ -28,8 +29,9 @@ class WabSealButton extends StatelessWidget {
         child: WabSealText(
           label,
           fontSize: fontSize,
-          color: WabTheme.paperWhite,
+          color: WabTheme.of(context).paperWhite,
           strokeWidth: .82,
         ),
-      );
+    );
+  }
 }

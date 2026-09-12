@@ -32,7 +32,7 @@ class WabWoodGrain extends CustomPainter {
         path,
         Paint()
           ..color = (i % 4 == 0 ? light : deep)
-              .withOpacity(i % 4 == 0 ? .18 : .24)
+              .withValues(alpha: i % 4 == 0 ? .13 : .17)
           ..style = PaintingStyle.stroke
           ..strokeWidth = i % 5 == 0 ? .85 : .55,
       );
@@ -45,7 +45,7 @@ class WabWoodGrain extends CustomPainter {
       final y = (i * 19.0 + seed * 7) % safeHeight;
       canvas.drawOval(
         Rect.fromCenter(center: Offset(x, y), width: 4.0 + i % 7, height: .7),
-        Paint()..color = deep.withOpacity(.14),
+        Paint()..color = deep.withValues(alpha: .10),
       );
     }
 
@@ -55,7 +55,7 @@ class WabWoodGrain extends CustomPainter {
         canvas.drawOval(
           Rect.fromCenter(center: c, width: r * 2.7, height: r * 1.5),
           Paint()
-            ..color = deep.withOpacity(.22)
+            ..color = deep.withValues(alpha: .16)
             ..style = PaintingStyle.stroke
             ..strokeWidth = .75,
         );
@@ -64,7 +64,7 @@ class WabWoodGrain extends CustomPainter {
 
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.width, 1.2),
-      Paint()..color = light.withOpacity(isDark ? .08 : .24),
+      Paint()..color = light.withValues(alpha: isDark ? .08 : .24),
     );
   }
 

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../materials/rule_frame.dart';
+import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/spacing.dart';
 
-OutlineInputBorder _wabRuleBorder(WabRuleKind kind, {bool focused = false}) {
+OutlineInputBorder _wabRuleBorder(
+  WabColors wab,
+  WabRuleKind kind, {
+  bool focused = false,
+}) {
   final color = focused
-      ? WabTheme.textColor.withOpacity(.72)
-      : WabTheme.lineColor.withOpacity(.82);
+      ? wab.textColor.withValues(alpha: .72)
+      : wab.lineColor.withValues(alpha: .82);
   return OutlineInputBorder(
     borderRadius: BorderRadius.zero,
     borderSide: BorderSide(
@@ -17,21 +22,27 @@ OutlineInputBorder _wabRuleBorder(WabRuleKind kind, {bool focused = false}) {
   );
 }
 
-InputDecoration wabInputDecoration({
+/// Ruled input decoration in the kit's 界行 language.
+///
+/// Takes a [BuildContext] so it reads the ambient theme rather than whichever
+/// theme was built last.
+InputDecoration wabInputDecoration(
+  BuildContext context, {
   String? hintText,
   Widget? prefixIcon,
   WabRuleKind kind = WabRuleKind.thin,
 }) {
+  final wab = WabTheme.of(context);
   return InputDecoration(
     hintText: hintText,
-    hintStyle: TextStyle(color: WabTheme.mutedColor),
+    hintStyle: TextStyle(color: wab.mutedColor),
     prefixIcon: prefixIcon,
     filled: true,
-    fillColor: WabTheme.scratchColor.withOpacity(.58),
+    fillColor: wab.scratchColor.withValues(alpha: .58),
     contentPadding: WAB_PADDING_ALL,
-    enabledBorder: _wabRuleBorder(kind),
-    focusedBorder: _wabRuleBorder(kind, focused: true),
-    border: _wabRuleBorder(kind),
+    enabledBorder: _wabRuleBorder(wab, kind),
+    focusedBorder: _wabRuleBorder(wab, kind, focused: true),
+    border: _wabRuleBorder(wab, kind),
   );
 }
 
@@ -56,10 +67,11 @@ class WabMultilineField extends StatelessWidget {
         maxLines: maxLines,
         onChanged: onChanged,
         style: TextStyle(
-          color: WabTheme.textColor,
+          color: WabTheme.of(context).textColor,
           fontFamilyFallback: kWabKaiFallback,
         ),
         decoration: wabInputDecoration(
+          context,
           hintText: hintText,
           kind: WabRuleKind.single,
         ),
@@ -79,22 +91,25 @@ class WabCheckbox extends StatelessWidget {
   final String? label;
 
   @override
-  Widget build(BuildContext context) => Row(
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Checkbox(
             value: value,
             onChanged: onChanged,
-            activeColor: WabTheme.textColor,
-            checkColor: WabTheme.paperWhite,
+            activeColor: wab.textColor,
+            checkColor: wab.paperWhite,
             visualDensity: VisualDensity.compact,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(.8)),
-            side: BorderSide(color: WabTheme.textColor, width: 1.8),
+            side: BorderSide(color: wab.textColor, width: 1.8),
           ),
           if (label != null)
-            Text(label!, style: TextStyle(color: WabTheme.textColor)),
+            Text(label!, style: TextStyle(color: wab.textColor)),
         ],
-      );
+    );
+  }
 }
 
 class WabRadio<T> extends StatelessWidget {
@@ -112,22 +127,35 @@ class WabRadio<T> extends StatelessWidget {
   final String? label;
 
   @override
-  Widget build(BuildContext context) => Row(
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Radio<T>(
-            value: value,
+          // Each control is its own group of one, which is what the old
+          // per-radio groupValue/onChanged pair meant. Selection is still
+          // value == groupValue, so the public API is unchanged.
+          RadioGroup<T>(
             groupValue: groupValue,
-            onChanged: onChanged,
-            activeColor: WabTheme.textColor,
-            visualDensity: VisualDensity.compact,
-            side: BorderSide(color: WabTheme.textColor, width: 1.8),
+            onChanged: onChanged ?? (_) {},
+            child: Radio<T>(
+              value: value,
+              enabled: onChanged != null,
+              activeColor: wab.textColor,
+              visualDensity: VisualDensity.compact,
+              side: BorderSide(color: wab.textColor, width: 1.8),
+            ),
           ),
           if (label != null)
-            Text(label!, style: TextStyle(color: WabTheme.textColor)),
+            Text(label!, style: TextStyle(color: wab.textColor)),
         ],
-      );
+    );
+  }
 }
+
+/// Inset from each end of a fish-tail track to the marker's travel limit.
+/// Shared so the hit test and the painter agree on where the ends are.
+const double _kTrackInset = 9.0;
 
 /// Horizontal switch using a rotated 古籍魚尾 / black-corner marker rather than
 /// a modern pill thumb. The marker moves between the two ends of a fine rule.
@@ -144,7 +172,9 @@ class WabSwitch extends StatelessWidget {
   final String? label;
 
   @override
-  Widget build(BuildContext context) => Row(
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           GestureDetector(
@@ -158,16 +188,19 @@ class WabSwitch extends StatelessWidget {
                   value: value ? 1.0 : 0.0,
                   enabled: onChanged != null,
                   binary: true,
+                  ink: wab.textColor,
+                  line: wab.lineColor,
                 ),
               ),
             ),
           ),
           if (label != null) ...[
             const SizedBox(width: 5),
-            Text(label!, style: TextStyle(color: WabTheme.textColor)),
+            Text(label!, style: TextStyle(color: wab.textColor)),
           ],
         ],
-      );
+    );
+  }
 }
 
 /// Slider/progress language derived from a horizontalized book-page 魚尾.
@@ -186,13 +219,15 @@ class WabSlider extends StatelessWidget {
   final double max;
 
   double _fromDx(double dx, double width) {
-    if (width <= 20) return min;
-    final t = ((dx - 10) / (width - 20)).clamp(0.0, 1.0).toDouble();
+    final span = width - _kTrackInset * 2;
+    if (span <= 0) return min;
+    final t = ((dx - _kTrackInset) / span).clamp(0.0, 1.0).toDouble();
     return min + (max - min) * t;
   }
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     final t = max == min
         ? 0.0
         : ((value - min) / (max - min)).clamp(0.0, 1.0).toDouble();
@@ -212,6 +247,8 @@ class WabSlider extends StatelessWidget {
               value: t,
               enabled: onChanged != null,
               binary: false,
+              ink: wab.textColor,
+              line: wab.lineColor,
             ),
             child: const SizedBox.expand(),
           ),
@@ -226,20 +263,24 @@ class _FishTailTrackPainter extends CustomPainter {
     required this.value,
     required this.enabled,
     required this.binary,
+    required this.ink,
+    required this.line,
   });
 
   final double value;
   final bool enabled;
   final bool binary;
+  final Color ink;
+  final Color line;
 
   @override
   void paint(Canvas canvas, Size size) {
     if (size.isEmpty) return;
-    final ink = WabTheme.textColor.withOpacity(enabled ? .82 : .30);
-    final line = WabTheme.lineColor.withOpacity(enabled ? .78 : .36);
+    final ink = this.ink.withValues(alpha: enabled ? .82 : .30);
+    final line = this.line.withValues(alpha: enabled ? .78 : .36);
     final y = size.height / 2;
-    final left = 9.0;
-    final right = size.width - 9.0;
+    const left = _kTrackInset;
+    final right = size.width - _kTrackInset;
     final t = value.clamp(0.0, 1.0).toDouble();
     final x = left + (right - left) * t;
 
@@ -255,7 +296,7 @@ class _FishTailTrackPainter extends CustomPainter {
         Offset(left, y),
         Offset(x, y),
         Paint()
-          ..color = ink.withOpacity(.48)
+          ..color = ink.withValues(alpha: .48)
           ..strokeWidth = 1.25,
       );
     }
@@ -284,7 +325,11 @@ class _FishTailTrackPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_FishTailTrackPainter old) =>
-      old.value != value || old.enabled != enabled || old.binary != binary;
+      old.value != value ||
+      old.enabled != enabled ||
+      old.binary != binary ||
+      old.ink != ink ||
+      old.line != line;
 }
 
 class WabDropdown<T> extends StatelessWidget {
@@ -302,17 +347,20 @@ class WabDropdown<T> extends StatelessWidget {
   final String? hintText;
 
   @override
-  Widget build(BuildContext context) => DropdownButtonFormField<T>(
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return DropdownButtonFormField<T>(
         initialValue: value,
         items: items.entries
             .map((e) => DropdownMenuItem<T>(value: e.key, child: Text(e.value)))
             .toList(),
         onChanged: onChanged,
-        dropdownColor: WabTheme.surfaceColor,
+        dropdownColor: wab.surfaceColor,
         style: TextStyle(
-          color: WabTheme.textColor,
+          color: wab.textColor,
           fontFamilyFallback: kWabKaiFallback,
         ),
-        decoration: wabInputDecoration(hintText: hintText),
-      );
+        decoration: wabInputDecoration(context, hintText: hintText),
+    );
+  }
 }

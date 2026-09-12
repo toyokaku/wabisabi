@@ -1,0 +1,12 @@
+# Known public-surface violations. tool/check_public_api.dart fails on anything
+# NOT listed here, so this file can only shrink: fix the violation, delete the
+# line. It also fails on entries that no longer apply, so it cannot rot.
+#
+# It is empty, and that is the point. Every exported name carries the kit's
+# prefix and every exported type is drawn in example/lib. Six unprefixed names
+# were renamed for 0.1.0 and left behind as @Deprecated aliases, which the
+# checker exempts from both rules — an old name kept for migration exists to be
+# the old name, and a type scheduled for removal should not be advertised in the
+# catalogue.
+#
+# If you are adding a line here, say why in the commit, not just here.

@@ -5,7 +5,7 @@ import '../tokens/material.dart';
 import 'deckle_border.dart';
 
 /// 毛邊面 deckle surface — a fill plus an optional texture (paper grain,
-/// cloth weave, …), clipped to a [DeckleBorder] shape, with the 淡墨
+/// cloth weave, …), clipped to a [WabDeckleBorder] shape, with the 淡墨
 /// outline stroked on top of the clipped fill.
 ///
 /// In the dark theme, pair `fill: WabTheme.paperWhite` (夜紙) with
@@ -14,8 +14,7 @@ import 'deckle_border.dart';
 ///
 /// The surface sizes itself to [child]; fill and texture follow it.
 class WabDeckleSurface extends StatelessWidget {
-  // Non-const by design: reads WabTheme (lineColor / theme fills) at build.
-  WabDeckleSurface({
+  const WabDeckleSurface({
     super.key,
     required this.child,
     this.fill,
@@ -48,13 +47,13 @@ class WabDeckleSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shape = DeckleBorder(
+    final shape = WabDeckleBorder(
       seed: seed,
       roughness: roughness,
       horizontalRoughness:
           horizontalRoughness ?? WAB_DECKLE_ROUGHNESS_H,
       side: BorderSide(
-        color: sideColor ?? WabTheme.lineColor,
+        color: sideColor ?? WabTheme.of(context).lineColor,
         width: WAB_DECKLE_SIDE_WIDTH,
       ),
     );

@@ -17,6 +17,7 @@ const Color WAB_TEXTURE_PAPER_HIGHLIGHT_DARK = Color(kTexturePaperHighlightDark)
 const Color WAB_TEXTURE_WOOD_BASE_LIGHT = Color(kTextureWoodBaseLight);
 const Color WAB_TEXTURE_WOOD_DEEP_LIGHT = Color(kTextureWoodDeepLight);
 const Color WAB_TEXTURE_WOOD_LIGHT_LIGHT = Color(kTextureWoodLightLight);
+const Color WAB_TEXTURE_WOOD_TEXT_LIGHT = Color(kTextureWoodTextLight);
 const Color WAB_TEXTURE_WOOD_BASE_DARK = Color(kTextureWoodBaseDark);
 const Color WAB_TEXTURE_WOOD_DEEP_DARK = Color(kTextureWoodDeepDark);
 const Color WAB_TEXTURE_WOOD_LIGHT_DARK = Color(kTextureWoodLightDark);
@@ -32,10 +33,14 @@ const Color WAB_TEXTURE_JADE_BASE_LIGHT = Color(kTextureJadeBaseLight);
 const Color WAB_TEXTURE_JADE_DEEP_LIGHT = Color(kTextureJadeDeepLight);
 const Color WAB_TEXTURE_JADE_CLOUD_LIGHT = Color(kTextureJadeCloudLight);
 const Color WAB_TEXTURE_JADE_VEIN_LIGHT = Color(kTextureJadeVeinLight);
+const Color WAB_TEXTURE_JADE_TEXT_LIGHT = Color(kTextureJadeTextLight);
 const Color WAB_TEXTURE_JADE_BASE_DARK = Color(kTextureJadeBaseDark);
 const Color WAB_TEXTURE_JADE_DEEP_DARK = Color(kTextureJadeDeepDark);
 const Color WAB_TEXTURE_JADE_CLOUD_DARK = Color(kTextureJadeCloudDark);
 const Color WAB_TEXTURE_JADE_VEIN_DARK = Color(kTextureJadeVeinDark);
+
+/// 墨 — every shadow and pressed edge in the kit. Never `Colors.black`.
+const Color WAB_TEXTURE_INK = Color(kTextureInk);
 
 const Color WAB_TEXTURE_RUBBING_BASE = Color(kTextureRubbingBase);
 const Color WAB_TEXTURE_RUBBING_DEEP = Color(kTextureRubbingDeep);

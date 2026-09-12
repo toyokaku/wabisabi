@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components/seal_text.dart';
+import '../theme/seal_text.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import 'cinnabar_texture.dart';
@@ -8,7 +8,7 @@ import 'deckle_border.dart';
 
 /// Seal marks are cinnabar ink in both 白文 and 朱文 forms.
 class WabSealMark extends StatelessWidget {
-  WabSealMark({
+  const WabSealMark({
     super.key,
     required this.text,
     this.kind = WabSealMarkKind.baiwen,
@@ -24,8 +24,9 @@ class WabSealMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bai = kind == WabSealMarkKind.baiwen;
-    final red = WabTheme.sealColor;
-    final shape = DeckleBorder(
+    final wab = WabTheme.of(context);
+    final red = wab.sealColor;
+    final shape = WabDeckleBorder(
       roughness: .42,
       horizontalRoughness: .42,
       seed: seed,
@@ -61,7 +62,7 @@ class WabSealMark extends StatelessWidget {
               child: WabSealText(
                 text,
                 fontSize: size * .52,
-                color: bai ? WabTheme.paperWhite : red,
+                color: bai ? wab.paperWhite : red,
                 strokeWidth: size * .014,
                 widthScale: 1.05,
                 heightScale: .96,

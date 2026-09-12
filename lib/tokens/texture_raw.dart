@@ -16,12 +16,17 @@ const int kTexturePaperHighlightLight = 0xFFFFFCF3;
 const int kTexturePaperCreaseDark = 0xFF5F5A50;
 const int kTexturePaperHighlightDark = 0xFF39362F;
 
-const int kTextureWoodBaseLight = 0xFFB38A59;
-const int kTextureWoodDeepLight = 0xFF735033;
-const int kTextureWoodLightLight = 0xFFD1AF7E;
-const int kTextureWoodBaseDark = 0xFF4A3425;
-const int kTextureWoodDeepDark = 0xFF241A14;
-const int kTextureWoodLightDark = 0xFF6B513A;
+// 木 — day timber is lifted a quarter of the way to white at its own hue and
+// saturation, so it sits lighter on the page without going chalky. Mixing it
+// toward the paper instead washed the colour out of it. Night timber keeps its
+// value but gives up 40% of its saturation: lamplight on wood, not varnish.
+const int kTextureWoodBaseLight = 0xFFC6A782;
+const int kTextureWoodDeepLight = 0xFFAF794D;
+const int kTextureWoodLightLight = 0xFFDCC39E;
+const int kTextureWoodTextLight = 0xFF3A2E1C;  // label ink on light wood
+const int kTextureWoodBaseDark = 0xFF43352C;
+const int kTextureWoodDeepDark = 0xFF211B17;
+const int kTextureWoodLightDark = 0xFF625345;
 
 const int kTextureClothBaseLight = 0xFF314B57;
 const int kTextureClothDeepLight = 0xFF182C34;
@@ -34,10 +39,16 @@ const int kTextureJadeBaseLight = 0xFFA9C1B4;
 const int kTextureJadeDeepLight = 0xFF7FA08F;
 const int kTextureJadeCloudLight = 0xFFDCE5DE;
 const int kTextureJadeVeinLight = 0xFFF0F0E8;
+const int kTextureJadeTextLight = 0xFF294438;  // label ink on light jade
 const int kTextureJadeBaseDark = 0xFF36584C;
 const int kTextureJadeDeepDark = 0xFF1F3931;
 const int kTextureJadeCloudDark = 0xFF719084;
 const int kTextureJadeVeinDark = 0xFFAFC0B5;
+
+// 墨 — the kit casts no pure-black shadow. This is the rubbing ink, and it
+// is what every shadow, bevel and pressed edge is drawn in: pigment, not
+// absence. Lifted off 0x000000 so it reads warm against paper.
+const int kTextureInk = 0xFF24231F;
 
 const int kTextureRubbingBase = 0xFF24231F;
 const int kTextureRubbingDeep = 0xFF10100E;

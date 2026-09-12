@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../tokens/palette.dart';
 import '../tokens/spacing.dart';
+import 'wab_colors.dart';
+import 'type_scale.dart';
 
 /// Kai fallback chain — the face for ALL text. First entry is the bundled
 /// LXGW WenKai TC (霞鶩文楷, pubspec family `WabKai`, 繁簡全覆蓋), so
@@ -42,6 +43,19 @@ const List<String> kWabMonoFallback = [
 ];
 
 class WabTheme {
+  /// The palette carried by the ambient theme. This is the supported way to
+  /// read kit colours: it registers a dependency, so a widget rebuilds when the
+  /// theme changes, and it is per-subtree rather than per-process.
+  static WabColors of(BuildContext context) => WabColors.of(context);
+
+  // ---------------------------------------------------------------------------
+  // Legacy process-wide statics.
+  //
+  // Assigned by whichever theme builder ran last, which is why an app cannot
+  // hold a light and a dark theme at once while anything reads them. Kept so
+  // consumers pinned to an older tag keep working; new code reads
+  // WabTheme.of(context). See the debts section of ARCHITECTURE.md.
+  // ---------------------------------------------------------------------------
   static late Color primaryColor;
   static late Color secondaryColor;
   static late Color hintColor;
@@ -61,157 +75,126 @@ class WabTheme {
   static late Color mutedLight;
   static bool isDark = true;
 
-  /// Drop shadow for ELEVATED surfaces — falls to the bottom-right. The stacked
-  /// shadows (decreasing opacity, increasing blur) read as a soft gradient.
-  static List<BoxShadow> get elevationShadow {
-    final base = isDark ? Colors.black : const Color(0xFF2E2A24);
-    return [
-      BoxShadow(
-        color: base.withOpacity(isDark ? 0.50 : 0.16),
-        blurRadius: 3,
-        offset: const Offset(2, 2),
-      ),
-      BoxShadow(
-        color: base.withOpacity(isDark ? 0.34 : 0.10),
-        blurRadius: 9,
-        offset: const Offset(4, 5),
-      ),
-      BoxShadow(
-        color: base.withOpacity(isDark ? 0.20 : 0.05),
-        blurRadius: 18,
-        offset: const Offset(8, 11),
-      ),
-    ];
+  /// Publishes [colors] to the legacy statics.
+  static void _adopt(WabColors colors) {
+    isDark = colors.isDark;
+    primaryColor = colors.primaryColor;
+    secondaryColor = colors.secondaryColor;
+    hintColor = colors.hintColor;
+    backgroundColor = colors.backgroundColor;
+    surfaceColor = colors.surfaceColor;
+    accentColor = colors.accentColor;
+    onColor = colors.onColor;
+    offColor = colors.offColor;
+    textColor = colors.textColor;
+    woodyColor = colors.woodyColor;
+    progressColor = colors.progressColor;
+    mutedColor = colors.mutedColor;
+    scratchColor = colors.scratchColor;
+    sealColor = colors.sealColor;
+    lineColor = colors.lineColor;
+    paperWhite = colors.paperWhite;
+    mutedLight = colors.mutedLight;
   }
 
+  /// Drop shadow for ELEVATED surfaces — falls to the bottom-right. The stacked
+  /// shadows (decreasing opacity, increasing blur) read as a soft gradient.
+  static List<BoxShadow> get elevationShadow =>
+      (isDark ? WabColors.dark() : WabColors.light()).elevationShadow;
 
   static ThemeData materialTheme(
       {Color? primaryColor, Color? secondaryColor, bool lightTheme = true}) {
-    var base = lightTheme
+    final base = lightTheme
         ? ThemeData.light(useMaterial3: true)
         : ThemeData.dark(useMaterial3: true);
 
-    WabTheme.isDark = !lightTheme;
+    final colors = lightTheme
+        ? WabColors.light(
+            primaryColor: primaryColor, secondaryColor: secondaryColor)
+        : WabColors.dark(
+            primaryColor: primaryColor, secondaryColor: secondaryColor);
+    _adopt(colors);
 
-    if (lightTheme) {
-      WabTheme.primaryColor   = primaryColor ?? WAB_LIGHT_PRIMARY;
-      WabTheme.secondaryColor = secondaryColor ?? WAB_LIGHT_SECONDARY;
-      WabTheme.backgroundColor = WAB_LIGHT_BACKGROUND;
-      WabTheme.surfaceColor   = WAB_LIGHT_SURFACE;
-      WabTheme.accentColor    = WAB_LIGHT_ACCENT;
-      WabTheme.onColor        = WAB_LIGHT_ON;
-      WabTheme.offColor       = WAB_LIGHT_OFF;
-      WabTheme.textColor      = WAB_LIGHT_TEXT;
-      WabTheme.woodyColor     = WAB_LIGHT_WOODY;
-      WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
-      WabTheme.mutedColor     = WAB_LIGHT_MUTED;
-      WabTheme.scratchColor   = WAB_LIGHT_SCRATCH;
-      WabTheme.sealColor      = WAB_LIGHT_SEAL;
-      WabTheme.lineColor      = WAB_LIGHT_LINE;
-      WabTheme.paperWhite     = WabiSabiColors.paperWhite;
-      WabTheme.mutedLight     = WabiSabiColors.mutedLight;
-    } else {
-      WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
-      WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
-      WabTheme.backgroundColor = WAB_DARK_BACKGROUND;
-      WabTheme.surfaceColor   = WAB_DARK_SURFACE;
-      WabTheme.accentColor    = WAB_DARK_ACCENT;
-      WabTheme.onColor        = WAB_DARK_ON;
-      WabTheme.offColor       = WAB_DARK_OFF;
-      WabTheme.textColor      = WAB_DARK_TEXT;
-      WabTheme.woodyColor     = WAB_DARK_WOODY;
-      WabTheme.progressColor  = WAB_DARK_PROGRESS;
-      WabTheme.mutedColor     = WAB_DARK_MUTED;
-      WabTheme.scratchColor   = WAB_DARK_SCRATCH;
-      WabTheme.sealColor      = WAB_DARK_SEAL;
-      WabTheme.lineColor      = WAB_DARK_LINE;
-      WabTheme.paperWhite     = WAB_DARK_PAPER;
-      WabTheme.mutedLight     = WAB_DARK_MUTED;
-    }
-
-    WabTheme.hintColor = lightTheme
-        ? WAB_LIGHT_TEXT.withOpacity(0.6)
-        : WAB_DARK_TEXT.withOpacity(0.6);
-
-    TextTheme _baseTextTheme(TextTheme base) {
+    TextTheme baseTextThemeOf(TextTheme base) {
       return base.copyWith(
         headlineMedium: base.headlineMedium!.copyWith(
           fontWeight: FontWeight.w700,
-          color: WabTheme.textColor,
+          color: colors.textColor,
         ),
         titleLarge: base.titleLarge!.copyWith(
           fontWeight: FontWeight.w700,
-          fontSize: 16.0,
+          fontSize: WabType.label,
           letterSpacing: 0.2,
-          color: WabTheme.textColor,
+          color: colors.textColor,
         ),
         displayLarge: base.displayLarge!.copyWith(
-          fontSize: 24.0,
+          fontSize: WabType.display,
           fontWeight: FontWeight.w700,
-          color: WabTheme.textColor,
+          color: colors.textColor,
         ),
         labelLarge: base.labelLarge!.copyWith(
-          fontSize: 16.0,
+          fontSize: WabType.label,
           fontWeight: FontWeight.w600,
-          color: WabTheme.textColor,
+          color: colors.textColor,
         ),
         bodyMedium: base.bodyMedium!.copyWith(
           fontWeight: FontWeight.w500,
-          color: WabTheme.textColor,
+          color: colors.textColor,
         ),
       );
     }
 
-    var baseTextTheme =
-        _baseTextTheme(base.textTheme).apply(fontFamilyFallback: kWabKaiFallback);
+    final baseTextTheme =
+        baseTextThemeOf(base.textTheme).apply(fontFamilyFallback: kWabKaiFallback);
 
     return base.copyWith(
+      extensions: [colors],
       appBarTheme: base.appBarTheme.copyWith(
         elevation: 0.0,
-        backgroundColor: WabTheme.backgroundColor,  // flat — matches scaffold
+        backgroundColor: colors.backgroundColor,  // flat — matches scaffold
         toolbarTextStyle: baseTextTheme.bodyMedium,
         titleTextStyle: baseTextTheme.titleLarge,
       ),
       textTheme: baseTextTheme,
-      primaryColor: WabTheme.primaryColor,
-      scaffoldBackgroundColor: WabTheme.backgroundColor,
-      cardColor: WabTheme.surfaceColor,
-      dialogBackgroundColor: WabTheme.surfaceColor,
-      dividerColor: WabTheme.secondaryColor,
+      primaryColor: colors.primaryColor,
+      scaffoldBackgroundColor: colors.backgroundColor,
+      cardColor: colors.surfaceColor,
+      dialogTheme: DialogThemeData(backgroundColor: colors.surfaceColor),
+      dividerColor: colors.secondaryColor,
       cardTheme: CardThemeData(
-        color: WabTheme.surfaceColor,
+        color: colors.surfaceColor,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-          side: BorderSide(color: WabTheme.secondaryColor, width: 0.8),
+          side: BorderSide(color: colors.secondaryColor, width: 0.8),
         ),
         margin: EdgeInsets.zero,
       ),
       inputDecorationTheme: base.inputDecorationTheme.copyWith(
-        fillColor: WabTheme.scratchColor,
+        fillColor: colors.scratchColor,
         filled: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
           borderSide: BorderSide.none,
         ),
-        hintStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.45)),
+        hintStyle: TextStyle(color: colors.textColor.withValues(alpha: 0.45)),
       ),
       colorScheme: base.colorScheme.copyWith(
-        primary: WabTheme.accentColor,
-        secondary: WabTheme.secondaryColor,
-        surface: WabTheme.surfaceColor,
-        error: Colors.redAccent,
-        onPrimary: WabTheme.textColor,
-        onSecondary: WabTheme.textColor,
-        onSurface: WabTheme.textColor,
+        primary: colors.accentColor,
+        secondary: colors.secondaryColor,
+        surface: colors.surfaceColor,
+        error: colors.sealColor,
+        onPrimary: colors.textColor,
+        onSecondary: colors.textColor,
+        onSurface: colors.textColor,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           // Light: lighter & translucent wood; dark: solid dark wood.
           backgroundColor: lightTheme
-              ? WabTheme.woodyColor.withOpacity(0.55)
-              : WabTheme.woodyColor,
-          foregroundColor: WabTheme.textColor,
+              ? colors.woodyColor.withValues(alpha: 0.55)
+              : colors.woodyColor,
+          foregroundColor: colors.textColor,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
@@ -221,7 +204,7 @@ class WabTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: WabTheme.textColor,
+          foregroundColor: colors.textColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
           ),
@@ -233,68 +216,33 @@ class WabTheme {
 
   static CupertinoThemeData cupertinoTheme(
       {Color? primaryColor, Color? secondaryColor, bool lightTheme = false}) {
-    var base = CupertinoThemeData(
+    final base = CupertinoThemeData(
         brightness: lightTheme ? Brightness.light : Brightness.dark);
 
-    WabTheme.isDark = !lightTheme;
-
-    if (lightTheme) {
-      WabTheme.primaryColor   = primaryColor ?? WAB_LIGHT_PRIMARY;
-      WabTheme.secondaryColor = secondaryColor ?? WAB_LIGHT_SECONDARY;
-      WabTheme.backgroundColor = WAB_LIGHT_BACKGROUND;
-      WabTheme.surfaceColor   = WAB_LIGHT_SURFACE;
-      WabTheme.accentColor    = WAB_LIGHT_ACCENT;
-      WabTheme.onColor        = WAB_LIGHT_ON;
-      WabTheme.offColor       = WAB_LIGHT_OFF;
-      WabTheme.textColor      = WAB_LIGHT_TEXT;
-      WabTheme.woodyColor     = WAB_LIGHT_WOODY;
-      WabTheme.progressColor  = WAB_LIGHT_PROGRESS;
-      WabTheme.mutedColor     = WAB_LIGHT_MUTED;
-      WabTheme.scratchColor   = WAB_LIGHT_SCRATCH;
-      WabTheme.sealColor      = WAB_LIGHT_SEAL;
-      WabTheme.lineColor      = WAB_LIGHT_LINE;
-      WabTheme.paperWhite     = WabiSabiColors.paperWhite;
-      WabTheme.mutedLight     = WabiSabiColors.mutedLight;
-    } else {
-      WabTheme.primaryColor   = primaryColor ?? WAB_DARK_PRIMARY;
-      WabTheme.secondaryColor = secondaryColor ?? WAB_DARK_SECONDARY;
-      WabTheme.backgroundColor = WAB_DARK_BACKGROUND;
-      WabTheme.surfaceColor   = WAB_DARK_SURFACE;
-      WabTheme.accentColor    = WAB_DARK_ACCENT;
-      WabTheme.onColor        = WAB_DARK_ON;
-      WabTheme.offColor       = WAB_DARK_OFF;
-      WabTheme.textColor      = WAB_DARK_TEXT;
-      WabTheme.woodyColor     = WAB_DARK_WOODY;
-      WabTheme.progressColor  = WAB_DARK_PROGRESS;
-      WabTheme.mutedColor     = WAB_DARK_MUTED;
-      WabTheme.scratchColor   = WAB_DARK_SCRATCH;
-      WabTheme.sealColor      = WAB_DARK_SEAL;
-      WabTheme.lineColor      = WAB_DARK_LINE;
-      WabTheme.paperWhite     = WAB_DARK_PAPER;
-      WabTheme.mutedLight     = WAB_DARK_MUTED;
-    }
-
-    WabTheme.hintColor = lightTheme
-        ? WAB_LIGHT_TEXT.withOpacity(0.6)
-        : WAB_DARK_TEXT.withOpacity(0.6);
+    final colors = lightTheme
+        ? WabColors.light(
+            primaryColor: primaryColor, secondaryColor: secondaryColor)
+        : WabColors.dark(
+            primaryColor: primaryColor, secondaryColor: secondaryColor);
+    _adopt(colors);
 
     return base.copyWith(
-      primaryColor: WabTheme.primaryColor,
-      primaryContrastingColor: WabTheme.secondaryColor,
-      barBackgroundColor: WabTheme.surfaceColor,
-      scaffoldBackgroundColor: WabTheme.backgroundColor,
+      primaryColor: colors.primaryColor,
+      primaryContrastingColor: colors.secondaryColor,
+      barBackgroundColor: colors.surfaceColor,
+      scaffoldBackgroundColor: colors.backgroundColor,
       textTheme: CupertinoTextThemeData(
         textStyle: TextStyle(
-          color: WabTheme.textColor,
+          color: colors.textColor,
           fontFamilyFallback: kWabKaiFallback,
         ),
         actionTextStyle: TextStyle(
-          color: WabTheme.accentColor,
+          color: colors.accentColor,
           fontFamilyFallback: kWabKaiFallback,
         ),
         navTitleTextStyle: TextStyle(
-          color: WabTheme.textColor,
-          fontSize: 18,
+          color: colors.textColor,
+          fontSize: WabType.title,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.3,
           fontFamilyFallback: kWabKaiFallback,

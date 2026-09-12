@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'wab_widget.dart';
+import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import '../tokens/spacing.dart';
+import '../tokens/texture.dart';
 import '../materials/cinnabar_texture.dart';
 import '../materials/cloth_weave.dart';
+import '../materials/deckle_border.dart';
 import '../materials/deckle_surface.dart';
 import '../materials/jade_texture.dart';
 import '../materials/paper_texture.dart';
 import '../materials/rubbing_texture.dart';
 import '../materials/wood_slab.dart';
+import '../theme/type_scale.dart';
 
 /// Physical action surfaces. Material is part of state/meaning, not decoration.
 enum WabMaterialKind { paper, wood, cloth, seal, jade, baiwen, zhuwen }
@@ -69,20 +72,21 @@ class _WabButtonState extends State<WabButton> {
 
   @override
   Widget build(BuildContext context) {
-    final dark = WabTheme.isDark;
+    final wab = WabTheme.of(context);
+    final dark = wab.isDark;
     final state = _effectiveState;
     final pad = widget.padding ??
         const EdgeInsets.symmetric(horizontal: 22, vertical: 9);
 
     final labelStyle = switch (widget.kind) {
       WabMaterialKind.paper => TextStyle(
-          color: WabTheme.textColor,
+          color: wab.textColor,
           fontWeight: FontWeight.w600,
           letterSpacing: 2,
           fontFamilyFallback: kWabKaiFallback,
         ),
       WabMaterialKind.wood => TextStyle(
-          color: dark ? WabTheme.textColor : const Color(0xFF30271F),
+          color: dark ? wab.textColor : WAB_TEXTURE_WOOD_TEXT_LIGHT,
           fontWeight: FontWeight.w600,
           letterSpacing: 2,
           fontFamilyFallback: kWabKaiFallback,
@@ -100,7 +104,7 @@ class _WabButtonState extends State<WabButton> {
           fontFamilyFallback: kWabDisplayFallback,
         ),
       WabMaterialKind.jade => TextStyle(
-          color: dark ? WabTheme.textColor : const Color(0xFF294438),
+          color: dark ? wab.textColor : WAB_TEXTURE_JADE_TEXT_LIGHT,
           fontWeight: FontWeight.w600,
           letterSpacing: 2,
           fontFamilyFallback: kWabKaiFallback,
@@ -112,7 +116,7 @@ class _WabButtonState extends State<WabButton> {
           fontFamilyFallback: kWabDisplayFallback,
         ),
       WabMaterialKind.zhuwen => TextStyle(
-          color: WabTheme.sealColor,
+          color: wab.sealColor,
           fontWeight: FontWeight.w600,
           letterSpacing: 3,
           fontFamilyFallback: kWabDisplayFallback,
@@ -122,7 +126,7 @@ class _WabButtonState extends State<WabButton> {
     final theme = Theme.of(context);
     final baseStyle = theme.textTheme.labelLarge ??
         const TextStyle(
-          fontSize: 14,
+          fontSize: WabType.body,
           fontWeight: FontWeight.w500,
           decoration: TextDecoration.none,
         );
@@ -145,7 +149,7 @@ class _WabButtonState extends State<WabButton> {
       content = SizedBox(width: double.infinity, child: content);
     }
 
-    final material = _materialSurface(content, dark, state);
+    final material = _materialSurface(wab, content, dark, state);
 
     final opacity = switch (state) {
       WabButtonVisualState.disabled => .36,
@@ -170,7 +174,7 @@ class _WabButtonState extends State<WabButton> {
     final interactionShadow = switch (state) {
       WabButtonVisualState.hover => [
           BoxShadow(
-            color: Colors.black.withOpacity(dark ? .32 : .16),
+            color: WAB_TEXTURE_INK.withValues(alpha: dark ? .32 : .16),
             blurRadius: 8,
             spreadRadius: -.5,
             offset: const Offset(0, 4),
@@ -178,7 +182,7 @@ class _WabButtonState extends State<WabButton> {
         ],
       WabButtonVisualState.pressed => [
           BoxShadow(
-            color: Colors.black.withOpacity(dark ? .18 : .07),
+            color: WAB_TEXTURE_INK.withValues(alpha: dark ? .18 : .07),
             blurRadius: 1.5,
             offset: const Offset(0, .8),
           ),
@@ -226,7 +230,7 @@ class _WabButtonState extends State<WabButton> {
             curve: Curves.easeOutCubic,
             transformAlignment: Alignment.center,
             transform: Matrix4.translationValues(0, dy, 0)
-              ..scale(scale, scale),
+              ..scaleByDouble(scale, scale, 1, 1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
               boxShadow: interactionShadow,
@@ -242,13 +246,14 @@ class _WabButtonState extends State<WabButton> {
   }
 
   Widget _materialSurface(
+    WabColors wab,
     Widget content,
     bool dark,
     WabButtonVisualState state,
   ) {
     return switch (widget.kind) {
       WabMaterialKind.paper => WabDeckleSurface(
-          fill: WabTheme.paperWhite,
+          fill: wab.paperWhite,
           texture: WabPaperTexture(isDark: dark),
           seed: widget.seed ?? WAB_DECKLE_SEED,
           sideColor: widget.sideColor,
@@ -310,7 +315,7 @@ class _WabButtonState extends State<WabButton> {
     final shadows = state == WabButtonVisualState.normal
         ? [
             BoxShadow(
-              color: Colors.black.withOpacity(dark ? .30 : .14),
+              color: WAB_TEXTURE_INK.withValues(alpha: dark ? .30 : .14),
               blurRadius: 5,
               offset: const Offset(1.5, 2.5),
             ),
@@ -329,10 +334,11 @@ class _ZhuwenSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final red = WabTheme.sealColor;
+    final wab = WabTheme.of(context);
+    final red = wab.sealColor;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: WabTheme.paperWhite,
+        color: wab.paperWhite,
         borderRadius: BorderRadius.circular(3),
         border: Border.all(color: red, width: 1.25),
       ),
@@ -341,7 +347,7 @@ class _ZhuwenSurface extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(1.5),
-            border: Border.all(color: red.withOpacity(.88), width: .72),
+            border: Border.all(color: red.withValues(alpha: .88), width: .72),
           ),
           child: WabPaperTexture(child: child),
         ),
@@ -350,8 +356,9 @@ class _ZhuwenSurface extends StatelessWidget {
   }
 }
 
-class WabIconButton extends WabWidget<Widget, Widget> {
-  WabIconButton({
+class WabIconButton extends StatelessWidget {
+  const WabIconButton({
+    super.key,
     required this.icon,
     this.label,
     this.callback,
@@ -365,7 +372,8 @@ class WabIconButton extends WabWidget<Widget, Widget> {
   final double? padding;
   final WabMaterialKind kind;
 
-  Widget _build() {
+  @override
+  Widget build(BuildContext context) {
     final extra = padding ?? 0;
     return WabButton(
       kind: kind,
@@ -385,15 +393,12 @@ class WabIconButton extends WabWidget<Widget, Widget> {
     );
   }
 
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build();
 }
 
 /// 界行式文字鈕 — text only, separated by fine book-page rules.
-class WabTextButton extends WabWidget<Widget, Widget> {
-  WabTextButton({
+class WabTextButton extends StatelessWidget {
+  const WabTextButton({
+    super.key,
     required this.text,
     this.padding = 20.0,
     this.callback,
@@ -405,9 +410,11 @@ class WabTextButton extends WabWidget<Widget, Widget> {
   final VoidCallback? callback;
   final bool mergeTop;
 
-  Widget _build() {
+  @override
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     final side = BorderSide(
-      color: WabTheme.lineColor,
+      color: wab.lineColor,
       width: WAB_RULE_HAIRLINE,
     );
     final p = padding ?? 20;
@@ -428,8 +435,8 @@ class WabTextButton extends WabWidget<Widget, Widget> {
           ),
           child: DefaultTextStyle.merge(
             style: TextStyle(
-              color: WabTheme.textColor,
-              fontSize: 14,
+              color: wab.textColor,
+              fontSize: WabType.body,
               letterSpacing: 2,
               fontFamilyFallback: kWabKaiFallback,
               decoration: TextDecoration.none,
@@ -442,14 +449,11 @@ class WabTextButton extends WabWidget<Widget, Widget> {
     );
   }
 
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build();
 }
 
-class WabElevatedButton extends WabWidget<Widget, Widget> {
-  WabElevatedButton({
+class WabElevatedButton extends StatelessWidget {
+  const WabElevatedButton({
+    super.key,
     required this.text,
     this.padding = 20.0,
     this.callback,
@@ -463,7 +467,8 @@ class WabElevatedButton extends WabWidget<Widget, Widget> {
   final Icon? icon;
   final bool showChevron;
 
-  Widget _build() {
+  @override
+  Widget build(BuildContext context) {
     final p = padding ?? 18;
     return WabButton(
       kind: WabMaterialKind.wood,
@@ -488,16 +493,13 @@ class WabElevatedButton extends WabWidget<Widget, Widget> {
     );
   }
 
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build();
 }
 
 enum WabTogglePair { paper, woodCloth, jadeBaiwen, sealZhuwen }
 
-class WabToggleButton extends WabWidget<Widget, Widget> {
-  WabToggleButton({
+class WabToggleButton extends StatelessWidget {
+  const WabToggleButton({
+    super.key,
     required this.text,
     required this.isOn,
     this.callback,
@@ -509,7 +511,8 @@ class WabToggleButton extends WabWidget<Widget, Widget> {
   final VoidCallback? callback;
   final WabTogglePair pair;
 
-  Widget _build() {
+  @override
+  Widget build(BuildContext context) {
     final kind = switch (pair) {
       WabTogglePair.paper => WabMaterialKind.paper,
       WabTogglePair.woodCloth =>
@@ -522,7 +525,7 @@ class WabToggleButton extends WabWidget<Widget, Widget> {
     return WabButton(
       kind: kind,
       sideColor: pair == WabTogglePair.paper && isOn
-          ? WabTheme.textColor.withOpacity(.65)
+          ? WabTheme.of(context).textColor.withValues(alpha: .65)
           : null,
       onPressed: callback,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -530,44 +533,46 @@ class WabToggleButton extends WabWidget<Widget, Widget> {
     );
   }
 
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build();
 }
 
-class WabFloatingActionButton extends WabWidget<Widget, Widget> {
-  WabFloatingActionButton(this.button);
+/// 落印 — the primary action as a pressed seal rather than a floating disc.
+///
+/// A stamp sits flat on the page: no drop shadow, and no machined circle. The
+/// face is cinnabar clipped to the same irregular [WabDeckleBorder] edge the
+/// badges and seal marks use, so it reads as ink pressed into paper.
+class WabFloatingActionButton extends StatelessWidget {
+  const WabFloatingActionButton(this.button, {super.key, this.size = 56});
+
   final FloatingActionButton button;
 
-  Widget _build() => GestureDetector(
-        onTap: button.onPressed,
-        child: Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(WAB_SEAL_SHADOW_OPACITY),
-                blurRadius: 6,
-                offset: const Offset(1, 3),
-              ),
-            ],
-          ),
-          child: ClipOval(
-            child: WabCinnabarTexture(
-              child: IconTheme.merge(
-                data: const IconThemeData(color: WAB_SEAL_TEXT),
-                child: Center(child: button.child),
-              ),
+  /// Edge length of the square stamp face.
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final shape = WabDeckleBorder(
+      roughness: .42,
+      horizontalRoughness: .42,
+      seed: 77,
+      radius: 3,
+      side: BorderSide.none,
+    );
+    return GestureDetector(
+      onTap: button.onPressed,
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: ClipPath.shape(
+          shape: shape,
+          child: WabCinnabarTexture(
+            child: IconTheme.merge(
+              // The mark carries the button; it takes most of the face.
+              data: IconThemeData(color: WAB_SEAL_TEXT, size: size * .56),
+              child: Center(child: button.child),
             ),
           ),
         ),
-      );
-
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build();
+      ),
+    );
+  }
 }

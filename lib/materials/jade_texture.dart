@@ -6,7 +6,7 @@ import '../tokens/texture.dart';
 
 /// 玉面 — translucent celadon clouding with only occasional mineral veins.
 class WabJadeTexture extends StatelessWidget {
-  WabJadeTexture({super.key, this.isDark, this.child, this.seed = 421});
+  const WabJadeTexture({super.key, this.isDark, this.child, this.seed = 421});
 
   final bool? isDark;
   final Widget? child;
@@ -14,7 +14,7 @@ class WabJadeTexture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _JadePainter(isDark: isDark ?? WabTheme.isDark, seed: seed),
+        painter: _JadePainter(isDark: isDark ?? WabTheme.of(context).isDark, seed: seed),
         child: child,
       );
 }
@@ -45,7 +45,7 @@ class _JadePainter extends CustomPainter {
           height: ry * 2,
         ),
         Paint()
-          ..color = (i.isEven ? cloud : deep).withOpacity(i.isEven ? .24 : .13)
+          ..color = (i.isEven ? cloud : deep).withValues(alpha: i.isEven ? .24 : .13)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.min(rx, ry) * .45),
       );
     }
@@ -64,7 +64,7 @@ class _JadePainter extends CustomPainter {
       canvas.drawPath(
         path,
         Paint()
-          ..color = vein.withOpacity(.035 + rnd.nextDouble() * .025)
+          ..color = vein.withValues(alpha: .035 + rnd.nextDouble() * .025)
           ..style = PaintingStyle.stroke
           ..strokeWidth = .35 + rnd.nextDouble() * .30,
       );
@@ -76,7 +76,11 @@ class _JadePainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.white.withOpacity(isDark ? .08 : .26), Colors.transparent],
+          colors: [
+            WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT
+                .withValues(alpha: isDark ? .08 : .26),
+            Colors.transparent,
+          ],
         ).createShader(Offset.zero & size),
     );
   }
