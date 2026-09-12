@@ -17,5 +17,7 @@ analyzer:
 
 linter:
   rules:
-    - prefer_single_quotes
+    prefer_single_quotes: true
+    # WAB_* SCREAMING_SNAKE is the token house style and predates the lint;
+    # renaming every token is a breaking change for every consumer.
     constant_identifier_names: false

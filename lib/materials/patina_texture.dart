@@ -6,7 +6,7 @@ import '../tokens/texture.dart';
 
 /// 舊化 / PATINA — warm oxidised ground with a sparse crackle network.
 class WabPatinaTexture extends StatelessWidget {
-  WabPatinaTexture({super.key, this.isDark, this.child, this.seed = 877});
+  const WabPatinaTexture({super.key, this.isDark, this.child, this.seed = 877});
 
   final bool? isDark;
   final Widget? child;

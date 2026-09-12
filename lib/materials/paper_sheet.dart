@@ -7,7 +7,7 @@ import 'paper_texture.dart';
 
 /// A large aged xuan sheet used as an application ground.
 class WabPaperSheet extends StatelessWidget {
-  WabPaperSheet({
+  const WabPaperSheet({
     super.key,
     required this.child,
     this.isDark,
@@ -130,8 +130,12 @@ class _SheetAgePainter extends CustomPainter {
       );
     }
 
-    for (final y in horizontalFolds) hFold(y);
-    for (final x in verticalFolds) vFold(x);
+    for (final y in horizontalFolds) {
+      hFold(y);
+    }
+    for (final x in verticalFolds) {
+      vFold(x);
+    }
 
     final edge = Paint()..color = age.withValues(alpha: isDark ? .05 : .055);
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, 2.2), edge);

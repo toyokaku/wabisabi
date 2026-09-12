@@ -10,7 +10,7 @@ import '../tokens/texture.dart';
 /// not a standalone paper strip: use it where a sheet would naturally fold or
 /// where a tactile divider is needed.
 class WabPaperFold extends StatelessWidget {
-  WabPaperFold({
+  const WabPaperFold({
     super.key,
     this.child,
     this.height = 12,

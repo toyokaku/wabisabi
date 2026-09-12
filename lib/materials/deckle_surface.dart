@@ -14,8 +14,7 @@ import 'deckle_border.dart';
 ///
 /// The surface sizes itself to [child]; fill and texture follow it.
 class WabDeckleSurface extends StatelessWidget {
-  // Non-const by design: reads WabTheme (lineColor / theme fills) at build.
-  WabDeckleSurface({
+  const WabDeckleSurface({
     super.key,
     required this.child,
     this.fill,

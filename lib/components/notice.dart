@@ -9,7 +9,7 @@ import '../theme/type_scale.dart';
 /// A quiet notice/toast specimen using paper + ink rather than a filled modern
 /// alert card.
 class WabNotice extends StatelessWidget {
-  WabNotice({
+  const WabNotice({
     super.key,
     required this.title,
     this.message,

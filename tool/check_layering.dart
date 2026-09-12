@@ -125,7 +125,7 @@ void main() {
       if (dep == _barrel) {
         problems.add(
           '$file\n'
-          "    imports the barrel. Inside lib/ import the defining file "
+          '    imports the barrel. Inside lib/ import the defining file '
           'directly — the barrel is for consumers.',
         );
         continue;
@@ -133,7 +133,9 @@ void main() {
 
       final depLayer = layerName(dep);
       if (depLayer == null) {
-        problems.add('$file\n    imports $dep, which is outside the declared layers.');
+        problems.add(
+          '$file\n    imports $dep, which is outside the declared layers.',
+        );
         continue;
       }
 

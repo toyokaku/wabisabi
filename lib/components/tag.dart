@@ -9,7 +9,7 @@ import '../theme/type_scale.dart';
 
 /// 題簽 — narrow hanging paper label with barely perceptible irregular edges.
 class WabVerticalTag extends StatelessWidget {
-  WabVerticalTag({
+  const WabVerticalTag({
     super.key,
     required this.text,
     this.width = 28,

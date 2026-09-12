@@ -1,6 +1,11 @@
 // Generates web/quarto/wabisabi-light.scss and wabisabi-dark.scss from Dart tokens.
 // Run: dart tool/export_tokens.dart
 // CI checks for drift: dart tool/export_tokens.dart && git diff --exit-code web/quarto/
+//
+// The token imports are relative on purpose: this runs under bare `dart` in CI
+// with no package resolution, which is the whole reason tokens/*_raw.dart carry
+// no Flutter dependency.
+// ignore_for_file: avoid_relative_lib_imports
 
 import 'dart:io';
 import '../lib/tokens/palette_raw.dart';
@@ -119,6 +124,6 @@ void main() {
     woody:      kDarkWoody,
   ));
 
-  print('✓ web/quarto/wabisabi-light.scss');
-  print('✓ web/quarto/wabisabi-dark.scss');
+  stdout.writeln('✓ web/quarto/wabisabi-light.scss');
+  stdout.writeln('✓ web/quarto/wabisabi-dark.scss');
 }

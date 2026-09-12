@@ -72,7 +72,7 @@ class WabClothWeave extends CustomPainter {
 }
 
 class WabClothTexture extends StatelessWidget {
-  WabClothTexture({super.key, this.isDark, this.child, this.seed = 509});
+  const WabClothTexture({super.key, this.isDark, this.child, this.seed = 509});
   final bool? isDark;
   final Widget? child;
   final int seed;

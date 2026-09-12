@@ -6,7 +6,7 @@ import '../tokens/texture.dart';
 
 /// 宣紙纖維 — sparse plant fibres and compressed pulp knots.
 class WabFiberTexture extends StatelessWidget {
-  WabFiberTexture({
+  const WabFiberTexture({
     super.key,
     this.isDark,
     this.child,

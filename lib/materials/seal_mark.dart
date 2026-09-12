@@ -8,7 +8,7 @@ import 'deckle_border.dart';
 
 /// Seal marks are cinnabar ink in both 白文 and 朱文 forms.
 class WabSealMark extends StatelessWidget {
-  WabSealMark({
+  const WabSealMark({
     super.key,
     required this.text,
     this.kind = WabSealMarkKind.baiwen,

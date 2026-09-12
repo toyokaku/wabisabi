@@ -12,7 +12,7 @@ enum WabPaperTextureKind { paper, mottle }
 /// The texture intentionally avoids scratch-like random lines. Old xuan reads
 /// through low-frequency waviness and uneven pulp density rather than noise.
 class WabPaperTexture extends StatelessWidget {
-  WabPaperTexture({
+  const WabPaperTexture({
     super.key,
     this.isDark,
     this.child,

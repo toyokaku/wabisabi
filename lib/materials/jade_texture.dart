@@ -6,7 +6,7 @@ import '../tokens/texture.dart';
 
 /// 玉面 — translucent celadon clouding with only occasional mineral veins.
 class WabJadeTexture extends StatelessWidget {
-  WabJadeTexture({super.key, this.isDark, this.child, this.seed = 421});
+  const WabJadeTexture({super.key, this.isDark, this.child, this.seed = 421});
 
   final bool? isDark;
   final Widget? child;

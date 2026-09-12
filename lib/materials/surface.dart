@@ -30,7 +30,7 @@ enum WabSurfaceKind {
 
 /// Public material façade. Every catalogue material comes through the kit.
 class WabSurface extends StatelessWidget {
-  WabSurface({
+  const WabSurface({
     super.key,
     required this.kind,
     required this.child,

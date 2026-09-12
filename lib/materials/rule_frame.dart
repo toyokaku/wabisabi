@@ -11,7 +11,7 @@ enum WabRuleKind { thin, single, double }
 
 /// Flat rule frame modelled on Chinese book-page boundaries.
 class WabRuleFrame extends StatelessWidget {
-  WabRuleFrame({
+  const WabRuleFrame({
     super.key,
     required this.child,
     this.kind = WabRuleKind.single,

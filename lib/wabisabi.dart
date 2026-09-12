@@ -1,4 +1,4 @@
-library wabisabi;
+library;
 
 // Tokens
 export 'tokens/palette.dart';

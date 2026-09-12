@@ -6,7 +6,7 @@ import '../tokens/texture.dart';
 
 /// 朱砂漆面 — muted cinnabar with fine mineral/crackle traces.
 class WabCinnabarTexture extends StatelessWidget {
-  WabCinnabarTexture({super.key, this.isDark, this.child, this.seed = 337});
+  const WabCinnabarTexture({super.key, this.isDark, this.child, this.seed = 337});
 
   final bool? isDark;
   final Widget? child;
