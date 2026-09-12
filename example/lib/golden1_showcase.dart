@@ -77,12 +77,20 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '其餘導出組件，含自持狀態者',
   ];
 
-  static const _desktopRows = <double>[305, 300, 300, 250, 300];
+  /// φ. The board's proportions come from it, as the type ladder does.
+  static const _phi = 1.6180339887;
 
   /// The width one board cell gets on a full-size desktop board. Every section
   /// is composed against it, so the narrow layout renders at the same geometry
   /// and scales the whole cell down rather than re-flowing each specimen.
   static const _cellDesignWidth = 460.0;
+
+  /// Each cell is a golden rectangle — φ wider than it is tall.
+  static const _cellDesignHeight = _cellDesignWidth / _phi;
+
+  /// The index rail is one more golden section in from the cell width, so the
+  /// rail, a cell and the board all sit on the same series.
+  static const _sidebarWidth = _cellDesignWidth / (_phi * _phi);
 
   /// Below this the sidebar and the three-column board are dropped for a
   /// single scrolling column of cells.
@@ -90,17 +98,15 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   static const _boardTop = 10.0;
   static const _boardBottom = 30.0;
 
+  int get _rowCount => (_nav.length / 3).ceil();
+
+  /// A fold at every row boundary, so the sheet creases between cells.
   List<double> get _desktopFolds {
-    final total = _boardTop +
-        _boardBottom +
-        _desktopRows.fold<double>(0, (sum, value) => sum + value);
-    var cursor = _boardTop;
-    final result = <double>[];
-    for (var i = 0; i < _desktopRows.length - 1; i++) {
-      cursor += _desktopRows[i];
-      result.add(cursor / total);
-    }
-    return result;
+    final total = _boardTop + _boardBottom + _rowCount * _cellDesignHeight;
+    return [
+      for (var i = 1; i < _rowCount; i++)
+        (_boardTop + i * _cellDesignHeight) / total,
+    ];
   }
 
   void _jumpTo(int index) {
@@ -208,7 +214,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       horizontalFolds: const [],
       verticalFolds: const [],
       child: WabSidebar(
-        width: 184,
+        width: _sidebarWidth,
         padding: const EdgeInsets.fromLTRB(15, 18, 15, 18),
         children: [
           Text(
@@ -278,11 +284,11 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
               padding: const EdgeInsets.fromLTRB(16, _boardTop, 16, _boardBottom),
               child: Column(
                 children: [
-                  _row(_desktopRows[0], [0, 1, 2]),
-                  _row(_desktopRows[1], [3, 4, 5]),
-                  _row(_desktopRows[2], [6, 7, 8]),
-                  _row(_desktopRows[3], [9, 10, 11]),
-                  _row(_desktopRows[4], [12]),
+                  for (var row = 0; row < _rowCount; row++)
+                    _row([
+                      for (var slot = 0; slot < 3; slot++)
+                        if (row * 3 + slot < _nav.length) row * 3 + slot,
+                    ]),
                 ],
               ),
             ),
@@ -327,7 +333,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   }
 
   Widget _scaledCell(BuildContext context, int index, double scale) {
-    final height = _desktopRows[index ~/ 3];
+    const height = _cellDesignHeight;
     return SizedBox(
       width: _cellDesignWidth * scale,
       height: height * scale,
@@ -343,9 +349,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     );
   }
 
-  Widget _row(double height, List<int> indices) {
+  Widget _row(List<int> indices) {
     return SizedBox(
-      height: height,
+      height: _cellDesignHeight,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -364,7 +370,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                     alignment: Alignment.topCenter,
                     child: SizedBox(
                       width: _cellDesignWidth,
-                      height: height,
+                      height: _cellDesignHeight,
                       child: _section(context, indices[slot]),
                     ),
                   ),

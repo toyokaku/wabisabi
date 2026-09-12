@@ -14,6 +14,18 @@ TextStyle _caption(WabColors wab) => TextStyle(
       height: 1.2,
     );
 
+/// 墨色 — photographs and marks in the catalogue are reduced to ink on paper.
+/// Luminance, then warmed off neutral grey: no colour logos, no dead greys.
+Widget _inked(Widget child) => ColorFiltered(
+      colorFilter: const ColorFilter.matrix(<double>[
+        .2126 * .98, .7152 * .98, .0722 * .98, 0, 0,
+        .2126 * .95, .7152 * .95, .0722 * .95, 0, 0,
+        .2126 * .88, .7152 * .88, .0722 * .88, 0, 0,
+        0, 0, 0, 1, 0,
+      ]),
+      child: child,
+    );
+
 Widget _specimen(
   WabColors wab,
   String label,
@@ -108,17 +120,17 @@ Widget kitChromeSection(BuildContext context) {
               'WabProfileHeader',
               168,
               50,
-              WabProfileHeader(
+              _inked(const WabProfileHeader(
                 name: '陸 羽',
                 subtitle: '茶經 · 卷上',
-                avatar: const AssetImage('images/avatar.jpg'),
-              ),
+                avatar: AssetImage('images/avatar.jpg'),
+              )),
             ),
             _specimen(
               wab,
               'WabNavItem (legacy)',
               128,
-              106,
+              110,
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: const [
@@ -320,17 +332,18 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
                 'WabImage',
                 58,
                 46,
-                WabImage(path: 'images/avatar.jpg', width: 58, height: 46),
+                _inked(const WabImage(
+                  path: 'images/avatar.jpg',
+                  width: 58,
+                  height: 46,
+                )),
               ),
               _specimen(
                 wab,
                 'WabIcon',
                 58,
                 46,
-                FittedBox(
-                  fit: BoxFit.contain,
-                  child: WabIcon(path: 'images/googlepay.png'),
-                ),
+                _inked(const WabIcon(path: 'images/avatar.jpg', height: 46)),
               ),
               _specimen(
                 wab,
@@ -348,7 +361,9 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
           Text('WabPaymentRow', style: _caption(wab)),
           const SizedBox(height: 3),
           WabPaymentRow(
-            image: WabImage(path: 'images/googlepay.png', width: 34, height: 18),
+            image: _inked(
+              const WabImage(path: 'images/avatar.jpg', width: 26, height: 18),
+            ),
             text: Text('結 帳 · CHECKOUT', style: _caption(wab)),
             callback: () {},
           ),
