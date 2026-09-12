@@ -25,9 +25,9 @@ class WabWarningText extends Text {
 
 /// Single-line text field uses the thin book rule (the inner rule of a double
 /// frame). Multi-line fields use [WabRuleKind.single] in `form.dart`.
-class WabTextFormField
-    extends WabWidget<CupertinoTextFormFieldRow, Widget> {
-  WabTextFormField({
+class WabTextFormField extends WabWidget {
+  const WabTextFormField({
+    super.key,
     this.validator,
     this.callback,
     this.hint,
@@ -157,8 +157,9 @@ class _WabNumberFormFieldState extends State<WabNumberFormField> {
   }
 }
 
-class WabSearchField extends WabWidget<CupertinoSearchTextField, Widget> {
-  WabSearchField({
+class WabSearchField extends WabWidget {
+  const WabSearchField({
+    super.key,
     this.onChanged,
     this.onSubmitted,
     this.controller,

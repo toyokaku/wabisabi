@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'wab_widget.dart';
 import '../theme/wab_theme.dart';
 
-class WabDivider extends WabWidget<Container, Divider> {
+class WabDivider extends WabWidget {
+  const WabDivider({super.key});
+
   @override
   Container createCupertinoWidget(BuildContext context) =>
       Container(height: 0.8, color: WabTheme.of(context).lineColor);

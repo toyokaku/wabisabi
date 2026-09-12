@@ -6,8 +6,9 @@ import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import '../tokens/spacing.dart';
 
-class WabScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
-  WabScaffold({
+class WabScaffold extends WabWidget {
+  const WabScaffold({
+    super.key,
     required this.body,
     this.title,
     this.appBar,
@@ -105,7 +106,8 @@ class WabScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
 
 /// [WabScaffold] with the ambient material ground painted behind the body.
 class WabTexturedScaffold extends WabScaffold {
-  WabTexturedScaffold({
+  const WabTexturedScaffold({
+    super.key,
     required super.body,
     super.title,
     super.appBar,
@@ -115,8 +117,8 @@ class WabTexturedScaffold extends WabScaffold {
   }) : super(textured: true);
 }
 
-class WabAppBar extends WabWidget<CupertinoNavigationBar, PreferredSize> {
-  WabAppBar({this.title, this.action, this.leading});
+class WabAppBar extends WabWidget {
+  const WabAppBar({super.key, this.title, this.action, this.leading});
 
   final Text? title;
   final Widget? action;

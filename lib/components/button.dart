@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'wab_widget.dart';
 import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
@@ -355,8 +354,9 @@ class _ZhuwenSurface extends StatelessWidget {
   }
 }
 
-class WabIconButton extends WabWidget<Widget, Widget> {
-  WabIconButton({
+class WabIconButton extends StatelessWidget {
+  const WabIconButton({
+    super.key,
     required this.icon,
     this.label,
     this.callback,
@@ -370,7 +370,8 @@ class WabIconButton extends WabWidget<Widget, Widget> {
   final double? padding;
   final WabMaterialKind kind;
 
-  Widget _build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final extra = padding ?? 0;
     return WabButton(
       kind: kind,
@@ -390,15 +391,12 @@ class WabIconButton extends WabWidget<Widget, Widget> {
     );
   }
 
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build(context);
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
 
 /// 界行式文字鈕 — text only, separated by fine book-page rules.
-class WabTextButton extends WabWidget<Widget, Widget> {
-  WabTextButton({
+class WabTextButton extends StatelessWidget {
+  const WabTextButton({
+    super.key,
     required this.text,
     this.padding = 20.0,
     this.callback,
@@ -410,7 +408,8 @@ class WabTextButton extends WabWidget<Widget, Widget> {
   final VoidCallback? callback;
   final bool mergeTop;
 
-  Widget _build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final wab = WabTheme.of(context);
     final side = BorderSide(
       color: wab.lineColor,
@@ -448,14 +447,11 @@ class WabTextButton extends WabWidget<Widget, Widget> {
     );
   }
 
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build(context);
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
 
-class WabElevatedButton extends WabWidget<Widget, Widget> {
-  WabElevatedButton({
+class WabElevatedButton extends StatelessWidget {
+  const WabElevatedButton({
+    super.key,
     required this.text,
     this.padding = 20.0,
     this.callback,
@@ -469,7 +465,8 @@ class WabElevatedButton extends WabWidget<Widget, Widget> {
   final Icon? icon;
   final bool showChevron;
 
-  Widget _build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final p = padding ?? 18;
     return WabButton(
       kind: WabMaterialKind.wood,
@@ -494,16 +491,13 @@ class WabElevatedButton extends WabWidget<Widget, Widget> {
     );
   }
 
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build(context);
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
 
 enum WabTogglePair { paper, woodCloth, jadeBaiwen, sealZhuwen }
 
-class WabToggleButton extends WabWidget<Widget, Widget> {
-  WabToggleButton({
+class WabToggleButton extends StatelessWidget {
+  const WabToggleButton({
+    super.key,
     required this.text,
     required this.isOn,
     this.callback,
@@ -515,7 +509,8 @@ class WabToggleButton extends WabWidget<Widget, Widget> {
   final VoidCallback? callback;
   final WabTogglePair pair;
 
-  Widget _build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final kind = switch (pair) {
       WabTogglePair.paper => WabMaterialKind.paper,
       WabTogglePair.woodCloth =>
@@ -536,17 +531,14 @@ class WabToggleButton extends WabWidget<Widget, Widget> {
     );
   }
 
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build(context);
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
 
-class WabFloatingActionButton extends WabWidget<Widget, Widget> {
-  WabFloatingActionButton(this.button);
+class WabFloatingActionButton extends StatelessWidget {
+  const WabFloatingActionButton(this.button, {super.key});
   final FloatingActionButton button;
 
-  Widget _build(BuildContext context) => GestureDetector(
+  @override
+  Widget build(BuildContext context) => GestureDetector(
         onTap: button.onPressed,
         child: Container(
           width: 56,
@@ -572,8 +564,4 @@ class WabFloatingActionButton extends WabWidget<Widget, Widget> {
         ),
       );
 
-  @override
-  Widget createCupertinoWidget(BuildContext context) => _build(context);
-  @override
-  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
