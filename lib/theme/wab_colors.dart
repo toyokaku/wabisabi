@@ -44,7 +44,7 @@ class WabColors extends ThemeExtension<WabColors> {
         brightness: Brightness.light,
         primaryColor: primaryColor ?? WAB_LIGHT_PRIMARY,
         secondaryColor: secondaryColor ?? WAB_LIGHT_SECONDARY,
-        hintColor: WAB_LIGHT_TEXT.withOpacity(0.6),
+        hintColor: WAB_LIGHT_TEXT.withValues(alpha: 0.6),
         backgroundColor: WAB_LIGHT_BACKGROUND,
         surfaceColor: WAB_LIGHT_SURFACE,
         accentColor: WAB_LIGHT_ACCENT,
@@ -67,7 +67,7 @@ class WabColors extends ThemeExtension<WabColors> {
         brightness: Brightness.dark,
         primaryColor: primaryColor ?? WAB_DARK_PRIMARY,
         secondaryColor: secondaryColor ?? WAB_DARK_SECONDARY,
-        hintColor: WAB_DARK_TEXT.withOpacity(0.6),
+        hintColor: WAB_DARK_TEXT.withValues(alpha: 0.6),
         backgroundColor: WAB_DARK_BACKGROUND,
         surfaceColor: WAB_DARK_SURFACE,
         accentColor: WAB_DARK_ACCENT,
@@ -121,17 +121,17 @@ class WabColors extends ThemeExtension<WabColors> {
     final base = isDark ? const Color(0xFF000000) : const Color(0xFF2E2A24);
     return [
       BoxShadow(
-        color: base.withOpacity(isDark ? 0.50 : 0.16),
+        color: base.withValues(alpha: isDark ? 0.50 : 0.16),
         blurRadius: 3,
         offset: const Offset(2, 2),
       ),
       BoxShadow(
-        color: base.withOpacity(isDark ? 0.34 : 0.10),
+        color: base.withValues(alpha: isDark ? 0.34 : 0.10),
         blurRadius: 9,
         offset: const Offset(4, 5),
       ),
       BoxShadow(
-        color: base.withOpacity(isDark ? 0.20 : 0.05),
+        color: base.withValues(alpha: isDark ? 0.20 : 0.05),
         blurRadius: 18,
         offset: const Offset(8, 11),
       ),

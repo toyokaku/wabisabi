@@ -172,7 +172,7 @@ class _WabButtonState extends State<WabButton> {
     final interactionShadow = switch (state) {
       WabButtonVisualState.hover => [
           BoxShadow(
-            color: Colors.black.withOpacity(dark ? .32 : .16),
+            color: Colors.black.withValues(alpha: dark ? .32 : .16),
             blurRadius: 8,
             spreadRadius: -.5,
             offset: const Offset(0, 4),
@@ -180,7 +180,7 @@ class _WabButtonState extends State<WabButton> {
         ],
       WabButtonVisualState.pressed => [
           BoxShadow(
-            color: Colors.black.withOpacity(dark ? .18 : .07),
+            color: Colors.black.withValues(alpha: dark ? .18 : .07),
             blurRadius: 1.5,
             offset: const Offset(0, .8),
           ),
@@ -228,7 +228,7 @@ class _WabButtonState extends State<WabButton> {
             curve: Curves.easeOutCubic,
             transformAlignment: Alignment.center,
             transform: Matrix4.translationValues(0, dy, 0)
-              ..scale(scale, scale),
+              ..scaleByDouble(scale, scale, 1, 1),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
               boxShadow: interactionShadow,
@@ -313,7 +313,7 @@ class _WabButtonState extends State<WabButton> {
     final shadows = state == WabButtonVisualState.normal
         ? [
             BoxShadow(
-              color: Colors.black.withOpacity(dark ? .30 : .14),
+              color: Colors.black.withValues(alpha: dark ? .30 : .14),
               blurRadius: 5,
               offset: const Offset(1.5, 2.5),
             ),
@@ -345,7 +345,7 @@ class _ZhuwenSurface extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(1.5),
-            border: Border.all(color: red.withOpacity(.88), width: .72),
+            border: Border.all(color: red.withValues(alpha: .88), width: .72),
           ),
           child: WabPaperTexture(child: child),
         ),
@@ -523,7 +523,7 @@ class WabToggleButton extends StatelessWidget {
     return WabButton(
       kind: kind,
       sideColor: pair == WabTogglePair.paper && isOn
-          ? WabTheme.of(context).textColor.withOpacity(.65)
+          ? WabTheme.of(context).textColor.withValues(alpha: .65)
           : null,
       onPressed: callback,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -547,7 +547,7 @@ class WabFloatingActionButton extends StatelessWidget {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(WAB_SEAL_SHADOW_OPACITY),
+                color: Colors.black.withValues(alpha: WAB_SEAL_SHADOW_OPACITY),
                 blurRadius: 6,
                 offset: const Offset(1, 3),
               ),

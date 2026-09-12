@@ -28,10 +28,10 @@ class WabStatusBadge extends StatelessWidget {
   final WabBadgeKind kind;
 
   Color _bg(WabColors wab) => switch (kind) {
-        WabBadgeKind.neutral => wab.secondaryColor.withOpacity(.72),
+        WabBadgeKind.neutral => wab.secondaryColor.withValues(alpha: .72),
         WabBadgeKind.primary || WabBadgeKind.progress => wab.progressColor,
         WabBadgeKind.success || WabBadgeKind.done => wab.onColor,
-        WabBadgeKind.warning => wab.accentColor.withOpacity(.82),
+        WabBadgeKind.warning => wab.accentColor.withValues(alpha: .82),
         WabBadgeKind.error => wab.sealColor,
       };
 

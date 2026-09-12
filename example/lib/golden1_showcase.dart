@@ -443,7 +443,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             Divider(
               height: 1,
               thickness: WAB_RULE_HAIRLINE,
-              color: wab.lineColor.withOpacity(.55),
+              color: wab.lineColor.withValues(alpha: .55),
             ),
             const SizedBox(height: 10),
             Expanded(child: content),

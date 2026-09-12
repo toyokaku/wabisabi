@@ -38,7 +38,7 @@ class _CinnabarPainter extends CustomPainter {
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
         Paint()
-          ..color = (i.isEven ? deep : light).withOpacity(.10 + rnd.nextDouble() * .08)
+          ..color = (i.isEven ? deep : light).withValues(alpha: .10 + rnd.nextDouble() * .08)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * .42),
       );
     }
@@ -63,7 +63,7 @@ class _CinnabarPainter extends CustomPainter {
       canvas.drawPath(
         Path()..moveTo(p0.dx, p0.dy)..lineTo(p1.dx, p1.dy)..lineTo(p2.dx, p2.dy),
         Paint()
-          ..color = light.withOpacity(.16)
+          ..color = light.withValues(alpha: .16)
           ..style = PaintingStyle.stroke
           ..strokeWidth = .45,
       );

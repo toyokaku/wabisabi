@@ -135,7 +135,7 @@ Widget goldenRulesSection(BuildContext context) {
             rows: 1,
             cols: 9,
             states: List.generate(9, (i) => i),
-            styleOf: (s) => InkDotStyle(color: s == 4 ? wab.textColor : wab.mutedColor.withOpacity(.5)),
+            styleOf: (s) => InkDotStyle(color: s == 4 ? wab.textColor : wab.mutedColor.withValues(alpha: .5)),
             dotSize: 5,
             gap: 7,
           ),

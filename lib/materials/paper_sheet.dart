@@ -89,9 +89,9 @@ class _SheetAgePainter extends CustomPainter {
             end: Alignment.bottomCenter,
             colors: [
               Colors.transparent,
-              shadow.withOpacity(.055),
-              shadow.withOpacity(.14),
-              light.withOpacity(isDark ? .025 : .045),
+              shadow.withValues(alpha: .055),
+              shadow.withValues(alpha: .14),
+              light.withValues(alpha: isDark ? .025 : .045),
               Colors.transparent,
             ],
           ).createShader(band),
@@ -100,7 +100,7 @@ class _SheetAgePainter extends CustomPainter {
         Offset(0, y),
         Offset(size.width, y + .25),
         Paint()
-          ..color = shadow.withOpacity(.22)
+          ..color = shadow.withValues(alpha: .22)
           ..strokeWidth = .55,
       );
     }
@@ -114,9 +114,9 @@ class _SheetAgePainter extends CustomPainter {
           ..shader = LinearGradient(
             colors: [
               Colors.transparent,
-              shadow.withOpacity(.045),
-              shadow.withOpacity(.115),
-              light.withOpacity(isDark ? .020 : .035),
+              shadow.withValues(alpha: .045),
+              shadow.withValues(alpha: .115),
+              light.withValues(alpha: isDark ? .020 : .035),
               Colors.transparent,
             ],
           ).createShader(band),
@@ -125,7 +125,7 @@ class _SheetAgePainter extends CustomPainter {
         Offset(x, 0),
         Offset(x + .22, size.height),
         Paint()
-          ..color = shadow.withOpacity(.17)
+          ..color = shadow.withValues(alpha: .17)
           ..strokeWidth = .5,
       );
     }
@@ -133,7 +133,7 @@ class _SheetAgePainter extends CustomPainter {
     for (final y in horizontalFolds) hFold(y);
     for (final x in verticalFolds) vFold(x);
 
-    final edge = Paint()..color = age.withOpacity(isDark ? .05 : .055);
+    final edge = Paint()..color = age.withValues(alpha: isDark ? .05 : .055);
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, 2.2), edge);
     canvas.drawRect(Rect.fromLTWH(0, size.height - 3.2, size.width, 3.2), edge);
     canvas.drawRect(Rect.fromLTWH(0, 0, 2.0, size.height), edge);

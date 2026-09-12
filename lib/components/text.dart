@@ -11,9 +11,9 @@ import '../theme/wab_theme.dart';
 
 BoxDecoration _cupertinoFieldDecoration(WabColors wab, WabRuleKind kind) =>
     BoxDecoration(
-      color: wab.scratchColor.withOpacity(.58),
+      color: wab.scratchColor.withValues(alpha: .58),
       border: Border.all(
-        color: wab.lineColor.withOpacity(.82),
+        color: wab.lineColor.withValues(alpha: .82),
         width: WabRuleFrame.ruleWidth(kind),
       ),
     );
@@ -163,7 +163,7 @@ class _WabNumberFormFieldState extends State<WabNumberFormField> {
           kind: WabRuleKind.thin,
         ).copyWith(
           labelText: widget.labelText,
-          labelStyle: TextStyle(color: wab.textColor.withOpacity(0.7)),
+          labelStyle: TextStyle(color: wab.textColor.withValues(alpha: 0.7)),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
         keyboardType: TextInputType.number,
@@ -194,9 +194,9 @@ class WabSearchField extends WabWidget {
         onChanged: onChanged,
         onSubmitted: onSubmitted,
         placeholder: hintText,
-        backgroundColor: wab.scratchColor.withOpacity(.58),
+        backgroundColor: wab.scratchColor.withValues(alpha: .58),
         style: TextStyle(color: wab.textColor),
-        placeholderStyle: TextStyle(color: wab.textColor.withOpacity(0.5)),
+        placeholderStyle: TextStyle(color: wab.textColor.withValues(alpha: 0.5)),
         borderRadius: BorderRadius.zero,
         padding: const EdgeInsets.symmetric(vertical: 12),
     );

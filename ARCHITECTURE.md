@@ -100,10 +100,9 @@ CI checks cover import structure and public naming only.
 - **No type scale.** `theme/typography.dart` owns font families only. Font sizes
   are hardcoded per component, down to 8 px, and nothing consults
   `MediaQuery.textScaler`.
-- **Lints are effectively off.** `analysis_options.yaml` never includes
-  `package:flutter_lints/flutter.yaml` despite the comment claiming it does, so
-  `flutter analyze` passing means little. Turning it on needs
-  `constant_identifier_names` explicitly disabled, since `WAB_*` is house style.
+- **`WAB_*` SCREAMING_SNAKE token names** are house style and violate
+  `constant_identifier_names`, which is the one lint the kit opts out of.
+  Renaming every token breaks every consumer, so it waits for a major version.
 - **`tool/public_api_baseline.txt` has 6 entries**, all unprefixed exported
   names: `DeckleBorder`, `DotGrid`, `InkDot`, `InkDotStyle`, `TexturePainter`,
   `isIos`. Renaming them breaks consumers, so they wait for a version bump.

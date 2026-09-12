@@ -51,7 +51,7 @@ class WabSurface extends StatelessWidget {
     final paper = dark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT;
     final fibrePaper = dark
         ? paper
-        : Color.alphaBlend(WAB_TEXTURE_PAPER_AGE_LIGHT.withOpacity(.055), paper);
+        : Color.alphaBlend(WAB_TEXTURE_PAPER_AGE_LIGHT.withValues(alpha: .055), paper);
     final content = Padding(padding: padding, child: child);
 
     Widget surface = switch (kind) {

@@ -70,7 +70,7 @@ class _PaperTexturePainter extends CustomPainter {
           height: math.max(12, ry * 2),
         ),
         Paint()
-          ..color = tone.withOpacity(opacity.clamp(0, .26))
+          ..color = tone.withValues(alpha: opacity.clamp(0, .26))
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.max(5, rx * .44)),
       );
     }
@@ -85,7 +85,7 @@ class _PaperTexturePainter extends CustomPainter {
       canvas.rotate((rnd.nextDouble() - .5) * 1.2);
       canvas.drawOval(
         Rect.fromCenter(center: Offset.zero, width: w, height: h),
-        Paint()..color = deep.withOpacity((.035 + rnd.nextDouble() * .055) * strength),
+        Paint()..color = deep.withValues(alpha: (.035 + rnd.nextDouble() * .055) * strength),
       );
       canvas.restore();
     }
@@ -110,7 +110,7 @@ class _PaperTexturePainter extends CustomPainter {
       canvas.drawPath(
         path,
         Paint()
-          ..color = crease.withOpacity((isDark ? .030 : .040) * strength)
+          ..color = crease.withValues(alpha: (isDark ? .030 : .040) * strength)
           ..style = PaintingStyle.stroke
           ..strokeWidth = strong ? 2.2 : 1.8
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.4),
@@ -120,7 +120,7 @@ class _PaperTexturePainter extends CustomPainter {
       canvas.drawPath(
         path,
         Paint()
-          ..color = highlight.withOpacity((isDark ? .030 : .095) * strength)
+          ..color = highlight.withValues(alpha: (isDark ? .030 : .095) * strength)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.0
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.2),

@@ -57,7 +57,7 @@ class WabProfileHeader extends StatelessWidget {
           decoration: BoxDecoration(
             color: wab.primaryColor,
             borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            border: Border.all(color: wab.accentColor.withOpacity(0.6)),
+            border: Border.all(color: wab.accentColor.withValues(alpha: 0.6)),
             image: avatar == null
                 ? null
                 : DecorationImage(image: avatar!, fit: BoxFit.cover),
@@ -84,7 +84,7 @@ class WabProfileHeader extends StatelessWidget {
               Text(
                 subtitle!,
                 style: TextStyle(
-                  color: wab.textColor.withOpacity(0.6),
+                  color: wab.textColor.withValues(alpha: 0.6),
                   fontSize: 12,
                   fontFamilyFallback: kWabKaiFallback,
                 ),

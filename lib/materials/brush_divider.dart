@@ -57,7 +57,7 @@ class _BrushLinePainter extends CustomPainter {
     canvas.drawPath(
       path,
       Paint()
-        ..color = color.withOpacity(op)
+        ..color = color.withValues(alpha: op)
         ..style = PaintingStyle.fill,
     );
   }

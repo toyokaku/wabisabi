@@ -190,7 +190,7 @@ BoxDecoration _lifted(WabColors wab, Color fill) => BoxDecoration(
       boxShadow: wab.elevationShadow,
       border: Border.all(
         color: wab.isDark
-            ? wab.accentColor.withOpacity(0.28)
+            ? wab.accentColor.withValues(alpha: 0.28)
             : wab.secondaryColor,
         width: 0.8,
       ),
@@ -273,7 +273,7 @@ class TexturePainter extends CustomPainter {
     while (jPos < h) {
       final opacity = (0x06 + (_rand(row, 7) * 0x0E).toInt()) / 255;
       final strokeW = 0.3 + _rand(row, 11) * 0.7;
-      fiberBase.color = WAB_WASHI_FIBER.withOpacity(opacity);
+      fiberBase.color = WAB_WASHI_FIBER.withValues(alpha: opacity);
       fiberBase.strokeWidth = strokeW;
 
       if (_rand(row, 3) < 0.62) {

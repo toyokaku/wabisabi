@@ -38,7 +38,7 @@ class _PatinaPainter extends CustomPainter {
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
         Paint()
-          ..color = (i.isEven ? deep : light).withOpacity(.12 + rnd.nextDouble() * .09)
+          ..color = (i.isEven ? deep : light).withValues(alpha: .12 + rnd.nextDouble() * .09)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * .5),
       );
     }
@@ -59,7 +59,7 @@ class _PatinaPainter extends CustomPainter {
       canvas.drawPath(
         path,
         Paint()
-          ..color = deep.withOpacity(.12 + rnd.nextDouble() * .10)
+          ..color = deep.withValues(alpha: .12 + rnd.nextDouble() * .10)
           ..style = PaintingStyle.stroke
           ..strokeWidth = .35 + rnd.nextDouble() * .45,
       );

@@ -54,7 +54,7 @@ class WabCollectionCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Divider(
-                  color: wab.lineColor.withOpacity(.65),
+                  color: wab.lineColor.withValues(alpha: .65),
                   thickness: WAB_RULE_HAIRLINE,
                   height: WAB_RULE_HAIRLINE,
                   indent: 18,

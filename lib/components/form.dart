@@ -11,8 +11,8 @@ OutlineInputBorder _wabRuleBorder(
   bool focused = false,
 }) {
   final color = focused
-      ? wab.textColor.withOpacity(.72)
-      : wab.lineColor.withOpacity(.82);
+      ? wab.textColor.withValues(alpha: .72)
+      : wab.lineColor.withValues(alpha: .82);
   return OutlineInputBorder(
     borderRadius: BorderRadius.zero,
     borderSide: BorderSide(
@@ -38,7 +38,7 @@ InputDecoration wabInputDecoration(
     hintStyle: TextStyle(color: wab.mutedColor),
     prefixIcon: prefixIcon,
     filled: true,
-    fillColor: wab.scratchColor.withOpacity(.58),
+    fillColor: wab.scratchColor.withValues(alpha: .58),
     contentPadding: WAB_PADDING_ALL,
     enabledBorder: _wabRuleBorder(wab, kind),
     focusedBorder: _wabRuleBorder(wab, kind, focused: true),
@@ -132,13 +132,19 @@ class WabRadio<T> extends StatelessWidget {
     return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Radio<T>(
-            value: value,
+          // Each control is its own group of one, which is what the old
+          // per-radio groupValue/onChanged pair meant. Selection is still
+          // value == groupValue, so the public API is unchanged.
+          RadioGroup<T>(
             groupValue: groupValue,
-            onChanged: onChanged,
-            activeColor: wab.textColor,
-            visualDensity: VisualDensity.compact,
-            side: BorderSide(color: wab.textColor, width: 1.8),
+            onChanged: onChanged ?? (_) {},
+            child: Radio<T>(
+              value: value,
+              enabled: onChanged != null,
+              activeColor: wab.textColor,
+              visualDensity: VisualDensity.compact,
+              side: BorderSide(color: wab.textColor, width: 1.8),
+            ),
           ),
           if (label != null)
             Text(label!, style: TextStyle(color: wab.textColor)),
@@ -270,8 +276,8 @@ class _FishTailTrackPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (size.isEmpty) return;
-    final ink = this.ink.withOpacity(enabled ? .82 : .30);
-    final line = this.line.withOpacity(enabled ? .78 : .36);
+    final ink = this.ink.withValues(alpha: enabled ? .82 : .30);
+    final line = this.line.withValues(alpha: enabled ? .78 : .36);
     final y = size.height / 2;
     const left = _kTrackInset;
     final right = size.width - _kTrackInset;
@@ -290,7 +296,7 @@ class _FishTailTrackPainter extends CustomPainter {
         Offset(left, y),
         Offset(x, y),
         Paint()
-          ..color = ink.withOpacity(.48)
+          ..color = ink.withValues(alpha: .48)
           ..strokeWidth = 1.25,
       );
     }

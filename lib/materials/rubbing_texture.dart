@@ -37,7 +37,7 @@ class _RubbingPainter extends CustomPainter {
         ),
         Paint()
           ..color = (i % 3 == 0 ? WAB_TEXTURE_RUBBING_DUST : WAB_TEXTURE_RUBBING_DEEP)
-              .withOpacity(i % 3 == 0 ? .14 : .30)
+              .withValues(alpha: i % 3 == 0 ? .14 : .30)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.max(3, rx * .42)),
       );
     }
@@ -48,7 +48,7 @@ class _RubbingPainter extends CustomPainter {
       canvas.drawCircle(
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
-        Paint()..color = WAB_TEXTURE_RUBBING_DUST.withOpacity(.055 + rnd.nextDouble() * .11),
+        Paint()..color = WAB_TEXTURE_RUBBING_DUST.withValues(alpha: .055 + rnd.nextDouble() * .11),
       );
     }
 
@@ -64,7 +64,7 @@ class _RubbingPainter extends CustomPainter {
       canvas.drawPath(
         Path()..moveTo(p.dx, p.dy)..quadraticBezierTo(ctrl.dx, ctrl.dy, end.dx, end.dy),
         Paint()
-          ..color = WAB_TEXTURE_RUBBING_FIBER.withOpacity(.045 + rnd.nextDouble() * .065)
+          ..color = WAB_TEXTURE_RUBBING_FIBER.withValues(alpha: .045 + rnd.nextDouble() * .065)
           ..style = PaintingStyle.stroke
           ..strokeWidth = .30 + rnd.nextDouble() * .45,
       );

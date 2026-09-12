@@ -31,7 +31,7 @@ class WabClothWeave extends CustomPainter {
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
         Paint()
-          ..color = deep.withOpacity(.075 + rnd.nextDouble() * .045)
+          ..color = deep.withValues(alpha: .075 + rnd.nextDouble() * .045)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.max(4, r * .8)),
       );
     }
@@ -51,7 +51,7 @@ class WabClothWeave extends CustomPainter {
           Offset(x + jx, y + jy),
           Offset(x + pitch * .94 + jx, y + jy),
           Paint()
-            ..color = (over ? thread : deep).withOpacity(over ? .27 : .24)
+            ..color = (over ? thread : deep).withValues(alpha: over ? .27 : .24)
             ..strokeWidth = over ? .58 : .44
             ..strokeCap = StrokeCap.round,
         );
@@ -59,7 +59,7 @@ class WabClothWeave extends CustomPainter {
           Offset(x + pitch * .47 + jx, y - pitch * .47 + jy),
           Offset(x + pitch * .47 + jx, y + pitch * .47 + jy),
           Paint()
-            ..color = (over ? deep : thread).withOpacity(over ? .22 : .25)
+            ..color = (over ? deep : thread).withValues(alpha: over ? .22 : .25)
             ..strokeWidth = over ? .42 : .55
             ..strokeCap = StrokeCap.round,
         );

@@ -49,7 +49,7 @@ class WabPanel extends StatelessWidget {
         ),
         const SizedBox(height: 7),
         Divider(
-          color: wab.lineColor.withOpacity(.68),
+          color: wab.lineColor.withValues(alpha: .68),
           thickness: WAB_RULE_HAIRLINE,
           height: WAB_RULE_HAIRLINE,
         ),

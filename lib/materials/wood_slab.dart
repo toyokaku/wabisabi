@@ -38,7 +38,7 @@ class WabWoodSlab extends StatelessWidget {
         boxShadow: lifted
             ? [
                 BoxShadow(
-                  color: Colors.black.withOpacity(dark ? .28 : .14),
+                  color: Colors.black.withValues(alpha: dark ? .28 : .14),
                   blurRadius: 5.5,
                   spreadRadius: -.7,
                   offset: const Offset(2.2, 3.0),
@@ -71,8 +71,8 @@ class _WoodSlabEdgePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (size.isEmpty) return;
 
-    final light = Colors.white.withOpacity(dark ? .08 : .24);
-    final darkEdge = Colors.black.withOpacity(dark ? .26 : .18);
+    final light = Colors.white.withValues(alpha: dark ? .08 : .24);
+    final darkEdge = Colors.black.withValues(alpha: dark ? .26 : .18);
 
     final highlight = Paint()
       ..color = light

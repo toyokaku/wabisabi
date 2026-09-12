@@ -45,7 +45,7 @@ class _JadePainter extends CustomPainter {
           height: ry * 2,
         ),
         Paint()
-          ..color = (i.isEven ? cloud : deep).withOpacity(i.isEven ? .24 : .13)
+          ..color = (i.isEven ? cloud : deep).withValues(alpha: i.isEven ? .24 : .13)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.min(rx, ry) * .45),
       );
     }
@@ -64,7 +64,7 @@ class _JadePainter extends CustomPainter {
       canvas.drawPath(
         path,
         Paint()
-          ..color = vein.withOpacity(.035 + rnd.nextDouble() * .025)
+          ..color = vein.withValues(alpha: .035 + rnd.nextDouble() * .025)
           ..style = PaintingStyle.stroke
           ..strokeWidth = .35 + rnd.nextDouble() * .30,
       );
@@ -76,7 +76,7 @@ class _JadePainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.white.withOpacity(isDark ? .08 : .26), Colors.transparent],
+          colors: [Colors.white.withValues(alpha: isDark ? .08 : .26), Colors.transparent],
         ).createShader(Offset.zero & size),
     );
   }

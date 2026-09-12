@@ -119,7 +119,7 @@ class _PaperLiftPainter extends CustomPainter {
     canvas.drawPath(
       soft,
       Paint()
-        ..color = Colors.black.withOpacity(dark ? .27 : .115)
+        ..color = Colors.black.withValues(alpha: dark ? .27 : .115)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.8),
     );
 
@@ -131,7 +131,7 @@ class _PaperLiftPainter extends CustomPainter {
     canvas.drawPath(
       contact,
       Paint()
-        ..color = Colors.black.withOpacity(dark ? .24 : .105)
+        ..color = Colors.black.withValues(alpha: dark ? .24 : .105)
         ..style = PaintingStyle.stroke
         ..strokeWidth = .75
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.3),

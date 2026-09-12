@@ -44,7 +44,7 @@ class WabInkWash extends CustomPainter {
       canvas.drawOval(
         Rect.fromCenter(center: center, width: rx * 2, height: ry * 2),
         Paint()
-          ..color = ink.withOpacity(op)
+          ..color = ink.withValues(alpha: op)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.min(rx, ry) * .46),
       );
     }
@@ -56,7 +56,7 @@ class WabInkWash extends CustomPainter {
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
         Paint()
-          ..color = (dark ? Colors.black : Colors.white).withOpacity(dark ? .035 : .10)
+          ..color = (dark ? Colors.black : Colors.white).withValues(alpha: dark ? .035 : .10)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * .65),
       );
     }

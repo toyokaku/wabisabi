@@ -158,7 +158,7 @@ class WabTheme {
       primaryColor: colors.primaryColor,
       scaffoldBackgroundColor: colors.backgroundColor,
       cardColor: colors.surfaceColor,
-      dialogBackgroundColor: colors.surfaceColor,
+      dialogTheme: DialogThemeData(backgroundColor: colors.surfaceColor),
       dividerColor: colors.secondaryColor,
       cardTheme: CardThemeData(
         color: colors.surfaceColor,
@@ -176,7 +176,7 @@ class WabTheme {
           borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
           borderSide: BorderSide.none,
         ),
-        hintStyle: TextStyle(color: colors.textColor.withOpacity(0.45)),
+        hintStyle: TextStyle(color: colors.textColor.withValues(alpha: 0.45)),
       ),
       colorScheme: base.colorScheme.copyWith(
         primary: colors.accentColor,
@@ -191,7 +191,7 @@ class WabTheme {
         style: ElevatedButton.styleFrom(
           // Light: lighter & translucent wood; dark: solid dark wood.
           backgroundColor: lightTheme
-              ? colors.woodyColor.withOpacity(0.55)
+              ? colors.woodyColor.withValues(alpha: 0.55)
               : colors.woodyColor,
           foregroundColor: colors.textColor,
           elevation: 0,

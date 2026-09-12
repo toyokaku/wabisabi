@@ -65,7 +65,7 @@ class _FiberTexturePainter extends CustomPainter {
       canvas.drawPath(
         path,
         Paint()
-          ..color = (i % 7 == 0 ? pale : tint).withOpacity(opacity.clamp(0, .16))
+          ..color = (i % 7 == 0 ? pale : tint).withValues(alpha: opacity.clamp(0, .16))
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
           ..strokeWidth = .28 + rnd.nextDouble() * .50,
@@ -77,7 +77,7 @@ class _FiberTexturePainter extends CustomPainter {
       final c = Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height);
       canvas.drawOval(
         Rect.fromCenter(center: c, width: 1.5 + rnd.nextDouble() * 4, height: .5 + rnd.nextDouble() * 1.4),
-        Paint()..color = tint.withOpacity((.035 + rnd.nextDouble() * .045) * strength),
+        Paint()..color = tint.withValues(alpha: (.035 + rnd.nextDouble() * .045) * strength),
       );
     }
   }
