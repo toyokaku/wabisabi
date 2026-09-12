@@ -155,7 +155,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                       style: TextStyle(
                         color: wab.mutedColor,
                         fontFamily: kWabMonoFamily,
-                        fontSize: 7,
+                        fontSize: WabType.annotation,
                         letterSpacing: 1.45,
                         height: 1.35,
                       ),
@@ -222,7 +222,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             style: TextStyle(
               color: wab.textColor,
               fontFamily: kWabDisplayFamily,
-              fontSize: 15,
+              fontSize: WabType.label,
               fontWeight: FontWeight.w500,
               letterSpacing: 3,
             ),
@@ -233,7 +233,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             style: TextStyle(
               color: wab.mutedColor,
               fontFamily: kWabMonoFamily,
-              fontSize: 7,
+              fontSize: WabType.annotation,
               letterSpacing: 1.4,
             ),
           ),
@@ -247,7 +247,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: kWabMonoFamily,
-                    fontSize: 8,
+                    fontSize: WabType.caption,
                     fontWeight:
                         _selected == i ? FontWeight.w500 : FontWeight.w400,
                     letterSpacing: .8,
@@ -264,7 +264,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             style: TextStyle(
               color: wab.mutedColor,
               fontFamily: kWabMonoFamily,
-              fontSize: 7,
+              fontSize: WabType.annotation,
               letterSpacing: 2.5,
             ),
           ),
@@ -430,7 +430,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
               style: TextStyle(
                 color: wab.textColor,
                 fontFamily: kWabKaiFamily,
-                fontSize: 13,
+                fontSize: WabType.body,
                 fontWeight: FontWeight.w500,
                 letterSpacing: .7,
               ),
@@ -441,7 +441,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
               style: TextStyle(
                 color: wab.mutedColor,
                 fontFamily: kWabKaiFamily,
-                fontSize: 7.5,
+                fontSize: WabType.annotation,
                 letterSpacing: .4,
               ),
             ),

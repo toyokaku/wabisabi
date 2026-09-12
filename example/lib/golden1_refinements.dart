@@ -26,7 +26,7 @@ Widget refinedRulesSection(BuildContext context) {
               style: TextStyle(
                 color: wab.mutedColor,
                 fontFamily: kWabMonoFamily,
-                fontSize: 5.7,
+                fontSize: WabType.annotation,
               ),
             ),
           ],
@@ -60,7 +60,7 @@ Widget refinedRulesSection(BuildContext context) {
                   style: TextStyle(
                     color: wab.mutedColor,
                     fontFamily: kWabMonoFamily,
-                    fontSize: 5.8,
+                    fontSize: WabType.annotation,
                   ),
                 ),
               ],
@@ -81,7 +81,7 @@ Widget refinedRulesSection(BuildContext context) {
                         '四 摺 紙 格',
                         style: TextStyle(
                           color: wab.mutedColor,
-                          fontSize: 7,
+                          fontSize: WabType.annotation,
                           letterSpacing: 1.2,
                         ),
                       ),
@@ -94,7 +94,7 @@ Widget refinedRulesSection(BuildContext context) {
                   style: TextStyle(
                     color: wab.mutedColor,
                     fontFamily: kWabMonoFamily,
-                    fontSize: 5.8,
+                    fontSize: WabType.annotation,
                   ),
                 ),
               ],
@@ -112,7 +112,7 @@ Widget refinedRulesSection(BuildContext context) {
             style: TextStyle(
               color: wab.mutedColor,
               fontFamily: kWabMonoFamily,
-              fontSize: 5.8,
+              fontSize: WabType.annotation,
             ),
           ),
           const Spacer(),
@@ -161,7 +161,7 @@ Widget refinedButtonsSection(BuildContext context) {
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 6),
                 child: item.$3 == WabMaterialKind.baiwen ||
                         item.$3 == WabMaterialKind.zhuwen
-                    ? WabSealText(item.$1, fontSize: 20, strokeWidth: .7)
+                    ? WabSealText(item.$1, fontSize: WabType.title, strokeWidth: .7)
                     : Text(item.$1),
               ),
               const SizedBox(height: 3),
@@ -170,7 +170,7 @@ Widget refinedButtonsSection(BuildContext context) {
                 style: TextStyle(
                   color: wab.mutedColor,
                   fontFamily: kWabMonoFamily,
-                  fontSize: 5.8,
+                  fontSize: WabType.annotation,
                 ),
               ),
             ],
@@ -184,7 +184,7 @@ Widget refinedButtonsSection(BuildContext context) {
               label: '落 印',
               onPressed: () {},
               expand: true,
-              fontSize: 20,
+              fontSize: WabType.title,
             ),
             const SizedBox(height: 3),
             Text(
@@ -192,7 +192,7 @@ Widget refinedButtonsSection(BuildContext context) {
               style: TextStyle(
                 color: wab.mutedColor,
                 fontFamily: kWabMonoFamily,
-                fontSize: 5.8,
+                fontSize: WabType.annotation,
               ),
             ),
           ],
@@ -214,7 +214,7 @@ Widget refinedButtonsSection(BuildContext context) {
               style: TextStyle(
                 color: wab.mutedColor,
                 fontFamily: kWabMonoFamily,
-                fontSize: 5.8,
+                fontSize: WabType.annotation,
               ),
             ),
           ],
@@ -238,7 +238,7 @@ Widget refinedButtonsSection(BuildContext context) {
               style: TextStyle(
                 color: wab.mutedColor,
                 fontFamily: kWabMonoFamily,
-                fontSize: 5.8,
+                fontSize: WabType.annotation,
               ),
             ),
           ],

@@ -10,20 +10,8 @@ import 'package:wabisabi/wabisabi.dart';
 TextStyle _caption(WabColors wab) => TextStyle(
       color: wab.mutedColor,
       fontFamily: kWabMonoFamily,
-      fontSize: 6.2,
+      fontSize: WabType.annotation,
       height: 1.2,
-    );
-
-/// 墨色 — photographs and marks in the catalogue are reduced to ink on paper.
-/// Luminance, then warmed off neutral grey: no colour logos, no dead greys.
-Widget _inked(Widget child) => ColorFiltered(
-      colorFilter: const ColorFilter.matrix(<double>[
-        .2126 * .98, .7152 * .98, .0722 * .98, 0, 0,
-        .2126 * .95, .7152 * .95, .0722 * .95, 0, 0,
-        .2126 * .88, .7152 * .88, .0722 * .88, 0, 0,
-        0, 0, 0, 1, 0,
-      ]),
-      child: child,
     );
 
 Widget _specimen(
@@ -63,7 +51,7 @@ Widget kitChromeSection(BuildContext context) {
               150,
               76,
               WabScaffold(
-                title: const Text('卷 一', style: TextStyle(fontSize: 11)),
+                title: const Text('卷 一', style: TextStyle(fontSize: WabType.gloss)),
                 body: Center(
                   child: Text('body', style: _caption(wab)),
                 ),
@@ -75,7 +63,7 @@ Widget kitChromeSection(BuildContext context) {
               150,
               76,
               WabTexturedScaffold(
-                title: const Text('卷 二', style: TextStyle(fontSize: 11)),
+                title: const Text('卷 二', style: TextStyle(fontSize: WabType.gloss)),
                 body: Center(
                   child: Text('ambient ground', style: _caption(wab)),
                 ),
@@ -87,7 +75,7 @@ Widget kitChromeSection(BuildContext context) {
               150,
               52,
               WabAppBar(
-                title: const Text('題 名', style: TextStyle(fontSize: 11)),
+                title: const Text('題 名', style: TextStyle(fontSize: WabType.gloss)),
                 action: const Icon(Icons.more_horiz, size: 15),
               ),
             ),
@@ -120,11 +108,11 @@ Widget kitChromeSection(BuildContext context) {
               'WabProfileHeader',
               168,
               50,
-              _inked(const WabProfileHeader(
+              const WabProfileHeader(
                 name: '陸 羽',
                 subtitle: '茶經 · 卷上',
                 avatar: AssetImage('images/avatar.jpg'),
-              )),
+              ),
             ),
             _specimen(
               wab,
@@ -332,18 +320,18 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
                 'WabImage',
                 58,
                 46,
-                _inked(const WabImage(
+                const WabImage(
                   path: 'images/avatar.jpg',
                   width: 58,
                   height: 46,
-                )),
+                ),
               ),
               _specimen(
                 wab,
                 'WabIcon',
                 58,
                 46,
-                _inked(const WabIcon(path: 'images/avatar.jpg', height: 46)),
+                const WabIcon(path: 'images/mark.png', height: 46),
               ),
               _specimen(
                 wab,
@@ -361,9 +349,7 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
           Text('WabPaymentRow', style: _caption(wab)),
           const SizedBox(height: 3),
           WabPaymentRow(
-            image: _inked(
-              const WabImage(path: 'images/avatar.jpg', width: 26, height: 18),
-            ),
+            image: const WabIcon(path: 'images/mark.png', height: 18),
             text: Text('結 帳 · CHECKOUT', style: _caption(wab)),
             callback: () {},
           ),
