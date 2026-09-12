@@ -18,9 +18,24 @@ BoxDecoration _cupertinoFieldDecoration(WabColors wab, WabRuleKind kind) =>
       ),
     );
 
-class WabWarningText extends Text {
-  WabWarningText({required String text})
-      : super(text, style: const TextStyle(color: Colors.red, fontSize: 15));
+/// Inline validation message.
+///
+/// The ink is the kit's 朱砂 seal red rather than Material's `Colors.red`,
+/// which never belonged in this palette, and it follows the theme.
+class WabWarningText extends StatelessWidget {
+  const WabWarningText({super.key, required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Text(
+        text,
+        style: TextStyle(
+          color: WabTheme.of(context).sealColor,
+          fontSize: 15,
+          fontFamilyFallback: kWabKaiFallback,
+        ),
+      );
 }
 
 /// Single-line text field uses the thin book rule (the inner rule of a double

@@ -94,12 +94,9 @@ CI checks cover import structure and public naming only.
   implement `createCupertinoWidget` and `createMaterialWidget` as the same
   `_build()`. The base has no const constructor, so none of its subclasses can
   be const and none accept a `key`.
-- **Concrete widgets are still subclassed in places** — `WabImage` and
-  `WabIcon` extend `ClipRRect`, `WabPaymentRow` extends `GestureDetector`,
-  `WabWarningText` extends `Text`. Flutter's composite widgets are not designed
-  for it: no const, no added fields, no `build` of your own, and the parent's
-  whole API leaks to consumers. The three container types have been converted;
-  these four have not.
+- **`WabPaymentRow` is app domain in a general kit.** A payment row is not a
+  design-system primitive; it belongs to whichever app needed it. Removing it
+  from the barrel is a breaking change waiting on a version bump.
 - **No type scale.** `theme/typography.dart` owns font families only. Font sizes
   are hardcoded per component, down to 8 px, and nothing consults
   `MediaQuery.textScaler`.
