@@ -1,7 +1,8 @@
 name: wabisabi
-description: A new Flutter package project.
+description: >-
+  侘寂 — a Flutter widget kit with an East Asian document grammar: procedural
+  paper, wood, cloth and cinnabar surfaces, no image assets, no dependencies.
 version: 0.0.4
-homepage: 
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
