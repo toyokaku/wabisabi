@@ -88,11 +88,22 @@ class WabColors extends ThemeExtension<WabColors> {
   factory WabColors.of(BuildContext context) {
     final fromTheme = Theme.of(context).extension<WabColors>();
     if (fromTheme != null) return fromTheme;
-    // A CupertinoApp carries no ThemeData extensions, so fall back to the
-    // palette matching the ambient brightness.
-    final brightness = CupertinoTheme.of(context).brightness ??
+
+    // CupertinoThemeData cannot carry a Material ThemeExtension. Reconstruct
+    // the WabiSabi palette from the ambient Cupertino theme instead, preserving
+    // the two colours WabTheme.cupertinoTheme explicitly exposes for override.
+    final cupertino = CupertinoTheme.of(context);
+    final brightness = cupertino.brightness ??
         MediaQuery.platformBrightnessOf(context);
-    return brightness == Brightness.dark ? WabColors.dark() : WabColors.light();
+    return brightness == Brightness.dark
+        ? WabColors.dark(
+            primaryColor: cupertino.primaryColor,
+            secondaryColor: cupertino.primaryContrastingColor,
+          )
+        : WabColors.light(
+            primaryColor: cupertino.primaryColor,
+            secondaryColor: cupertino.primaryContrastingColor,
+          );
   }
 
   final Brightness brightness;
