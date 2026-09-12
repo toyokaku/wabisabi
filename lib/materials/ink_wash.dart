@@ -1,59 +1,50 @@
-import 'dart:ui' as ui show Gradient;
-
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
-import '../tokens/material.dart';
 
-/// 墨暈 ink wash — three fixed radial ink blobs for a page background.
-/// The ink color follows the theme text color; per-blob opacities come from
-/// the material tokens.
+/// 墨暈 — layered wet-ink clouds with soft capillary spread.
+///
+/// No scratch or contour lines are drawn; the material reads through density,
+/// overlap and blur alone.
 class WabInkWash extends CustomPainter {
-  // Non-const by design: reads WabTheme.isDark at paint when isDark is null.
-  WabInkWash({this.isDark});
+  WabInkWash({this.isDark, this.seed = 943});
 
-  /// Theme override; defaults to the current `WabTheme.isDark` when painted.
   final bool? isDark;
+  final int seed;
 
   @override
   void paint(Canvas canvas, Size size) {
     final dark = isDark ?? WabTheme.isDark;
-    final ink = WabTheme.textColor;
-    void blob(Offset c, double r, double op, double sx, double sy) {
-      final paint = Paint()
-        ..shader = ui.Gradient.radial(c, r, [
-          ink.withOpacity(op),
-          ink.withOpacity(op * 0.4),
-          ink.withOpacity(0),
-        ], const [0.0, 0.55, 1.0]);
-      canvas.save();
-      canvas.translate(c.dx, c.dy);
-      canvas.scale(sx, sy);
-      canvas.translate(-c.dx, -c.dy);
-      canvas.drawCircle(c, r, paint);
-      canvas.restore();
+    final rnd = math.Random(seed);
+    final ink = dark ? WabTheme.mutedLight : WabTheme.textColor;
+
+    for (var i = 0; i < 9; i++) {
+      final rx = size.width * (.10 + rnd.nextDouble() * .20);
+      final ry = size.height * (.13 + rnd.nextDouble() * .25);
+      final center = Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height);
+      final op = (dark ? .050 : .065) + rnd.nextDouble() * (dark ? .05 : .085);
+      canvas.drawOval(
+        Rect.fromCenter(center: center, width: rx * 2, height: ry * 2),
+        Paint()
+          ..color = ink.withOpacity(op)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.min(rx, ry) * .46),
+      );
     }
 
-    blob(
-        Offset(size.width * 0.88, size.height * 0.15),
-        170,
-        dark ? WAB_INK_WASH_OPACITY_DARK1 : WAB_INK_WASH_OPACITY_LIGHT1,
-        1.25,
-        0.8);
-    blob(
-        Offset(size.width * 0.95, size.height * 0.30),
-        100,
-        dark ? WAB_INK_WASH_OPACITY_DARK2 : WAB_INK_WASH_OPACITY_LIGHT2,
-        1.1,
-        0.9);
-    blob(
-        Offset(size.width * 0.06, size.height * 0.88),
-        150,
-        dark ? WAB_INK_WASH_OPACITY_DARK3 : WAB_INK_WASH_OPACITY_LIGHT3,
-        1.3,
-        0.75);
+    // A few lighter bloom centers create water-loaded edges without linework.
+    for (var i = 0; i < 3; i++) {
+      final r = math.min(size.width, size.height) * (.08 + rnd.nextDouble() * .10);
+      canvas.drawCircle(
+        Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
+        r,
+        Paint()
+          ..color = (dark ? Colors.black : Colors.white).withOpacity(dark ? .035 : .10)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * .65),
+      );
+    }
   }
 
   @override
-  bool shouldRepaint(WabInkWash old) => old.isDark != isDark;
+  bool shouldRepaint(WabInkWash old) => old.isDark != isDark || old.seed != seed;
 }

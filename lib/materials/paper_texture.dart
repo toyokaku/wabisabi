@@ -1,99 +1,135 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
+import '../tokens/texture.dart';
 
-/// 紙紋 paper texture — a pure-painter overlay, fixed seed so it never
-/// flickers across rebuilds. The texture is pure tonal 明暗, no lines:
+enum WabPaperTextureKind { paper, mottle }
+
+/// 宣紙紙紋 — pulp clouds, tiny inclusions and broad shallow wave folds.
 ///
-/// 1. 雲斑 mottle — large soft blurred blotches in two tones. 晝: 茶經暗斑
-///    + 淡黃亮斑 over the warm sheet; 夜: 拓片石光 + 陷影 over the ink ground.
-/// 2. dots — sparse specks (紙筋 by day, 石花 by night).
-///
-/// 晝色實采茶經封面與 ab1189 淡黃漸變；夜色實采碑拓（224050）。
-///
-/// [isDark] defaults to `WabTheme.isDark`. Wrap a surface with it (typically
-/// as a background layer in a `Stack`, or via `CustomPaint`).
+/// The texture intentionally avoids scratch-like random lines. Old xuan reads
+/// through low-frequency waviness and uneven pulp density rather than noise.
 class WabPaperTexture extends StatelessWidget {
-  // Non-const by design: reads WabTheme.isDark at build — a const instance
-  // would freeze the theme it was first built with.
-  WabPaperTexture({super.key, this.isDark, this.child});
+  WabPaperTexture({
+    super.key,
+    this.isDark,
+    this.child,
+    this.kind = WabPaperTextureKind.paper,
+    this.strength = 1,
+  });
 
-  /// Theme override; defaults to the current `WabTheme.isDark`.
   final bool? isDark;
-
-  /// Optional child painted on top of the texture.
   final Widget? child;
+  final WabPaperTextureKind kind;
+  final double strength;
 
   @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _PaperTexturePainter(isDark: isDark ?? WabTheme.isDark),
-      child: child,
-    );
-  }
+  Widget build(BuildContext context) => CustomPaint(
+        painter: _PaperTexturePainter(
+          isDark: isDark ?? WabTheme.isDark,
+          kind: kind,
+          strength: strength,
+        ),
+        child: child,
+      );
 }
 
 class _PaperTexturePainter extends CustomPainter {
-  const _PaperTexturePainter({this.isDark = false});
+  const _PaperTexturePainter({
+    required this.isDark,
+    required this.kind,
+    required this.strength,
+  });
 
   final bool isDark;
+  final WabPaperTextureKind kind;
+  final double strength;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rnd = math.Random(WAB_PAPER_TEXTURE_SEED); // fixed seed, no flicker
+    if (size.isEmpty) return;
+    final rnd = math.Random(WAB_PAPER_TEXTURE_SEED + kind.index * 97);
     final area10k = size.width * size.height / 10000;
+    final strong = kind == WabPaperTextureKind.mottle;
+    final deep = isDark ? WAB_TEXTURE_PAPER_PULP_DARK : WAB_TEXTURE_PAPER_PULP_LIGHT;
+    final age = isDark ? WAB_TEXTURE_PAPER_AGE_DARK : WAB_TEXTURE_PAPER_AGE_LIGHT;
+    final pale = isDark ? WAB_TEXTURE_PAPER_HIGHLIGHT_DARK : WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT;
 
-    // Layer 1 — 雲斑 mottle: big soft blotches, two tones alternating.
-    final mottles =
-        (area10k * WAB_PAPER_MOTTLE_DENSITY).round().clamp(4, 12);
-    final deepTint =
-        isDark ? WAB_PAPER_MOTTLE_DEEP_DARK : WAB_PAPER_MOTTLE_DEEP_LIGHT;
-    final paleTint =
-        isDark ? WAB_PAPER_MOTTLE_SHEEN_DARK : WAB_PAPER_MOTTLE_PALE_LIGHT;
-    final deepOpacity = isDark
-        ? WAB_PAPER_MOTTLE_OPACITY_DEEP_DARK
-        : WAB_PAPER_MOTTLE_OPACITY_DEEP_LIGHT;
-    final paleOpacity = isDark
-        ? WAB_PAPER_MOTTLE_OPACITY_SHEEN_DARK
-        : WAB_PAPER_MOTTLE_OPACITY_PALE_LIGHT;
-    for (var i = 0; i < mottles; i++) {
-      final cx = rnd.nextDouble() * size.width;
-      final cy = rnd.nextDouble() * size.height;
-      final rx = size.width * (0.18 + rnd.nextDouble() * 0.30);
-      final ry = size.height * (0.15 + rnd.nextDouble() * 0.28);
-      final deep = i.isEven;
-      final paint = Paint()
-        ..color = (deep ? deepTint : paleTint).withOpacity(
-            (deep ? deepOpacity : paleOpacity) *
-                (0.6 + rnd.nextDouble() * 0.6))
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, rx * 0.45);
+    final clouds = (area10k * (strong ? 1.45 : .62)).round().clamp(3, strong ? 20 : 11);
+    for (var i = 0; i < clouds; i++) {
+      final rx = size.width * (.07 + rnd.nextDouble() * (strong ? .28 : .20));
+      final ry = size.height * (.06 + rnd.nextDouble() * (strong ? .25 : .17));
+      final tone = i % 3 == 0 ? age : (i.isEven ? deep : pale);
+      final opacity = ((strong ? .075 : .040) + rnd.nextDouble() * (strong ? .085 : .050)) * strength;
       canvas.drawOval(
-          Rect.fromCenter(center: Offset(cx, cy), width: rx * 2, height: ry * 2),
-          paint);
+        Rect.fromCenter(
+          center: Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
+          width: math.max(16, rx * 2),
+          height: math.max(12, ry * 2),
+        ),
+        Paint()
+          ..color = tone.withOpacity(opacity.clamp(0, .26))
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, math.max(5, rx * .44)),
+      );
     }
 
-    // Layer 2 — dots: sparse specks, area-proportional so buttons stay as
-    // calm as panels.
-    final dots = (area10k *
-            (isDark
-                ? WAB_PAPER_DOT_DENSITY_DARK
-                : WAB_PAPER_DOT_DENSITY_LIGHT))
-        .round();
-    final dotPaint = Paint()
-      ..color = (isDark ? WAB_PAPER_TINT_DARK : WAB_PAPER_DOT_TINT_LIGHT)
-          .withOpacity(isDark
-              ? WAB_PAPER_DOT_OPACITY_DARK
-              : WAB_PAPER_DOT_OPACITY_LIGHT);
-    for (var i = 0; i < dots; i++) {
-      final x = rnd.nextDouble() * size.width;
-      final y = rnd.nextDouble() * size.height;
-      canvas.drawCircle(Offset(x, y), rnd.nextDouble() * 0.9 + 0.3, dotPaint);
+    final inclusions = (area10k * (strong ? 10 : 6)).round().clamp(6, 130);
+    for (var i = 0; i < inclusions; i++) {
+      final c = Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height);
+      final w = .4 + rnd.nextDouble() * 2.0;
+      final h = .2 + rnd.nextDouble() * .8;
+      canvas.save();
+      canvas.translate(c.dx, c.dy);
+      canvas.rotate((rnd.nextDouble() - .5) * 1.2);
+      canvas.drawOval(
+        Rect.fromCenter(center: Offset.zero, width: w, height: h),
+        Paint()..color = deep.withOpacity((.035 + rnd.nextDouble() * .055) * strength),
+      );
+      canvas.restore();
+    }
+
+    final crease = isDark ? WAB_TEXTURE_PAPER_CREASE_DARK : WAB_TEXTURE_PAPER_CREASE_LIGHT;
+    final highlight = isDark ? WAB_TEXTURE_PAPER_HIGHLIGHT_DARK : WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT;
+    final waveCount = (size.height / (strong ? 105 : 145)).round().clamp(1, strong ? 7 : 5);
+    for (var i = 0; i < waveCount; i++) {
+      final y = size.height * ((i + .6) / (waveCount + .2)) + (rnd.nextDouble() - .5) * 14;
+      final amp = 1.8 + rnd.nextDouble() * (strong ? 3.0 : 2.1);
+      final wavelength = 72.0 + rnd.nextDouble() * 110;
+      final phase = rnd.nextDouble() * math.pi * 2;
+      final path = Path();
+      for (var x = -8.0; x <= size.width + 8; x += 12) {
+        final yy = y + math.sin((x / wavelength) * math.pi * 2 + phase) * amp;
+        if (x <= -8) {
+          path.moveTo(x, yy);
+        } else {
+          path.lineTo(x, yy);
+        }
+      }
+      canvas.drawPath(
+        path,
+        Paint()
+          ..color = crease.withOpacity((isDark ? .030 : .040) * strength)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = strong ? 2.2 : 1.8
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.4),
+      );
+      canvas.save();
+      canvas.translate(0, -1.3);
+      canvas.drawPath(
+        path,
+        Paint()
+          ..color = highlight.withOpacity((isDark ? .030 : .095) * strength)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.0
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.2),
+      );
+      canvas.restore();
     }
   }
 
   @override
-  bool shouldRepaint(_PaperTexturePainter old) => old.isDark != isDark;
+  bool shouldRepaint(_PaperTexturePainter old) =>
+      old.isDark != isDark || old.kind != kind || old.strength != strength;
 }

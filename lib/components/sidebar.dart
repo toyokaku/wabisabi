@@ -2,29 +2,28 @@ import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/spacing.dart';
 
-/// Left navigation rail container. Holds a profile header, nav items and
-/// any extra panels (e.g. a feedback form). Vertical stack.
-///
-/// [width] is optional — leave it null (the default) to size to content so the
-/// rail adapts across platforms; pass a value only when a fixed rail is wanted.
+/// Left navigation rail container. The rail is transparent by default so a
+/// WabPaperSheet / other material ground remains visible through it.
 class WabSidebar extends StatelessWidget {
   const WabSidebar({
     super.key,
     required this.children,
     this.width,
     this.padding = const EdgeInsets.all(20),
+    this.backgroundColor,
   });
 
   final List<Widget> children;
   final double? width;
   final EdgeInsets padding;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     Widget rail = Container(
       width: width,
       padding: padding,
-      color: WabTheme.backgroundColor,
+      color: backgroundColor ?? Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: children,
@@ -45,8 +44,6 @@ class WabProfileHeader extends StatelessWidget {
 
   final String name;
   final String? subtitle;
-
-  /// Optional avatar image; falls back to a framed person glyph.
   final ImageProvider? avatar;
 
   @override
@@ -98,8 +95,8 @@ class WabProfileHeader extends StatelessWidget {
   }
 }
 
-/// A single navigation entry. Selected state shows a rounded outline pill
-/// with accent text; unselected is plain text.
+/// Legacy outlined nav item. The catalogue itself uses WabTextButton for the
+/// ruled-text navigation language.
 class WabNavItem extends StatelessWidget {
   const WabNavItem({
     super.key,
