@@ -16,13 +16,16 @@ const int kTexturePaperHighlightLight = 0xFFFFFCF3;
 const int kTexturePaperCreaseDark = 0xFF5F5A50;
 const int kTexturePaperHighlightDark = 0xFF39362F;
 
-const int kTextureWoodBaseLight = 0xFFB38A59;
-const int kTextureWoodDeepLight = 0xFF735033;
-const int kTextureWoodLightLight = 0xFFD1AF7E;
+// 木 — day timber is the old tone taken half the way to 宣紙, so a wood
+// surface sits with the paper instead of shouting over it. Night timber keeps
+// its value but gives up 40% of its saturation: lamplight on wood, not varnish.
+const int kTextureWoodBaseLight = 0xFFCEB698;
+const int kTextureWoodDeepLight = 0xFFAE9985;
+const int kTextureWoodLightLight = 0xFFDCC8AA;
 const int kTextureWoodTextLight = 0xFF3A2E1C;  // label ink on light wood
-const int kTextureWoodBaseDark = 0xFF4A3425;
-const int kTextureWoodDeepDark = 0xFF241A14;
-const int kTextureWoodLightDark = 0xFF6B513A;
+const int kTextureWoodBaseDark = 0xFF43352C;
+const int kTextureWoodDeepDark = 0xFF211B17;
+const int kTextureWoodLightDark = 0xFF625345;
 
 const int kTextureClothBaseLight = 0xFF314B57;
 const int kTextureClothDeepLight = 0xFF182C34;
