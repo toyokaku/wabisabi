@@ -3,6 +3,7 @@
 // an app could not hold a light and a dark theme at once, and a widget reading
 // the palette registered no dependency, so it never rebuilt on a theme change.
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wabisabi/wabisabi.dart';
@@ -53,6 +54,29 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(seen.first, isNot(seen.last));
+  });
+
+  testWidgets('Cupertino palette preserves primary and secondary overrides',
+      (tester) async {
+    const primary = Color(0xFF315B63);
+    const secondary = Color(0xFF8A6E52);
+    late WabColors seen;
+
+    await tester.pumpWidget(CupertinoApp(
+      theme: WabTheme.cupertinoTheme(
+        lightTheme: true,
+        primaryColor: primary,
+        secondaryColor: secondary,
+      ),
+      home: Builder(builder: (context) {
+        seen = WabTheme.of(context);
+        return const SizedBox.shrink();
+      }),
+    ));
+
+    expect(seen.isDark, isFalse);
+    expect(seen.primaryColor, primary);
+    expect(seen.secondaryColor, secondary);
   });
 
   test('the palette lerps without ever landing on a half-lit brightness', () {
