@@ -11,6 +11,9 @@ import '../theme/type_scale.dart';
 /// The row sheds its quieter parts as it narrows rather than overflowing: the
 /// motto goes first, then the kit label and its rule. What is left — brand,
 /// title, actions — is what a masthead cannot do without.
+///
+/// [height] is a floor, not a ceiling: a viewer who has turned text size up
+/// gets a taller masthead rather than a clipped one.
 class WabEditorialBanner extends StatelessWidget {
   const WabEditorialBanner({
     super.key,
@@ -35,8 +38,8 @@ class WabEditorialBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: height),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 13, 24, 12),
         child: LayoutBuilder(

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.0
 
 Breaking. Consumers pinning a tag are unaffected until they move the pin.
 

@@ -56,6 +56,8 @@ jobs:
       # Public-surface naming + example coverage, ratcheted against
       # tool/public_api_baseline.txt.
       - run: dart tool/check_public_api.dart
+      # Ink and paper only, every font size on the WabType ladder.
+      - run: dart tool/check_house_rules.dart
 
   build_apk:
     name: Build APK

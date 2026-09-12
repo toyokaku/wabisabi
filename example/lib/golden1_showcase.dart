@@ -185,7 +185,12 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
             Expanded(
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  if (constraints.maxWidth < _compactWidth) return _mobileBoard();
+                  // A large text preference needs the room a single column has,
+                  // so it counts against the width when choosing a layout.
+                  if (constraints.maxWidth / _textScale(context) <
+                      _compactWidth) {
+                    return _mobileBoard();
+                  }
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -299,16 +304,19 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   /// Narrow layout: one column of cells, each drawn at [_cellDesignWidth] and
   /// scaled to the sheet. The sections were composed for a fixed cell — they
   /// use Expanded and Spacer against a known box — so scaling the finished cell
-  /// keeps the composition intact where re-flowing it would not. Never scales
-  /// up, so a wide-but-not-wide-enough window gets a centred column at native
-  /// size rather than a blurry blow-up.
+  /// keeps the composition intact where re-flowing it would not.
+  ///
+  /// Past native size it only magnifies as far as the viewer asked for with
+  /// their text-size setting, and only as far as the sheet has room for.
   Widget _mobileBoard() {
     return LayoutBuilder(
       builder: (context, constraints) {
         final wab = WabTheme.of(context);
         const sheetPadding = 14.0;
         final available = constraints.maxWidth - sheetPadding * 2;
-        final scale = (available / _cellDesignWidth).clamp(.4, 1.0).toDouble();
+        final fit = available / _cellDesignWidth;
+        final scale =
+            (fit.clamp(.4, 1.0) * _textScale(context)).clamp(.4, fit).toDouble();
 
         return SingleChildScrollView(
           child: WabPaperSheet(
@@ -340,7 +348,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       child: FittedBox(
         fit: BoxFit.contain,
         alignment: Alignment.topCenter,
-        child: SizedBox(
+        child: _cell(
           width: _cellDesignWidth,
           height: height,
           child: _section(context, index),
@@ -348,6 +356,27 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       ),
     );
   }
+
+  /// A cell at exact design geometry.
+  ///
+  /// The sections are composed against a fixed box — Expanded and Spacer
+  /// against a known height — so the viewer's text-size setting must not be
+  /// allowed to grow type inside one; it would clip, silently, in release. The
+  /// setting is honoured by magnifying the whole cell instead (see
+  /// [_textScale]), which grows the type and everything holding it together.
+  Widget _cell({
+    required double width,
+    required double height,
+    required Widget child,
+  }) =>
+      MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+        child: SizedBox(width: width, height: height, child: child),
+      );
+
+  /// The viewer's text-size preference as a plain multiplier.
+  double _textScale(BuildContext context) =>
+      MediaQuery.textScalerOf(context).scale(WabType.body) / WabType.body;
 
   Widget _row(List<int> indices) {
     return SizedBox(
@@ -368,7 +397,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.topCenter,
-                    child: SizedBox(
+                    child: _cell(
                       width: _cellDesignWidth,
                       height: _cellDesignHeight,
                       child: _section(context, indices[slot]),

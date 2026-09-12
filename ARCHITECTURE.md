@@ -57,7 +57,8 @@ duplication (see debts below).
 
 ## House rules
 
-Two things hold across every file, and neither is checkable by a script.
+Two things hold across every file, and `tool/check_house_rules.dart` holds them
+in CI.
 
 **No pure black, no pure white.** A shadow is ink, not the absence of light:
 everything that would have been `Colors.black` is `WAB_TEXTURE_INK` (0xFF24231F),
@@ -67,11 +68,18 @@ for a lit edge, `paperWhite` (0xFFFAF6EC, 宣紙淡黃白) for a sheet. Reach fo
 colour already in the palette before adding one. `lib/` contains no
 `Colors.black`, no `Colors.white`, and no Material accent colour.
 
+**Text scaling.** Nothing in `lib/` boxes text at a height it cannot give back:
+the catalogue is clean from a scale factor of 1 through 2.5, and the sweep is in
+`example/test/catalogue_smoke_test.dart`. A board cell is the exception and says
+so — it is a printed specimen at exact geometry, and the viewer's text
+preference magnifies the whole cell rather than growing type inside a fixed box.
+
 **The numbers are golden.** `WabType` is a φ^⅓ ladder off a base of 14, so every
 third rung is exactly φ apart. The catalogue's cell is a golden rectangle and
 its index rail is one more golden section in from the cell width. When a size or
 a proportion needs choosing, derive it from φ rather than picking a round
-number.
+number. The checker rejects a font size written as a number, so a new size
+means adding a rung and justifying it.
 
 ## Deliberate non-goals
 
@@ -115,12 +123,6 @@ CI checks cover import structure and public naming only.
 - **`WabPaymentRow` is app domain in a general kit.** A payment row is not a
   design-system primitive; it belongs to whichever app needed it. Removing it
   from the barrel is a breaking change waiting on a version bump.
-- **Text does not survive being scaled up.** Flutter multiplies every size by
-  `MediaQuery.textScaler`, and the kit boxes text at fixed heights. Measured on
-  the catalogue at 1600 px: two overflows at a scale factor of 1.15, six at 1.3,
-  and more at 1.5 — up to 87 px of clipped content. Users who turn text size up
-  lose content silently in release builds. The fix is a decision about whether
-  boxes grow, whether the kit clamps the scaler, or both.
 - **`WAB_*` SCREAMING_SNAKE token names** are house style and violate
   `constant_identifier_names`, which is the one lint the kit opts out of.
   Renaming every token breaks every consumer, so it waits for a major version.
