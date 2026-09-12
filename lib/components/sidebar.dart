@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/spacing.dart';
+import '../theme/type_scale.dart';
 
 /// Left navigation rail container. The rail is transparent by default so a
 /// WabPaperSheet / other material ground remains visible through it.
@@ -75,7 +76,7 @@ class WabProfileHeader extends StatelessWidget {
               name,
               style: TextStyle(
                 color: wab.textColor,
-                fontSize: 16,
+                fontSize: WabType.label,
                 fontWeight: FontWeight.w700,
                 fontFamilyFallback: kWabKaiFallback,
               ),
@@ -85,7 +86,7 @@ class WabProfileHeader extends StatelessWidget {
                 subtitle!,
                 style: TextStyle(
                   color: wab.textColor.withValues(alpha: 0.6),
-                  fontSize: 12,
+                  fontSize: WabType.note,
                   fontFamilyFallback: kWabKaiFallback,
                 ),
               ),
@@ -132,7 +133,7 @@ class WabNavItem extends StatelessWidget {
               label,
               style: TextStyle(
                 color: wab.textColor,
-                fontSize: 16,
+                fontSize: WabType.label,
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                 fontFamilyFallback: kWabKaiFallback,
               ),

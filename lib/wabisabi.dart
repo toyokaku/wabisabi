@@ -10,6 +10,7 @@ export 'tokens/texture.dart';
 export 'theme/wab_theme.dart';
 export 'theme/wab_colors.dart';
 export 'theme/typography.dart';
+export 'theme/type_scale.dart';
 export 'theme/seal_text.dart';
 
 // Materials

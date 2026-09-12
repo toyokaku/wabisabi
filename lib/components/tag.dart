@@ -5,6 +5,7 @@ import '../materials/paper_texture.dart';
 import '../theme/typography.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/texture.dart';
+import '../theme/type_scale.dart';
 
 /// 題簽 — narrow hanging paper label with barely perceptible irregular edges.
 class WabVerticalTag extends StatelessWidget {
@@ -41,7 +42,7 @@ class WabVerticalTag extends StatelessWidget {
               color: wab.textColor,
               fontFamily: kWabKaiFamily,
               fontFamilyFallback: kWabKaiFallback,
-              fontSize: 10,
+              fontSize: WabType.footnote,
               height: 1.15,
             ),
           ),

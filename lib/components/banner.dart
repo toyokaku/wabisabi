@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/wab_theme.dart';
+import '../theme/type_scale.dart';
 
 /// Top banner / masthead. The title+subtitle are anchored to the bottom-right
 /// (small, weighted) so they don't dominate the centre; [leading] sits top-left
@@ -67,7 +68,7 @@ class WabBanner extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: wab.textColor,
-                        fontSize: 18,
+                        fontSize: WabType.title,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0.5,
                         fontFamilyFallback: kWabKaiFallback,
@@ -81,7 +82,7 @@ class WabBanner extends StatelessWidget {
                     subtitle!,
                     style: TextStyle(
                       color: wab.mutedColor,
-                      fontSize: 11,
+                      fontSize: WabType.gloss,
                       letterSpacing: 2,
                       fontFamilyFallback: kWabKaiFallback,
                     ),

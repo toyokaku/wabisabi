@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/typography.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
+import '../theme/type_scale.dart';
 
 /// Editorial masthead matching the kit's document-source language: brand at
 /// left, title/subtitle immediately after it, quiet motto/actions at right.
@@ -52,7 +53,7 @@ class WabEditorialBanner extends StatelessWidget {
               style: const TextStyle(
                 fontFamily: kWabDisplayFamily,
                 fontFamilyFallback: kWabDisplayFallback,
-                fontSize: 31,
+                fontSize: WabType.brand,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 7,
                 height: 1,
@@ -72,7 +73,7 @@ class WabEditorialBanner extends StatelessWidget {
                   kitLabel,
                   style: const TextStyle(
                     fontFamily: kWabMonoFamily,
-                    fontSize: 9,
+                    fontSize: WabType.caption,
                     letterSpacing: 2.6,
                     height: 1.45,
                   ).copyWith(color: wab.mutedColor),
@@ -96,7 +97,7 @@ class WabEditorialBanner extends StatelessWidget {
                           style: const TextStyle(
                             fontFamily: kWabDisplayFamily,
                             fontFamilyFallback: kWabDisplayFallback,
-                            fontSize: 17,
+                            fontSize: WabType.lede,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 2.5,
                           ).copyWith(color: wab.textColor),
@@ -113,7 +114,7 @@ class WabEditorialBanner extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontFamily: kWabMonoFamily,
-                        fontSize: 9,
+                        fontSize: WabType.caption,
                         letterSpacing: 3.1,
                       ).copyWith(color: wab.mutedColor),
                     ),
@@ -131,7 +132,7 @@ class WabEditorialBanner extends StatelessWidget {
                   style: const TextStyle(
                     fontFamily: kWabKaiFamily,
                     fontFamilyFallback: kWabKaiFallback,
-                    fontSize: 9,
+                    fontSize: WabType.caption,
                     letterSpacing: 1.6,
                   ).copyWith(color: wab.mutedColor),
                 ),

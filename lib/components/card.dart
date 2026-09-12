@@ -5,6 +5,7 @@ import '../materials/surface.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import 'button.dart';
+import '../theme/type_scale.dart';
 
 /// Collection/content card: frameless paper lifted by an irregular contact
 /// shadow. Hierarchy comes from paper depth rather than a dashboard border.
@@ -47,7 +48,7 @@ class WabCollectionCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: wab.textColor,
-                    fontSize: 13,
+                    fontSize: WabType.dense,
                     fontWeight: FontWeight.w600,
                     fontFamilyFallback: kWabKaiFallback,
                   ),
@@ -71,7 +72,7 @@ class WabCollectionCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: wab.mutedColor,
-                      fontSize: 9,
+                      fontSize: WabType.caption,
                       height: 1.35,
                       fontFamilyFallback: kWabKaiFallback,
                     ),

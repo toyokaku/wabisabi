@@ -4,6 +4,7 @@ import '../materials/surface.dart';
 import '../theme/typography.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
+import '../theme/type_scale.dart';
 
 /// A quiet notice/toast specimen using paper + ink rather than a filled modern
 /// alert card.
@@ -55,7 +56,7 @@ class WabNotice extends StatelessWidget {
                         color: wab.textColor,
                         fontFamily: kWabKaiFamily,
                         fontFamilyFallback: kWabKaiFallback,
-                        fontSize: 10,
+                        fontSize: WabType.footnote,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -67,7 +68,7 @@ class WabNotice extends StatelessWidget {
                           color: wab.mutedColor,
                           fontFamily: kWabKaiFamily,
                           fontFamilyFallback: kWabKaiFallback,
-                          fontSize: 8,
+                          fontSize: WabType.annotation,
                         ),
                       ),
                     ],

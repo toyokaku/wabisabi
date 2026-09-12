@@ -97,9 +97,17 @@ CI checks cover import structure and public naming only.
 - **`WabPaymentRow` is app domain in a general kit.** A payment row is not a
   design-system primitive; it belongs to whichever app needed it. Removing it
   from the barrel is a breaking change waiting on a version bump.
-- **No type scale.** `theme/typography.dart` owns font families only. Font sizes
-  are hardcoded per component, down to 8 px, and nothing consults
-  `MediaQuery.textScaler`.
+- **The type ladder has thirteen rungs.** `WabType` in `theme/type_scale.dart`
+  now holds every font size the kit draws, which at least puts the scale in one
+  file — but thirteen steps between 8 and 31 px is a record of sizes picked one
+  at a time, not a scale. Collapsing it to six or seven changes how things look,
+  so it is a design decision rather than a refactor.
+- **Text does not survive being scaled up.** Flutter multiplies every size by
+  `MediaQuery.textScaler`, and the kit boxes text at fixed heights. Measured on
+  the catalogue at 1600 px: two overflows at a scale factor of 1.15, six at 1.3,
+  and more at 1.5 — up to 87 px of clipped content. Users who turn text size up
+  lose content silently in release builds. The fix is a decision about whether
+  boxes grow, whether the kit clamps the scaler, or both.
 - **`WAB_*` SCREAMING_SNAKE token names** are house style and violate
   `constant_identifier_names`, which is the one lint the kit opts out of.
   Renaming every token breaks every consumer, so it waits for a major version.

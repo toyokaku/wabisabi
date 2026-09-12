@@ -5,6 +5,7 @@ import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import '../tokens/spacing.dart';
+import '../theme/type_scale.dart';
 
 class WabScaffold extends WabWidget {
   const WabScaffold({
@@ -62,7 +63,7 @@ class WabScaffold extends WabWidget {
     final defaultStyle = theme.textTheme.bodyMedium ??
         TextStyle(
           color: WabTheme.of(context).textColor,
-          fontSize: 14,
+          fontSize: WabType.body,
           fontFamilyFallback: kWabKaiFallback,
           decoration: TextDecoration.none,
         );

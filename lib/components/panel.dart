@@ -4,6 +4,7 @@ import '../materials/paper_lift.dart';
 import '../materials/surface.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
+import '../theme/type_scale.dart';
 
 /// Frameless titled paper panel. A subtle irregular contact shadow replaces the
 /// outer border; internal hairlines remain available for structure.
@@ -37,7 +38,7 @@ class WabPanel extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: wab.textColor,
-                  fontSize: 15,
+                  fontSize: WabType.bodyLarge,
                   fontWeight: FontWeight.w600,
                   letterSpacing: .5,
                   fontFamilyFallback: kWabKaiFallback,
@@ -58,7 +59,7 @@ class WabPanel extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium ??
               TextStyle(
                 color: wab.textColor,
-                fontSize: 14,
+                fontSize: WabType.body,
                 fontFamilyFallback: kWabKaiFallback,
                 decoration: TextDecoration.none,
               ),

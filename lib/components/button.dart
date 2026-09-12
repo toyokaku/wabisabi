@@ -12,6 +12,7 @@ import '../materials/jade_texture.dart';
 import '../materials/paper_texture.dart';
 import '../materials/rubbing_texture.dart';
 import '../materials/wood_slab.dart';
+import '../theme/type_scale.dart';
 
 /// Physical action surfaces. Material is part of state/meaning, not decoration.
 enum WabMaterialKind { paper, wood, cloth, seal, jade, baiwen, zhuwen }
@@ -124,7 +125,7 @@ class _WabButtonState extends State<WabButton> {
     final theme = Theme.of(context);
     final baseStyle = theme.textTheme.labelLarge ??
         const TextStyle(
-          fontSize: 14,
+          fontSize: WabType.body,
           fontWeight: FontWeight.w500,
           decoration: TextDecoration.none,
         );
@@ -434,7 +435,7 @@ class WabTextButton extends StatelessWidget {
           child: DefaultTextStyle.merge(
             style: TextStyle(
               color: wab.textColor,
-              fontSize: 14,
+              fontSize: WabType.body,
               letterSpacing: 2,
               fontFamilyFallback: kWabKaiFallback,
               decoration: TextDecoration.none,

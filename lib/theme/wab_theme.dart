@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../tokens/spacing.dart';
 import 'wab_colors.dart';
+import 'type_scale.dart';
 
 /// Kai fallback chain — the face for ALL text. First entry is the bundled
 /// LXGW WenKai TC (霞鶩文楷, pubspec family `WabKai`, 繁簡全覆蓋), so
@@ -122,17 +123,17 @@ class WabTheme {
         ),
         titleLarge: base.titleLarge!.copyWith(
           fontWeight: FontWeight.w700,
-          fontSize: 16.0,
+          fontSize: WabType.label,
           letterSpacing: 0.2,
           color: colors.textColor,
         ),
         displayLarge: base.displayLarge!.copyWith(
-          fontSize: 24.0,
+          fontSize: WabType.display,
           fontWeight: FontWeight.w700,
           color: colors.textColor,
         ),
         labelLarge: base.labelLarge!.copyWith(
-          fontSize: 16.0,
+          fontSize: WabType.label,
           fontWeight: FontWeight.w600,
           color: colors.textColor,
         ),
@@ -241,7 +242,7 @@ class WabTheme {
         ),
         navTitleTextStyle: TextStyle(
           color: colors.textColor,
-          fontSize: 18,
+          fontSize: WabType.title,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.3,
           fontFamilyFallback: kWabKaiFallback,

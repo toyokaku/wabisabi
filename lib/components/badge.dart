@@ -4,6 +4,7 @@ import '../materials/deckle_border.dart';
 import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
+import '../theme/type_scale.dart';
 
 enum WabBadgeKind {
   neutral,
@@ -59,7 +60,7 @@ class WabStatusBadge extends StatelessWidget {
           label,
           style: TextStyle(
             color: _darkText ? wab.textColor : wab.paperWhite,
-            fontSize: 11,
+            fontSize: WabType.gloss,
             fontWeight: FontWeight.w600,
             height: 1,
             fontFamilyFallback: kWabKaiFallback,

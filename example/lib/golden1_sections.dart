@@ -84,14 +84,74 @@ Widget goldenTypographySection(BuildContext context) {
           ],
         ),
       );
-  return Row(
+  const ladder = <(String, double)>[
+    ('annotation', WabType.annotation),
+    ('caption', WabType.caption),
+    ('footnote', WabType.footnote),
+    ('gloss', WabType.gloss),
+    ('note', WabType.note),
+    ('dense', WabType.dense),
+    ('body', WabType.body),
+    ('bodyLarge', WabType.bodyLarge),
+    ('label', WabType.label),
+    ('lede', WabType.lede),
+    ('title', WabType.title),
+    ('display', WabType.display),
+    ('brand', WabType.brand),
+  ];
+
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      spec('文', '正 文  SERIF', kWabKaiFamily, '天地有大美\n而不言'),
-      const SizedBox(width: 10),
-      spec('筆', '展示  DISPLAY', kWabDisplayFamily, '天地有大美\n而不言'),
-      const SizedBox(width: 10),
-      spec('器', '等寬  MONO', kWabMonoFamily, '0123456789\nWabisabi()'),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          spec('文', '正 文  SERIF', kWabKaiFamily, '天地有大美\n而不言'),
+          const SizedBox(width: 10),
+          spec('筆', '展示  DISPLAY', kWabDisplayFamily, '天地有大美\n而不言'),
+          const SizedBox(width: 10),
+          spec('器', '等寬  MONO', kWabMonoFamily, '0123456789\nWabisabi()'),
+        ],
+      ),
+      const SizedBox(height: 9),
+      Text(
+        'WabType · 級 LADDER',
+        style: TextStyle(
+          color: wab.mutedColor,
+          fontFamily: kWabMonoFamily,
+          fontSize: 6.2,
+          letterSpacing: .6,
+        ),
+      ),
+      const SizedBox(height: 4),
+      Wrap(
+        spacing: 9,
+        runSpacing: 2,
+        children: [
+          for (final rung in ladder)
+            Text.rich(
+              TextSpan(children: [
+                TextSpan(
+                  text: '永',
+                  style: TextStyle(
+                    color: wab.textColor,
+                    fontFamily: kWabKaiFamily,
+                    fontSize: rung.$2,
+                    height: 1,
+                  ),
+                ),
+                TextSpan(
+                  text: ' ${rung.$1} ${rung.$2.toInt()}',
+                  style: TextStyle(
+                    color: wab.mutedColor,
+                    fontFamily: kWabMonoFamily,
+                    fontSize: 5.7,
+                  ),
+                ),
+              ]),
+            ),
+        ],
+      ),
     ],
   );
 }

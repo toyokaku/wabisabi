@@ -8,6 +8,7 @@ import 'wab_widget.dart';
 import '../materials/rule_frame.dart';
 import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
+import '../theme/type_scale.dart';
 
 BoxDecoration _cupertinoFieldDecoration(WabColors wab, WabRuleKind kind) =>
     BoxDecoration(
@@ -32,7 +33,7 @@ class WabWarningText extends StatelessWidget {
         text,
         style: TextStyle(
           color: WabTheme.of(context).sealColor,
-          fontSize: 15,
+          fontSize: WabType.bodyLarge,
           fontFamilyFallback: kWabKaiFallback,
         ),
       );
