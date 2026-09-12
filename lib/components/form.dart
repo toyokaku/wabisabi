@@ -129,6 +129,10 @@ class WabRadio<T> extends StatelessWidget {
       );
 }
 
+/// Inset from each end of a fish-tail track to the marker's travel limit.
+/// Shared so the hit test and the painter agree on where the ends are.
+const double _kTrackInset = 9.0;
+
 /// Horizontal switch using a rotated 古籍魚尾 / black-corner marker rather than
 /// a modern pill thumb. The marker moves between the two ends of a fine rule.
 class WabSwitch extends StatelessWidget {
@@ -158,6 +162,8 @@ class WabSwitch extends StatelessWidget {
                   value: value ? 1.0 : 0.0,
                   enabled: onChanged != null,
                   binary: true,
+                  ink: WabTheme.textColor,
+                  line: WabTheme.lineColor,
                 ),
               ),
             ),
@@ -186,8 +192,9 @@ class WabSlider extends StatelessWidget {
   final double max;
 
   double _fromDx(double dx, double width) {
-    if (width <= 20) return min;
-    final t = ((dx - 10) / (width - 20)).clamp(0.0, 1.0).toDouble();
+    final span = width - _kTrackInset * 2;
+    if (span <= 0) return min;
+    final t = ((dx - _kTrackInset) / span).clamp(0.0, 1.0).toDouble();
     return min + (max - min) * t;
   }
 
@@ -212,6 +219,8 @@ class WabSlider extends StatelessWidget {
               value: t,
               enabled: onChanged != null,
               binary: false,
+              ink: WabTheme.textColor,
+              line: WabTheme.lineColor,
             ),
             child: const SizedBox.expand(),
           ),
@@ -226,20 +235,24 @@ class _FishTailTrackPainter extends CustomPainter {
     required this.value,
     required this.enabled,
     required this.binary,
+    required this.ink,
+    required this.line,
   });
 
   final double value;
   final bool enabled;
   final bool binary;
+  final Color ink;
+  final Color line;
 
   @override
   void paint(Canvas canvas, Size size) {
     if (size.isEmpty) return;
-    final ink = WabTheme.textColor.withOpacity(enabled ? .82 : .30);
-    final line = WabTheme.lineColor.withOpacity(enabled ? .78 : .36);
+    final ink = this.ink.withOpacity(enabled ? .82 : .30);
+    final line = this.line.withOpacity(enabled ? .78 : .36);
     final y = size.height / 2;
-    final left = 9.0;
-    final right = size.width - 9.0;
+    const left = _kTrackInset;
+    final right = size.width - _kTrackInset;
     final t = value.clamp(0.0, 1.0).toDouble();
     final x = left + (right - left) * t;
 
@@ -284,7 +297,11 @@ class _FishTailTrackPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_FishTailTrackPainter old) =>
-      old.value != value || old.enabled != enabled || old.binary != binary;
+      old.value != value ||
+      old.enabled != enabled ||
+      old.binary != binary ||
+      old.ink != ink ||
+      old.line != line;
 }
 
 class WabDropdown<T> extends StatelessWidget {

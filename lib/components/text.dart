@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 import 'form.dart';
+import 'wab_utils.dart';
 import 'wab_widget.dart';
 import '../materials/rule_frame.dart';
 import '../theme/wab_theme.dart';
@@ -69,9 +70,17 @@ class WabTextFormField
       );
 }
 
-class WabNumberFormField extends WabWidget<CupertinoTextField, Widget> {
-  WabNumberFormField(
-      {this.value, this.callback, this.maxLength, this.labelText});
+/// Owns its [TextEditingController] so the field keeps its text and caret
+/// across rebuilds, and disposes it. A null [value] is an empty field, not the
+/// string "null".
+class WabNumberFormField extends StatefulWidget {
+  const WabNumberFormField({
+    super.key,
+    this.value,
+    this.callback,
+    this.maxLength,
+    this.labelText,
+  });
 
   final int? value;
   final ValueChanged<String>? callback;
@@ -79,39 +88,63 @@ class WabNumberFormField extends WabWidget<CupertinoTextField, Widget> {
   final String? labelText;
 
   @override
-  CupertinoTextField createCupertinoWidget(BuildContext context) =>
-      CupertinoTextField(
-        controller: TextEditingController(text: value.toString()),
-        onSubmitted: callback,
-        placeholder: labelText,
+  State<WabNumberFormField> createState() => _WabNumberFormFieldState();
+}
+
+class _WabNumberFormFieldState extends State<WabNumberFormField> {
+  late final TextEditingController _controller =
+      TextEditingController(text: _textFor(widget.value));
+
+  static String _textFor(int? value) => value?.toString() ?? '';
+
+  List<TextInputFormatter> get _formatters => [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(widget.maxLength),
+      ];
+
+  @override
+  void didUpdateWidget(WabNumberFormField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value == oldWidget.value) return;
+    final text = _textFor(widget.value);
+    if (_controller.text != text) _controller.text = text;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      isIos() ? _buildCupertino(context) : _buildMaterial(context);
+
+  Widget _buildCupertino(BuildContext context) => CupertinoTextField(
+        controller: _controller,
+        onSubmitted: widget.callback,
+        placeholder: widget.labelText,
         keyboardType: TextInputType.number,
         style: TextStyle(color: WabTheme.textColor),
         decoration: _cupertinoFieldDecoration(WabRuleKind.thin),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(maxLength),
-        ],
+        inputFormatters: _formatters,
       );
 
-  @override
-  Widget createMaterialWidget(BuildContext context) => TextField(
-        controller: TextEditingController(text: value.toString()),
-        onSubmitted: callback,
+  Widget _buildMaterial(BuildContext context) => TextField(
+        controller: _controller,
+        onSubmitted: widget.callback,
         style: TextStyle(color: WabTheme.textColor),
         decoration: wabInputDecoration(
-          hintText: labelText,
+          hintText: widget.labelText,
           kind: WabRuleKind.thin,
         ).copyWith(
-          labelText: labelText,
+          labelText: widget.labelText,
           labelStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.7)),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
         keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(maxLength),
-        ],
+        inputFormatters: _formatters,
       );
 }
 

@@ -8,16 +8,30 @@ import '../theme/wab_theme.dart';
 /// No scratch or contour lines are drawn; the material reads through density,
 /// overlap and blur alone.
 class WabInkWash extends CustomPainter {
-  WabInkWash({this.isDark, this.seed = 943});
+  /// Resolves the theme once, at construction, so [shouldRepaint] can compare
+  /// what the painter will actually draw with. Reading the theme inside
+  /// [paint] leaves a stale wash behind when light/dark flips.
+  factory WabInkWash({bool? isDark, int seed = 943}) {
+    final dark = isDark ?? WabTheme.isDark;
+    return WabInkWash._(
+      dark,
+      dark ? WabTheme.mutedLight : WabTheme.textColor,
+      seed,
+    );
+  }
 
-  final bool? isDark;
+  const WabInkWash._(this.isDark, this.ink, this.seed);
+
+  final bool isDark;
+
+  /// The wash colour, resolved from the theme at construction.
+  final Color ink;
   final int seed;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final dark = isDark ?? WabTheme.isDark;
+    final dark = isDark;
     final rnd = math.Random(seed);
-    final ink = dark ? WabTheme.mutedLight : WabTheme.textColor;
 
     for (var i = 0; i < 9; i++) {
       final rx = size.width * (.10 + rnd.nextDouble() * .20);
@@ -46,5 +60,6 @@ class WabInkWash extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(WabInkWash old) => old.isDark != isDark || old.seed != seed;
+  bool shouldRepaint(WabInkWash old) =>
+      old.isDark != isDark || old.ink != ink || old.seed != seed;
 }

@@ -59,16 +59,20 @@ class WabCollectionCard extends StatelessWidget {
                   endIndent: 18,
                 ),
                 const SizedBox(height: 6),
-                Text(
-                  description,
-                  textAlign: TextAlign.center,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: WabTheme.mutedColor,
-                    fontSize: 9,
-                    height: 1.35,
-                    fontFamilyFallback: kWabKaiFallback,
+                // Flexible so a tight grid cell ellipsizes the description
+                // instead of overflowing the card.
+                Flexible(
+                  child: Text(
+                    description,
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: WabTheme.mutedColor,
+                      fontSize: 9,
+                      height: 1.35,
+                      fontFamilyFallback: kWabKaiFallback,
+                    ),
                   ),
                 ),
                 if (buttonLabel != null) ...[

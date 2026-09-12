@@ -4,6 +4,7 @@ import 'wab_widget.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import '../tokens/spacing.dart';
+import '../tokens/texture.dart';
 import '../materials/cinnabar_texture.dart';
 import '../materials/cloth_weave.dart';
 import '../materials/deckle_surface.dart';
@@ -82,7 +83,7 @@ class _WabButtonState extends State<WabButton> {
           fontFamilyFallback: kWabKaiFallback,
         ),
       WabMaterialKind.wood => TextStyle(
-          color: dark ? WabTheme.textColor : const Color(0xFF30271F),
+          color: dark ? WabTheme.textColor : WAB_TEXTURE_WOOD_TEXT_LIGHT,
           fontWeight: FontWeight.w600,
           letterSpacing: 2,
           fontFamilyFallback: kWabKaiFallback,
@@ -100,7 +101,7 @@ class _WabButtonState extends State<WabButton> {
           fontFamilyFallback: kWabDisplayFallback,
         ),
       WabMaterialKind.jade => TextStyle(
-          color: dark ? WabTheme.textColor : const Color(0xFF294438),
+          color: dark ? WabTheme.textColor : WAB_TEXTURE_JADE_TEXT_LIGHT,
           fontWeight: FontWeight.w600,
           letterSpacing: 2,
           fontFamilyFallback: kWabKaiFallback,

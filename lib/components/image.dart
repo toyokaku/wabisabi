@@ -39,7 +39,8 @@ class WabPaymentRow extends GestureDetector {
           onTap: callback,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [image, WAB_SIZED_BOX_20, text],
+            // Flexible label so a narrow row ellipsizes instead of overflowing.
+            children: [image, WAB_SIZED_BOX_20, Flexible(child: text)],
           ),
         );
 }
