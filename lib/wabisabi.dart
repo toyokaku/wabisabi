@@ -8,6 +8,7 @@ export 'tokens/texture.dart';
 
 // Theme
 export 'theme/wab_theme.dart';
+export 'theme/wab_colors.dart';
 export 'theme/typography.dart';
 export 'theme/seal_text.dart';
 
