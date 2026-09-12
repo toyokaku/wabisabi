@@ -22,6 +22,7 @@ class WabPaperLift extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return Padding(
       padding: EdgeInsets.only(right: depth, bottom: depth),
       child: Stack(
@@ -35,7 +36,7 @@ class WabPaperLift extends StatelessWidget {
             child: IgnorePointer(
               child: CustomPaint(
                 painter: _PaperLiftPainter(
-                  dark: WabTheme.isDark,
+                  dark: wab.isDark,
                   seed: seed,
                   axis: Axis.horizontal,
                 ),
@@ -50,7 +51,7 @@ class WabPaperLift extends StatelessWidget {
             child: IgnorePointer(
               child: CustomPaint(
                 painter: _PaperLiftPainter(
-                  dark: WabTheme.isDark,
+                  dark: wab.isDark,
                   seed: seed + 7,
                   axis: Axis.vertical,
                 ),

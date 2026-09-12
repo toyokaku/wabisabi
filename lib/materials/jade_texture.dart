@@ -14,7 +14,7 @@ class WabJadeTexture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _JadePainter(isDark: isDark ?? WabTheme.isDark, seed: seed),
+        painter: _JadePainter(isDark: isDark ?? WabTheme.of(context).isDark, seed: seed),
         child: child,
       );
 }

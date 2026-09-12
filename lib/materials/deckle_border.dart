@@ -9,7 +9,10 @@ import '../tokens/material.dart';
 /// fixed-seed multi-frequency sine noise, so the irregular edge is stable
 /// across rebuilds. No radius, no shadow — the paper state of a surface.
 ///
-/// The default [side] color is the theme 淡墨 hairline (`WabTheme.lineColor`).
+/// Pass [side] built from `WabTheme.of(context).lineColor`. A ShapeBorder is
+/// constructed outside the widget tree and has no context of its own, so the
+/// default falls back to the legacy static — the one place in the kit that
+/// still must.
 class DeckleBorder extends OutlinedBorder {
   DeckleBorder({
     BorderSide? side,

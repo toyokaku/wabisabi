@@ -22,7 +22,7 @@ class WabPaperSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = isDark ?? WabTheme.isDark;
+    final dark = isDark ?? WabTheme.of(context).isDark;
     final base = dark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT;
     return ColoredBox(
       color: base,

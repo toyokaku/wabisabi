@@ -25,7 +25,7 @@ class WabBrushDivider extends StatelessWidget {
       height: 12,
       width: double.infinity,
       child: CustomPaint(
-        painter: _BrushLinePainter(color ?? WabTheme.lineColor),
+        painter: _BrushLinePainter(color ?? WabTheme.of(context).lineColor),
       ),
     );
   }

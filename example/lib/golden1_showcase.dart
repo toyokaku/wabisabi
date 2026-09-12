@@ -409,8 +409,8 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
           isDark: widget.isDark,
           onToggle: widget.onToggleTheme,
         ),
-      12 => kitChromeSection(),
-      13 => kitTexturePrimitivesSection(),
+      12 => kitChromeSection(context),
+      13 => kitTexturePrimitivesSection(context),
       _ => const KitOddsAndEndsSection(),
     };
 

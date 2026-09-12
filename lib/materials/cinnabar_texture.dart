@@ -14,7 +14,7 @@ class WabCinnabarTexture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _CinnabarPainter(isDark: isDark ?? WabTheme.isDark, seed: seed),
+        painter: _CinnabarPainter(isDark: isDark ?? WabTheme.of(context).isDark, seed: seed),
         child: child,
       );
 }

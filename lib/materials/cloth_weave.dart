@@ -79,7 +79,7 @@ class WabClothTexture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: WabClothWeave(isDark: isDark ?? WabTheme.isDark, seed: seed),
+        painter: WabClothWeave(isDark: isDark ?? WabTheme.of(context).isDark, seed: seed),
         child: child,
       );
 }

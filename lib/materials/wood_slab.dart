@@ -29,7 +29,7 @@ class WabWoodSlab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = isDark ?? WabTheme.isDark;
+    final dark = isDark ?? WabTheme.of(context).isDark;
     final shape = BorderRadius.circular(radius);
 
     return Container(

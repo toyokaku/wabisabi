@@ -27,7 +27,7 @@ class WabPaperFold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = isDark ?? WabTheme.isDark;
+    final dark = isDark ?? WabTheme.of(context).isDark;
     return SizedBox(
       width: double.infinity,
       height: height,

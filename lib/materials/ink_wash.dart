@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
+import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 
 /// 墨暈 — layered wet-ink clouds with soft capillary spread.
@@ -11,13 +12,15 @@ class WabInkWash extends CustomPainter {
   /// Resolves the theme once, at construction, so [shouldRepaint] can compare
   /// what the painter will actually draw with. Reading the theme inside
   /// [paint] leaves a stale wash behind when light/dark flips.
-  factory WabInkWash({bool? isDark, int seed = 943}) {
-    final dark = isDark ?? WabTheme.isDark;
-    return WabInkWash._(
-      dark,
-      dark ? WabTheme.mutedLight : WabTheme.textColor,
-      seed,
-    );
+  /// Pass [colors] — `WabTheme.of(context)` — so the wash follows the ambient
+  /// theme. A painter has no context of its own; without it the palette falls
+  /// back to the legacy statics.
+  factory WabInkWash({WabColors? colors, bool? isDark, int seed = 943}) {
+    final dark = isDark ?? colors?.isDark ?? WabTheme.isDark;
+    final ink = dark
+        ? (colors?.mutedLight ?? WabTheme.mutedLight)
+        : (colors?.textColor ?? WabTheme.textColor);
+    return WabInkWash._(dark, ink, seed);
   }
 
   const WabInkWash._(this.isDark, this.ink, this.seed);

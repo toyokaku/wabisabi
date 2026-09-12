@@ -7,14 +7,20 @@ import 'package:wabisabi/wabisabi.dart';
 // tool/check_public_api.dart fails when a type is exported from the barrel and
 // never appears here, so this file is where a new export earns its place.
 
-TextStyle _caption() => TextStyle(
-      color: WabTheme.mutedColor,
+TextStyle _caption(WabColors wab) => TextStyle(
+      color: wab.mutedColor,
       fontFamily: kWabMonoFamily,
       fontSize: 6.2,
       height: 1.2,
     );
 
-Widget _specimen(String label, double width, double height, Widget child) =>
+Widget _specimen(
+  WabColors wab,
+  String label,
+  double width,
+  double height,
+  Widget child,
+) =>
     SizedBox(
       width: width,
       child: Column(
@@ -23,13 +29,14 @@ Widget _specimen(String label, double width, double height, Widget child) =>
         children: [
           SizedBox(width: width, height: height, child: child),
           const SizedBox(height: 3),
-          Text(label, style: _caption()),
+          Text(label, style: _caption(wab)),
         ],
       ),
     );
 
 /// 骨架 — page chrome: scaffolds, bars, legacy containers, nav furniture.
-Widget kitChromeSection() {
+Widget kitChromeSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   return SingleChildScrollView(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,28 +46,31 @@ Widget kitChromeSection() {
           runSpacing: 8,
           children: [
             _specimen(
+              wab,
               'WabScaffold',
               150,
               76,
               WabScaffold(
                 title: const Text('卷 一', style: TextStyle(fontSize: 11)),
                 body: Center(
-                  child: Text('body', style: _caption()),
+                  child: Text('body', style: _caption(wab)),
                 ),
               ),
             ),
             _specimen(
+              wab,
               'WabTexturedScaffold',
               150,
               76,
               WabTexturedScaffold(
                 title: const Text('卷 二', style: TextStyle(fontSize: 11)),
                 body: Center(
-                  child: Text('ambient ground', style: _caption()),
+                  child: Text('ambient ground', style: _caption(wab)),
                 ),
               ),
             ),
             _specimen(
+              wab,
               'WabAppBar',
               150,
               52,
@@ -70,27 +80,31 @@ Widget kitChromeSection() {
               ),
             ),
             _specimen(
+              wab,
               'TexturePainter\n(scaffold ground)',
               100,
               52,
               CustomPaint(
-                painter: TexturePainter(isDark: WabTheme.isDark),
+                painter: TexturePainter(isDark: wab.isDark),
                 child: const SizedBox.expand(),
               ),
             ),
             _specimen(
+              wab,
               'WabContainer',
               128,
               46,
-              WabContainer(child: Text('框 · framed', style: _caption())),
+              WabContainer(child: Text('框 · framed', style: _caption(wab))),
             ),
             _specimen(
+              wab,
               'WabLiteContainer',
               128,
               46,
-              WabLiteContainer(child: Text('輕框 · lite', style: _caption())),
+              WabLiteContainer(child: Text('輕框 · lite', style: _caption(wab))),
             ),
             _specimen(
+              wab,
               'WabProfileHeader',
               168,
               50,
@@ -101,6 +115,7 @@ Widget kitChromeSection() {
               ),
             ),
             _specimen(
+              wab,
               'WabNavItem (legacy)',
               128,
               106,
@@ -112,6 +127,46 @@ Widget kitChromeSection() {
                 ],
               ),
             ),
+          ],
+        ),
+        const SizedBox(height: 9),
+        Text('WabColors · WabTheme.of(context)', style: _caption(wab)),
+        const SizedBox(height: 4),
+        Wrap(
+          spacing: 6,
+          runSpacing: 4,
+          children: [
+            for (final swatch in <(String, Color)>[
+              ('background', wab.backgroundColor),
+              ('surface', wab.surfaceColor),
+              ('primary', wab.primaryColor),
+              ('accent', wab.accentColor),
+              ('text', wab.textColor),
+              ('muted', wab.mutedColor),
+              ('line', wab.lineColor),
+              ('seal', wab.sealColor),
+              ('scratch', wab.scratchColor),
+              ('woody', wab.woodyColor),
+              ('progress', wab.progressColor),
+              ('on', wab.onColor),
+            ])
+              SizedBox(
+                width: 52,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: 14,
+                      decoration: BoxDecoration(
+                        color: swatch.$2,
+                        border: Border.all(color: wab.lineColor),
+                      ),
+                    ),
+                    Text(swatch.$1, style: _caption(wab)),
+                  ],
+                ),
+              ),
           ],
         ),
         const SizedBox(height: 9),
@@ -133,24 +188,25 @@ Widget kitChromeSection() {
 }
 
 /// 紋理 — the painters underneath WabSurface, shown on their own.
-Widget kitTexturePrimitivesSection() {
+Widget kitTexturePrimitivesSection(BuildContext context) {
   const w = 78.0;
   const h = 42.0;
-  final dark = WabTheme.isDark;
+  final wab = WabTheme.of(context);
+  final dark = wab.isDark;
 
   return SingleChildScrollView(
     child: Wrap(
       spacing: 8,
       runSpacing: 7,
       children: [
-        _specimen('WabPaperTexture', w, h,
+        _specimen(wab, 'WabPaperTexture', w, h,
             ColoredBox(
               color: dark
                   ? WAB_TEXTURE_PAPER_BASE_DARK
                   : WAB_TEXTURE_PAPER_BASE_LIGHT,
               child: WabPaperTexture(child: const SizedBox.expand()),
             )),
-        _specimen('…Kind.mottle', w, h,
+        _specimen(wab, '…Kind.mottle', w, h,
             ColoredBox(
               color: dark
                   ? WAB_TEXTURE_PAPER_BASE_DARK
@@ -160,34 +216,34 @@ Widget kitTexturePrimitivesSection() {
                 child: const SizedBox.expand(),
               ),
             )),
-        _specimen('WabFiberTexture', w, h,
+        _specimen(wab, 'WabFiberTexture', w, h,
             ColoredBox(
               color: dark
                   ? WAB_TEXTURE_PAPER_BASE_DARK
                   : WAB_TEXTURE_PAPER_BASE_LIGHT,
               child: WabFiberTexture(strength: 1, child: const SizedBox.expand()),
             )),
-        _specimen('WabWoodGrain', w, h,
+        _specimen(wab, 'WabWoodGrain', w, h,
             CustomPaint(
               painter: WabWoodGrain(isDark: dark),
               child: const SizedBox.expand(),
             )),
-        _specimen('WabClothTexture', w, h,
+        _specimen(wab, 'WabClothTexture', w, h,
             WabClothTexture(child: const SizedBox.expand())),
-        _specimen('WabClothWeave', w, h,
+        _specimen(wab, 'WabClothWeave', w, h,
             CustomPaint(
               painter: WabClothWeave(isDark: dark),
               child: const SizedBox.expand(),
             )),
-        _specimen('WabJadeTexture', w, h,
+        _specimen(wab, 'WabJadeTexture', w, h,
             WabJadeTexture(child: const SizedBox.expand())),
-        _specimen('WabCinnabarTexture', w, h,
+        _specimen(wab, 'WabCinnabarTexture', w, h,
             WabCinnabarTexture(child: const SizedBox.expand())),
-        _specimen('WabPatinaTexture', w, h,
+        _specimen(wab, 'WabPatinaTexture', w, h,
             WabPatinaTexture(child: const SizedBox.expand())),
-        _specimen('WabRubbingTexture', w, h,
+        _specimen(wab, 'WabRubbingTexture', w, h,
             const WabRubbingTexture(child: SizedBox.expand())),
-        _specimen('WabInkWash', w, h,
+        _specimen(wab, 'WabInkWash', w, h,
             ColoredBox(
               color: dark
                   ? WAB_TEXTURE_PAPER_BASE_DARK
@@ -197,7 +253,7 @@ Widget kitTexturePrimitivesSection() {
                 child: const SizedBox.expand(),
               ),
             )),
-        _specimen('WabDeckleSurface', w, h,
+        _specimen(wab, 'WabDeckleSurface', w, h,
             WabDeckleSurface(
               fill: dark
                   ? WAB_TEXTURE_PAPER_BASE_DARK
@@ -205,7 +261,7 @@ Widget kitTexturePrimitivesSection() {
               texture: WabPaperTexture(),
               child: const SizedBox.expand(),
             )),
-        _specimen('DeckleBorder', w, h,
+        _specimen(wab, 'DeckleBorder', w, h,
             DecoratedBox(
               decoration: ShapeDecoration(
                 color: dark
@@ -235,6 +291,7 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,6 +302,7 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
             crossAxisAlignment: WrapCrossAlignment.start,
             children: [
               _specimen(
+                wab,
                 'WabElevatedButton',
                 132,
                 34,
@@ -256,6 +314,7 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
                 ),
               ),
               _specimen(
+                wab,
                 'WabFloatingActionButton',
                 60,
                 60,
@@ -267,6 +326,7 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
                 ),
               ),
               _specimen(
+                wab,
                 'WabDropdown',
                 132,
                 46,
@@ -281,6 +341,7 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
                 ),
               ),
               _specimen(
+                wab,
                 'WabNumberFormField',
                 110,
                 46,
@@ -292,12 +353,14 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
                 ),
               ),
               _specimen(
+                wab,
                 'WabImage',
                 58,
                 46,
                 WabImage(path: 'images/avatar.jpg', width: 58, height: 46),
               ),
               _specimen(
+                wab,
                 'WabIcon',
                 58,
                 46,
@@ -307,6 +370,7 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
                 ),
               ),
               _specimen(
+                wab,
                 'WabWarningText',
                 110,
                 24,
@@ -318,15 +382,15 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
             ],
           ),
           const SizedBox(height: 8),
-          Text('WabPaymentRow', style: _caption()),
+          Text('WabPaymentRow', style: _caption(wab)),
           const SizedBox(height: 3),
           WabPaymentRow(
             image: WabImage(path: 'images/googlepay.png', width: 34, height: 18),
-            text: Text('結 帳 · CHECKOUT', style: _caption()),
+            text: Text('結 帳 · CHECKOUT', style: _caption(wab)),
             callback: () {},
           ),
           const SizedBox(height: 6),
-          Text('WabDivider', style: _caption()),
+          Text('WabDivider', style: _caption(wab)),
           WabDivider(),
         ],
       ),

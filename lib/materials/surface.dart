@@ -47,7 +47,7 @@ class WabSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = isDark ?? WabTheme.isDark;
+    final dark = isDark ?? WabTheme.of(context).isDark;
     final paper = dark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT;
     final fibrePaper = dark
         ? paper
@@ -89,7 +89,10 @@ class WabSurface extends StatelessWidget {
           child: WabPaperTexture(
             isDark: dark,
             strength: .28,
-            child: CustomPaint(painter: WabInkWash(isDark: dark), child: content),
+            child: CustomPaint(
+            painter: WabInkWash(colors: WabTheme.of(context), isDark: dark),
+            child: content,
+          ),
           ),
         ),
       WabSurfaceKind.patina => WabPatinaTexture(isDark: dark, child: content),

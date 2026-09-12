@@ -28,7 +28,7 @@ class WabFoldFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget body = CustomPaint(
       foregroundPainter: _FoldFramePainter(
-        dark: isDark ?? WabTheme.isDark,
+        dark: isDark ?? WabTheme.of(context).isDark,
         depth: depth,
       ),
       child: Padding(padding: padding, child: child),

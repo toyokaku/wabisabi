@@ -24,7 +24,8 @@ class WabSealMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bai = kind == WabSealMarkKind.baiwen;
-    final red = WabTheme.sealColor;
+    final wab = WabTheme.of(context);
+    final red = wab.sealColor;
     final shape = DeckleBorder(
       roughness: .42,
       horizontalRoughness: .42,
@@ -61,7 +62,7 @@ class WabSealMark extends StatelessWidget {
               child: WabSealText(
                 text,
                 fontSize: size * .52,
-                color: bai ? WabTheme.paperWhite : red,
+                color: bai ? wab.paperWhite : red,
                 strokeWidth: size * .014,
                 widthScale: 1.05,
                 heightScale: .96,

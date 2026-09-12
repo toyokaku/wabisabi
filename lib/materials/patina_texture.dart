@@ -14,7 +14,7 @@ class WabPatinaTexture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _PatinaPainter(isDark: isDark ?? WabTheme.isDark, seed: seed),
+        painter: _PatinaPainter(isDark: isDark ?? WabTheme.of(context).isDark, seed: seed),
         child: child,
       );
 }

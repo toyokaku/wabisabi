@@ -54,7 +54,7 @@ class WabDeckleSurface extends StatelessWidget {
       horizontalRoughness:
           horizontalRoughness ?? WAB_DECKLE_ROUGHNESS_H,
       side: BorderSide(
-        color: sideColor ?? WabTheme.lineColor,
+        color: sideColor ?? WabTheme.of(context).lineColor,
         width: WAB_DECKLE_SIDE_WIDTH,
       ),
     );

@@ -28,7 +28,7 @@ class WabPaperTexture extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CustomPaint(
         painter: _PaperTexturePainter(
-          isDark: isDark ?? WabTheme.isDark,
+          isDark: isDark ?? WabTheme.of(context).isDark,
           kind: kind,
           strength: strength,
         ),

@@ -22,7 +22,7 @@ class WabFiberTexture extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CustomPaint(
         painter: _FiberTexturePainter(
-          isDark: isDark ?? WabTheme.isDark,
+          isDark: isDark ?? WabTheme.of(context).isDark,
           seed: seed,
           strength: strength,
         ),
