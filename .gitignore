@@ -48,3 +48,12 @@ app.*.map.json
 
 # iOS build ephemeral (example app)
 example/ios/Flutter/ephemeral/
+
+# Local agent harness — one tool's own conventions, not part of the kit
+/.ai-memory.toml
+/.claude/
+/.codex/
+/.kimi-code/
+/CLAUDE.md
+/AGENTS.md
+/GEMINI.md
