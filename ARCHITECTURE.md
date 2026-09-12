@@ -1,16 +1,16 @@
 # wabisabi — architecture
 
-A Flutter widget kit with **no third-party dependencies**. `pubspec.yaml` declares
-only the Flutter SDK; every one of the 49 `package:` imports in `lib/` is
-`package:flutter/*`. Nothing here is a wrapper around someone else's design
-system — the materials are painted from scratch, the fonts are bundled, and the
-only thing that can break the layering is us.
+A Flutter widget kit with **no third-party runtime dependencies**. The package's
+`dependencies:` section contains only the Flutter SDK; `flutter_lints` is a dev
+dependency. Nothing here is a wrapper around someone else's design system — the
+materials are painted from scratch, the fonts are bundled, and the only thing
+that can break the layering is us.
 
 This file is for judgement calls: what the layers mean, why the kit is shaped
 this way, what is deliberately left undone. **Mechanical rules are not written
-down here.** They live in `tool/check_layering.dart` and
-`tool/check_public_api.dart` and run in CI, because a rule in prose drifts and a
-rule in a CI job does not. If you want to know what is enforced, run them.
+down here.** They live in `tool/check_layering.dart`, `tool/check_public_api.dart`
+and `tool/check_house_rules.dart` and run in CI, because a rule in prose drifts
+and a rule in a CI job does not. If you want to know what is enforced, run them.
 
 ## Layers
 
@@ -51,14 +51,14 @@ irregular edge is stable across rebuilds, real `shouldRepaint`.
 `tokens/*_raw.dart` are plain `int`/`double` constants with no Flutter import so
 `tool/export_tokens.dart` can run under bare `dart` and generate the Quarto SCSS
 that keeps the web side in visual sync. That is the entire reason the split
-exists. It earns its keep for `palette_raw` and `spacing_raw`, which the exporter
-actually reads; for `material_raw` and `texture_raw` it is currently pure
-duplication (see debts below).
+exists. `palette_raw` and `spacing_raw` are read by the web exporter today;
+`material_raw` and `texture_raw` remain the pure-Dart sources for their Flutter
+wrappers even though the exporter does not currently consume them.
 
 ## House rules
 
-Two things hold across every file, and `tool/check_house_rules.dart` holds them
-in CI.
+These rules hold across the kit and `tool/check_house_rules.dart` keeps the
+mechanical parts honest in CI.
 
 **No pure black, no pure white.** A shadow is ink, not the absence of light:
 everything that would have been `Colors.black` is `WAB_TEXTURE_INK` (0xFF24231F),
@@ -83,10 +83,11 @@ means adding a rung and justifying it.
 
 ## Deliberate non-goals
 
-- **No image assets.** Every texture is painted. It costs CPU on large surfaces
-  and buys resolution independence and themeability.
-- **No external packages.** A design system that pulls in dependencies exports
-  them to every consuming app.
+- **No texture image assets in the kit.** Every material texture is painted. It
+  costs CPU on large surfaces and buys resolution independence and themeability.
+  The example may use ordinary content imagery to demonstrate image widgets.
+- **No external runtime packages.** A design system that pulls in dependencies
+  exports them to every consuming app.
 - **Fonts bundled at full charset.** `assets/fonts/WabKai-*.ttf` is LXGW WenKai
   TC uncut, ~15 MB each, so 繁/簡 coverage never falls back to a system face.
   `tool/build_fonts.sh` regenerates them. This is ~30 MB in git and in every app
@@ -101,33 +102,25 @@ material rebuild.
 
 ## Known debts
 
-Recorded so they are not rediscovered as news. None are enforced against; the
-CI checks cover import structure and public naming only.
+Recorded so they are not rediscovered as news. The mechanical architecture,
+public-surface and house-style rules are enforced in CI; the debts below are
+deliberately not.
 
 - **`WabTheme`'s palette statics are a compatibility shim.** The palette lives
   on `ThemeData` as `WabColors` and is read with `WabTheme.of(context)`; the
   seventeen `static late Color`s are still assigned so consumers pinned to an
-  older tag keep working. Nothing in `lib/` reads them any more except two
-  places that have no context to read from and say so: `DeckleBorder`, a
-  `ShapeBorder` built outside the tree, and `WabInkWash`, a `CustomPainter`
-  whose caller now hands it the palette. Removing the statics is a breaking
-  change waiting on a version bump.
-- **Two generations of material tokens.** `tokens/material.dart` and
-  `tokens/texture.dart` both define wood / cloth / jade / cinnabar / paper
-  palettes; 65 constants in the older set are referenced by nothing. The
-  golden1 rebuild moved to `texture_*` and left the corpse.
-- **`WabWidget<C, M>` is a hollow abstraction.** Five classes in `button.dart`
-  implement `createCupertinoWidget` and `createMaterialWidget` as the same
-  `_build()`. The base has no const constructor, so none of its subclasses can
-  be const and none accept a `key`.
+  older tag keep working. Nothing in `lib/` reads them any more except places
+  that cannot obtain a build context directly. Removing the statics is a
+  breaking change waiting on a major version.
 - **`WabPaymentRow` is app domain in a general kit.** A payment row is not a
-  design-system primitive; it belongs to whichever app needed it. Removing it
-  from the barrel is a breaking change waiting on a version bump.
+  design-system primitive; it belongs to whichever app needed it. It remains as
+  a deprecated migration alias until the next major version.
 - **`WAB_*` SCREAMING_SNAKE token names** are house style and violate
   `constant_identifier_names`, which is the one lint the kit opts out of.
   Renaming every token breaks every consumer, so it waits for a major version.
-- **`tool/public_api_baseline.txt` has 6 entries**, all unprefixed exported
-  names: `DeckleBorder`, `DotGrid`, `InkDot`, `InkDotStyle`, `TexturePainter`,
-  `isIos`. Renaming them breaks consumers, so they wait for a version bump.
-  Example coverage is clear, and CI keeps it that way — a new export with no
-  specimen in `example/lib` fails the build.
+- **Migration aliases remain on the public surface.** The formerly unprefixed
+  names (`DeckleBorder`, `DotGrid`, `InkDot`, `InkDotStyle`, `TexturePainter`,
+  `isIos`) are deprecated aliases for their `Wab*` replacements. The public API
+  baseline is empty; deprecated aliases are intentionally exempt until the next
+  major version removes them. Other deprecated compatibility names follow the
+  same policy and are not advertised as new catalogue primitives.
