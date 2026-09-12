@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components/seal_text.dart';
+import '../theme/seal_text.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import 'cinnabar_texture.dart';

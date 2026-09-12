@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/typography.dart';
-import '../theme/wab_theme.dart';
+import 'typography.dart';
+import 'wab_theme.dart';
 
 /// 印體 — a readable seal-adjacent display treatment built from the bundled
 /// WabKai face. The glyph is widened, slightly flattened and reinforced with a

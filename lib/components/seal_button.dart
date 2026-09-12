@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../theme/seal_text.dart';
 import '../theme/wab_theme.dart';
 import 'button.dart';
-import 'seal_text.dart';
 
 /// Canonical full-face cinnabar seal action.
 class WabSealButton extends StatelessWidget {

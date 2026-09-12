@@ -13,6 +13,9 @@ const int    WAB_DECKLE_SEED             = kDeckleSeed;
 const int    WAB_DECKLE_SEED_PAPER       = kDeckleSeedPaper;
 const int    WAB_DECKLE_SEED_METRIC      = kDeckleSeedMetric;
 const double WAB_DECKLE_SIDE_WIDTH       = kDeckleSideWidth;
+const double WAB_DECKLE_FREQ1            = kDeckleFreq1;
+const double WAB_DECKLE_FREQ2            = kDeckleFreq2;
+const double WAB_DECKLE_FREQ3            = kDeckleFreq3;
 
 // ---- 木紋 wood grain ----
 const Color WAB_WOOD_BASE_LIGHT = Color(kWoodBaseLight);

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
-import '../tokens/material_raw.dart' show kDeckleFreq1, kDeckleFreq2, kDeckleFreq3;
 
 /// 毛邊 deckle edge — an [OutlinedBorder] whose four edges wobble with a
 /// fixed-seed multi-frequency sine noise, so the irregular edge is stable
@@ -40,9 +39,9 @@ class DeckleBorder extends OutlinedBorder {
 
   double _noise(int edge, double t) {
     final s = seed * 0.37 + edge * 17.0;
-    return math.sin(t * kDeckleFreq1 + s) * 0.55 +
-        math.sin(t * kDeckleFreq2 + s * 1.7) * 0.30 +
-        math.sin(t * kDeckleFreq3 + s * 2.3) * 0.15;
+    return math.sin(t * WAB_DECKLE_FREQ1 + s) * 0.55 +
+        math.sin(t * WAB_DECKLE_FREQ2 + s * 1.7) * 0.30 +
+        math.sin(t * WAB_DECKLE_FREQ3 + s * 2.3) * 0.15;
   }
 
   Path _decklePath(Rect rect) {
