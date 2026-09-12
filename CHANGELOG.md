@@ -23,6 +23,23 @@ Breaking. Consumers pinning a tag are unaffected until they move the pin.
   for `WAB_TEXTURE_WOOD_TEXT_LIGHT`.
 - `WAB_SEAL_SHADOW_OPACITY` is gone with the shadow it described.
 - `WabSealText` moves from `components/` to `theme/`. The barrel is unchanged.
+- Six unprefixed names are renamed, because the barrel lands in the consumer's
+  namespace: `DeckleBorder`, `DotGrid`, `InkDot`, `InkDotStyle`,
+  `TexturePainter` and `isIos` become `WabDeckleBorder`, `WabDotGrid`,
+  `WabInkDot`, `WabInkDotStyle`, `WabTexturePainter` and `wabIsIos`. Each old
+  name stays as a `@Deprecated` alias, so nothing breaks today and the analyzer
+  points at the replacement.
+
+### Deprecated
+
+- `WabPaymentRow` — app domain, not a design-system primitive. Compose a row of
+  `WabIcon` and `Text`.
+- `WabNavItem` — the kit navigates with `WabTextButton` and its ruled-text
+  language; the outlined box predates it and matches nothing else.
+- `WAB_WOOD_TEXT_LIGHT` — use `WAB_TEXTURE_WOOD_TEXT_LIGHT`.
+- The six renamed aliases above.
+
+All of these go at the next major version.
 
 ### Added
 

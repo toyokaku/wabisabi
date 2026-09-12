@@ -97,8 +97,10 @@ class WabProfileHeader extends StatelessWidget {
   }
 }
 
-/// Legacy outlined nav item. The catalogue itself uses WabTextButton for the
-/// ruled-text navigation language.
+/// Legacy outlined nav item.
+@Deprecated('The kit navigates with WabTextButton and its ruled-text language; '
+    'this outlined box predates it and matches nothing else. Goes at the next '
+    'major version.')
 class WabNavItem extends StatelessWidget {
   const WabNavItem({
     super.key,

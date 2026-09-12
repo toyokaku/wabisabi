@@ -8,6 +8,11 @@
 //   EXAMPLE  every exported type appears in example/lib. The catalogue is the
 //            kit's only visual test; a widget nobody drew is a widget nobody saw.
 //
+// A declaration marked @Deprecated is exempt from both rules. An old name kept
+// as a migration alias exists precisely to be the old name, and showcasing
+// something scheduled for removal would be advertising it. The annotation is a
+// public commitment to delete it, and the analyzer flags every use meanwhile.
+//
 // Known violations live in tool/public_api_baseline.txt. The script fails on
 // anything NOT in that file, so the surface can only get cleaner: fix a line,
 // delete a line. It also fails on baseline entries that no longer apply, which
@@ -74,6 +79,21 @@ Set<String> exportedFiles() {
   return seen..remove(_barrel);
 }
 
+/// True when the declaration starting at [offset] carries an @Deprecated
+/// annotation on one of the lines immediately above it.
+bool isDeprecated(String source, int offset) {
+  final before = source.substring(0, offset).trimRight();
+  for (final line in before.split('\n').reversed.take(6)) {
+    final t = line.trim();
+    if (t.startsWith('@Deprecated') || t.startsWith('@deprecated')) return true;
+    // walk back past the doc comment and the rest of the annotation's argument
+    if (t.isEmpty || t.startsWith('///') || t.startsWith('//')) continue;
+    if (t.endsWith(',') || t.endsWith("'") || t.endsWith(')')) continue;
+    return false;
+  }
+  return false;
+}
+
 List<Decl> publicDecls(String file) {
   final source = File(file).readAsStringSync();
   final decls = <Decl>[];
@@ -83,12 +103,15 @@ List<Decl> publicDecls(String file) {
   }
 
   for (final m in _typeDecl.allMatches(source)) {
+    if (isDeprecated(source, m.start)) continue;
     add(m.group(1)!, isType: true);
   }
   for (final m in _memberDecl.allMatches(source)) {
+    if (isDeprecated(source, m.start)) continue;
     add(m.group(1)!, isType: false);
   }
   for (final m in _functionDecl.allMatches(source)) {
+    if (isDeprecated(source, m.start)) continue;
     final name = m.group(2)!;
     // Skip control flow and the type/member declarations already collected.
     if (const {'if', 'for', 'while', 'switch', 'catch', 'return'}.contains(name)) {

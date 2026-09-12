@@ -81,11 +81,11 @@ Widget kitChromeSection(BuildContext context) {
             ),
             _specimen(
               wab,
-              'TexturePainter\n(scaffold ground)',
+              'WabTexturePainter\n(scaffold ground)',
               100,
               52,
               CustomPaint(
-                painter: TexturePainter(isDark: wab.isDark),
+                painter: WabTexturePainter(isDark: wab.isDark),
                 child: const SizedBox.expand(),
               ),
             ),
@@ -112,19 +112,6 @@ Widget kitChromeSection(BuildContext context) {
                 name: '陸 羽',
                 subtitle: '茶經 · 卷上',
                 avatar: AssetImage('images/avatar.jpg'),
-              ),
-            ),
-            _specimen(
-              wab,
-              'WabNavItem (legacy)',
-              128,
-              110,
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  WabNavItem(label: '選 中', selected: true),
-                  WabNavItem(label: '未 選'),
-                ],
               ),
             ),
           ],
@@ -254,7 +241,7 @@ Widget kitMaterialsSection(BuildContext context) {
             DecoratedBox(
               decoration: ShapeDecoration(
                 color: paper,
-                shape: DeckleBorder(seed: 61, radius: 2),
+                shape: WabDeckleBorder(seed: 61, radius: 2),
               ),
               child: const SizedBox.expand(),
             )),
@@ -344,14 +331,6 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
                 ),
               ),
             ],
-          ),
-          const SizedBox(height: 8),
-          Text('WabPaymentRow', style: _caption(wab)),
-          const SizedBox(height: 3),
-          WabPaymentRow(
-            image: const WabIcon(path: 'images/mark.png', height: 18),
-            text: Text('結 帳 · CHECKOUT', style: _caption(wab)),
-            callback: () {},
           ),
           const SizedBox(height: 6),
           Text('WabDivider', style: _caption(wab)),

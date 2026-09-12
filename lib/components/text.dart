@@ -138,7 +138,7 @@ class _WabNumberFormFieldState extends State<WabNumberFormField> {
 
   @override
   Widget build(BuildContext context) =>
-      isIos() ? _buildCupertino(context) : _buildMaterial(context);
+      wabIsIos() ? _buildCupertino(context) : _buildMaterial(context);
 
   Widget _buildCupertino(BuildContext context) => CupertinoTextField(
         controller: _controller,

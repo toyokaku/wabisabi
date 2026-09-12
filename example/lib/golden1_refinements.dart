@@ -116,11 +116,11 @@ Widget refinedRulesSection(BuildContext context) {
             ),
           ),
           const Spacer(),
-          DotGrid<int>(
+          WabDotGrid<int>(
             rows: 1,
             cols: 9,
             states: List.generate(9, (i) => i),
-            styleOf: (s) => InkDotStyle(
+            styleOf: (s) => WabInkDotStyle(
               color: s == 4
                   ? wab.textColor
                   : wab.mutedColor.withValues(alpha: .5),

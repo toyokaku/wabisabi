@@ -13,8 +13,8 @@ import '../tokens/material.dart';
 /// constructed outside the widget tree and has no context of its own, so the
 /// default falls back to the legacy static — the one place in the kit that
 /// still must.
-class DeckleBorder extends OutlinedBorder {
-  DeckleBorder({
+class WabDeckleBorder extends OutlinedBorder {
+  WabDeckleBorder({
     BorderSide? side,
     this.roughness = WAB_DECKLE_ROUGHNESS,
     this.horizontalRoughness = WAB_DECKLE_ROUGHNESS_H,
@@ -99,7 +99,7 @@ class DeckleBorder extends OutlinedBorder {
   }
 
   @override
-  OutlinedBorder copyWith({BorderSide? side}) => DeckleBorder(
+  OutlinedBorder copyWith({BorderSide? side}) => WabDeckleBorder(
       side: side ?? this.side,
       roughness: roughness,
       horizontalRoughness: horizontalRoughness,
@@ -124,3 +124,9 @@ class DeckleBorder extends OutlinedBorder {
   @override
   ShapeBorder scale(double t) => this;
 }
+
+/// Old name, kept so consumers can migrate without a broken build.
+@Deprecated('Renamed to WabDeckleBorder. Every type the barrel exports carries '
+    'the Wab prefix, because the barrel lands in the consumer namespace. This '
+    'alias goes at the next major version.')
+typedef DeckleBorder = WabDeckleBorder;

@@ -2,17 +2,11 @@
 # NOT listed here, so this file can only shrink: fix the violation, delete the
 # line. It also fails on entries that no longer apply, so it cannot rot.
 #
-# PREFIX  the name is not Wab / WAB_ / kWab / wab prefixed, so it lands bare in
-#         the consumer's namespace. Renaming these is a breaking change on the
-#         public API and wants a version bump, which is why they are parked
-#         rather than quietly fixed.
+# It is empty, and that is the point. Every exported name carries the kit's
+# prefix and every exported type is drawn in example/lib. Six unprefixed names
+# were renamed for 0.1.0 and left behind as @Deprecated aliases, which the
+# checker exempts from both rules — an old name kept for migration exists to be
+# the old name, and a type scheduled for removal should not be advertised in the
+# catalogue.
 #
-# EXAMPLE (example coverage) is clear — every exported type is drawn in
-# example/lib. Keep it that way; a new export with no specimen fails CI.
-
-PREFIX DeckleBorder lib/materials/deckle_border.dart
-PREFIX DotGrid lib/components/dot_grid.dart
-PREFIX InkDot lib/components/dot_grid.dart
-PREFIX InkDotStyle lib/components/dot_grid.dart
-PREFIX TexturePainter lib/components/scaffold.dart
-PREFIX isIos lib/components/wab_utils.dart
+# If you are adding a line here, say why in the commit, not just here.

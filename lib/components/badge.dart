@@ -45,7 +45,7 @@ class WabStatusBadge extends StatelessWidget {
     final side = kind == WabBadgeKind.neutral
         ? BorderSide(color: wab.lineColor, width: WAB_RULE_HAIRLINE)
         : BorderSide.none;
-    final shape = DeckleBorder(
+    final shape = WabDeckleBorder(
       roughness: .42,
       horizontalRoughness: .42,
       seed: 120 + kind.index * 17,

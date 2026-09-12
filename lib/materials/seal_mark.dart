@@ -26,7 +26,7 @@ class WabSealMark extends StatelessWidget {
     final bai = kind == WabSealMarkKind.baiwen;
     final wab = WabTheme.of(context);
     final red = wab.sealColor;
-    final shape = DeckleBorder(
+    final shape = WabDeckleBorder(
       roughness: .42,
       horizontalRoughness: .42,
       seed: seed,

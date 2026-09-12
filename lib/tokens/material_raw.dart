@@ -44,7 +44,7 @@ const double kRuleHairline    = 0.6;   // 框內文字分隔細線 px
 // 朱文 zhuwen — 細框陽文：透明底，細墨框+墨字。
 const double kZhuwenRuleWidth = 1.2;   // 朱文細框 px
 
-// ---- 環境背景 ambient page ground（scaffold TexturePainter）-----------------
+// ---- 環境背景 ambient page ground（scaffold WabTexturePainter）-----------------
 // Light washi: 去黃走灰褐，暗光；dark lacquer 維持燭光金。
 const int kWashiCloudWarm  = 0x07887A60;  // warm cloud, muted taupe (was A07040)
 const int kWashiCloudCool  = 0x04808A8C;  // cool cloud, faint blue-grey

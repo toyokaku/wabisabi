@@ -538,7 +538,7 @@ class WabToggleButton extends StatelessWidget {
 /// 落印 — the primary action as a pressed seal rather than a floating disc.
 ///
 /// A stamp sits flat on the page: no drop shadow, and no machined circle. The
-/// face is cinnabar clipped to the same irregular [DeckleBorder] edge the
+/// face is cinnabar clipped to the same irregular [WabDeckleBorder] edge the
 /// badges and seal marks use, so it reads as ink pressed into paper.
 class WabFloatingActionButton extends StatelessWidget {
   const WabFloatingActionButton(this.button, {super.key, this.size = 56});
@@ -550,7 +550,7 @@ class WabFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shape = DeckleBorder(
+    final shape = WabDeckleBorder(
       roughness: .42,
       horizontalRoughness: .42,
       seed: 77,

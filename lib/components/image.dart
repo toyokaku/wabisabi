@@ -48,6 +48,9 @@ class WabIcon extends StatelessWidget {
 }
 
 /// A tappable row of emblem + label.
+@Deprecated('App domain, not a design-system primitive: a payment row belongs '
+    'to whichever app needs one. Compose a Row of WabIcon and Text instead. '
+    'Goes at the next major version.')
 class WabPaymentRow extends StatelessWidget {
   const WabPaymentRow({
     super.key,

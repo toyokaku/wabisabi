@@ -35,7 +35,7 @@ class WabScaffold extends WabWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child: CustomPaint(painter: TexturePainter(isDark: wab.isDark)),
+          child: CustomPaint(painter: WabTexturePainter(isDark: wab.isDark)),
         ),
         content,
       ],
@@ -223,9 +223,9 @@ class WabContentContainer extends StatelessWidget {
       );
 }
 
-class TexturePainter extends CustomPainter {
+class WabTexturePainter extends CustomPainter {
   final bool isDark;
-  TexturePainter({required this.isDark});
+  WabTexturePainter({required this.isDark});
 
   // Deterministic pseudo-random in [0,1) from two ints.
   static double _rand(int a, int b) =>
@@ -339,6 +339,11 @@ class TexturePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant TexturePainter oldDelegate) =>
+  bool shouldRepaint(covariant WabTexturePainter oldDelegate) =>
       oldDelegate.isDark != isDark;
 }
+
+/// Old name, kept so consumers can migrate without a broken build.
+@Deprecated('Renamed to WabTexturePainter. This alias goes at the next major '
+    'version.')
+typedef TexturePainter = WabTexturePainter;

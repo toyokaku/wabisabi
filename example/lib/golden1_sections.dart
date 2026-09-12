@@ -187,11 +187,11 @@ Widget goldenRulesSection(BuildContext context) {
         children: [
           Text('筆觸分隔 · BRUSH', style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: WabType.annotation)),
           const Spacer(),
-          DotGrid<int>(
+          WabDotGrid<int>(
             rows: 1,
             cols: 9,
             states: List.generate(9, (i) => i),
-            styleOf: (s) => InkDotStyle(color: s == 4 ? wab.textColor : wab.mutedColor.withValues(alpha: .5)),
+            styleOf: (s) => WabInkDotStyle(color: s == 4 ? wab.textColor : wab.mutedColor.withValues(alpha: .5)),
             dotSize: 5,
             gap: 7,
           ),
@@ -369,7 +369,7 @@ Widget goldenMarksSection(BuildContext context) {
               Row(
                 children: [
                   for (final color in [WAB_TEXTURE_CINNABAR_BASE_LIGHT, wab.accentColor, wab.mutedColor, wab.offColor]) ...[
-                    InkDot(style: InkDotStyle(color: color), size: 7),
+                    WabInkDot(style: WabInkDotStyle(color: color), size: 7),
                     const SizedBox(width: 5),
                   ],
                 ],
