@@ -55,10 +55,10 @@ void main() {
 
       for (final title in const [
         '01  色 | PALETTE',
-        '12  明暗 | LIGHT & DARK',
-        '13  骨架 | SCAFFOLD & CHROME',
-        '14  紋理 | TEXTURE PRIMITIVES',
-        '15  零件 | ODDS & ENDS',
+        '02  材 | MATERIALS',
+        '11  明暗 | LIGHT & DARK',
+        '12  骨架 | SCAFFOLD & CHROME',
+        '13  零件 | ODDS & ENDS',
       ]) {
         expect(find.text(title), findsOneWidget, reason: 'missing $title');
       }

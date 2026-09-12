@@ -187,86 +187,73 @@ Widget kitChromeSection(BuildContext context) {
   );
 }
 
-/// 紋理 — the painters underneath WabSurface, shown on their own.
-Widget kitTexturePrimitivesSection(BuildContext context) {
+/// 材 — one swatch per material, drawn by the painter that makes it.
+///
+/// This is the whole material vocabulary in one place. WabSurface wraps these
+/// into named kinds; the caption gives the primitive so it is clear what a
+/// surface is actually made of.
+Widget kitMaterialsSection(BuildContext context) {
   const w = 78.0;
   const h = 42.0;
   final wab = WabTheme.of(context);
   final dark = wab.isDark;
+  final paper =
+      dark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT;
+
+  Widget onPaper(Widget child) => ColoredBox(color: paper, child: child);
 
   return SingleChildScrollView(
     child: Wrap(
       spacing: 8,
       runSpacing: 7,
       children: [
-        _specimen(wab, 'WabPaperTexture', w, h,
-            ColoredBox(
-              color: dark
-                  ? WAB_TEXTURE_PAPER_BASE_DARK
-                  : WAB_TEXTURE_PAPER_BASE_LIGHT,
-              child: WabPaperTexture(child: const SizedBox.expand()),
-            )),
-        _specimen(wab, '…Kind.mottle', w, h,
-            ColoredBox(
-              color: dark
-                  ? WAB_TEXTURE_PAPER_BASE_DARK
-                  : WAB_TEXTURE_PAPER_BASE_LIGHT,
-              child: WabPaperTexture(
-                kind: WabPaperTextureKind.mottle,
-                child: const SizedBox.expand(),
-              ),
-            )),
-        _specimen(wab, 'WabFiberTexture', w, h,
-            ColoredBox(
-              color: dark
-                  ? WAB_TEXTURE_PAPER_BASE_DARK
-                  : WAB_TEXTURE_PAPER_BASE_LIGHT,
-              child: WabFiberTexture(strength: 1, child: const SizedBox.expand()),
-            )),
-        _specimen(wab, 'WabWoodGrain', w, h,
+        _specimen(wab, '宣紙\nWabPaperTexture', w, h,
+            onPaper(WabPaperTexture(child: const SizedBox.expand()))),
+        _specimen(wab, '雲斑\nWabPaperTextureKind', w, h,
+            onPaper(WabPaperTexture(
+              kind: WabPaperTextureKind.mottle,
+              child: const SizedBox.expand(),
+            ))),
+        _specimen(wab, '纖紙\nWabFiberTexture', w, h,
+            onPaper(
+                WabFiberTexture(strength: 1, child: const SizedBox.expand()))),
+        _specimen(wab, '木紋\nWabWoodGrain', w, h,
             CustomPaint(
               painter: WabWoodGrain(isDark: dark),
               child: const SizedBox.expand(),
             )),
-        _specimen(wab, 'WabClothTexture', w, h,
+        _specimen(wab, '木板\nWabWoodSlab', w, h,
+            WabWoodSlab(radius: 3, child: const SizedBox.expand())),
+        _specimen(wab, '布紋\nWabClothTexture', w, h,
             WabClothTexture(child: const SizedBox.expand())),
-        _specimen(wab, 'WabClothWeave', w, h,
+        _specimen(wab, '織紋\nWabClothWeave', w, h,
             CustomPaint(
               painter: WabClothWeave(isDark: dark),
               child: const SizedBox.expand(),
             )),
-        _specimen(wab, 'WabJadeTexture', w, h,
+        _specimen(wab, '玉面\nWabJadeTexture', w, h,
             WabJadeTexture(child: const SizedBox.expand())),
-        _specimen(wab, 'WabCinnabarTexture', w, h,
+        _specimen(wab, '硃砂\nWabCinnabarTexture', w, h,
             WabCinnabarTexture(child: const SizedBox.expand())),
-        _specimen(wab, 'WabPatinaTexture', w, h,
+        _specimen(wab, '舊化\nWabPatinaTexture', w, h,
             WabPatinaTexture(child: const SizedBox.expand())),
-        _specimen(wab, 'WabRubbingTexture', w, h,
+        _specimen(wab, '拓片\nWabRubbingTexture', w, h,
             const WabRubbingTexture(child: SizedBox.expand())),
-        _specimen(wab, 'WabInkWash', w, h,
-            ColoredBox(
-              color: dark
-                  ? WAB_TEXTURE_PAPER_BASE_DARK
-                  : WAB_TEXTURE_PAPER_BASE_LIGHT,
-              child: CustomPaint(
-                painter: WabInkWash(),
-                child: const SizedBox.expand(),
-              ),
-            )),
-        _specimen(wab, 'WabDeckleSurface', w, h,
+        _specimen(wab, '墨暈\nWabInkWash', w, h,
+            onPaper(CustomPaint(
+              painter: WabInkWash(colors: wab),
+              child: const SizedBox.expand(),
+            ))),
+        _specimen(wab, '毛邊\nWabDeckleSurface', w, h,
             WabDeckleSurface(
-              fill: dark
-                  ? WAB_TEXTURE_PAPER_BASE_DARK
-                  : WAB_TEXTURE_PAPER_BASE_LIGHT,
+              fill: paper,
               texture: WabPaperTexture(),
               child: const SizedBox.expand(),
             )),
-        _specimen(wab, 'DeckleBorder', w, h,
+        _specimen(wab, '邊形\nDeckleBorder', w, h,
             DecoratedBox(
               decoration: ShapeDecoration(
-                color: dark
-                    ? WAB_TEXTURE_PAPER_BASE_DARK
-                    : WAB_TEXTURE_PAPER_BASE_LIGHT,
+                color: paper,
                 shape: DeckleBorder(seed: 61, radius: 2),
               ),
               child: const SizedBox.expand(),

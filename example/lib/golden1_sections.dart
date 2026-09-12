@@ -70,45 +70,6 @@ Widget goldenPaletteSection(BuildContext context) {
   );
 }
 
-Widget goldenMaterialsSection(BuildContext context) {
-  final wab = WabTheme.of(context);
-  final items = <(String, WabSurfaceKind)>[
-    ('紙 張 · PAPER', WabSurfaceKind.paper),
-    ('木 板 · WOOD', WabSurfaceKind.woodGrain),
-    ('布 料 · CLOTH', WabSurfaceKind.clothWeave),
-    ('玉 石 · JADE', WabSurfaceKind.jadeSheen),
-    ('拓 片 · RUBBING', WabSurfaceKind.rubbing),
-    ('硃 砂 · CINNABAR', WabSurfaceKind.cinnabar),
-  ];
-  return Wrap(
-    spacing: 9,
-    runSpacing: 8,
-    children: [
-      for (final item in items)
-        SizedBox(
-          width: 102,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 55,
-                width: 102,
-                child: item.$2 == WabSurfaceKind.woodGrain
-                    ? WabWoodSlab(
-                        radius: 3,
-                        child: const SizedBox.expand(),
-                      )
-                    : WabSurface(kind: item.$2, child: const SizedBox.expand()),
-              ),
-              const SizedBox(height: 3),
-              Text(item.$1, style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6.2)),
-            ],
-          ),
-        ),
-    ],
-  );
-}
-
 Widget goldenTypographySection(BuildContext context) {
   final wab = WabTheme.of(context);
   Widget spec(String glyph, String label, String family, String sample) => Expanded(
@@ -131,39 +92,6 @@ Widget goldenTypographySection(BuildContext context) {
       spec('筆', '展示  DISPLAY', kWabDisplayFamily, '天地有大美\n而不言'),
       const SizedBox(width: 10),
       spec('器', '等寬  MONO', kWabMonoFamily, '0123456789\nWabisabi()'),
-    ],
-  );
-}
-
-Widget goldenSurfacesSection(BuildContext context) {
-  final wab = WabTheme.of(context);
-  final items = <(String, WabSurfaceKind)>[
-    ('宣紙 PAPER', WabSurfaceKind.paper),
-    ('纖紙 FIBER', WabSurfaceKind.fiber),
-    ('雲斑 MOTTLE', WabSurfaceKind.mottle),
-    ('木紋 WOOD GRAIN', WabSurfaceKind.woodGrain),
-    ('布紋 CLOTH WEAVE', WabSurfaceKind.clothWeave),
-    ('玉面 JADE SHEEN', WabSurfaceKind.jadeSheen),
-    ('拓片 RUBBING', WabSurfaceKind.rubbing),
-    ('墨暈 INK WASH', WabSurfaceKind.inkWash),
-    ('舊化 PATINA', WabSurfaceKind.patina),
-    ('毛邊 DECKLE', WabSurfaceKind.deckle),
-  ];
-  return Wrap(
-    spacing: 7,
-    runSpacing: 8,
-    children: [
-      for (final item in items)
-        SizedBox(
-          width: 72,
-          child: Column(
-            children: [
-              SizedBox(height: 48, width: 72, child: WabSurface(kind: item.$2, child: const SizedBox.expand())),
-              const SizedBox(height: 3),
-              Text(item.$1, textAlign: TextAlign.center, style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.6)),
-            ],
-          ),
-        ),
     ],
   );
 }

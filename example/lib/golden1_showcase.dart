@@ -15,7 +15,7 @@ class Golden1Showcase extends StatefulWidget {
 }
 
 class _Golden1ShowcaseState extends State<Golden1Showcase> {
-  final _sectionKeys = List<GlobalKey>.generate(15, (_) => GlobalKey());
+  final _sectionKeys = List<GlobalKey>.generate(13, (_) => GlobalKey());
   int _selected = 0;
   bool _check = true;
   int _radio = 0;
@@ -33,43 +33,38 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '01 色 · PALETTE',
     '02 材 · MATERIALS',
     '03 書 · TYPOGRAPHY',
-    '04 面 · SURFACES',
-    '05 邊 · BORDERS & RULES',
-    '06 器 · COMPONENTS',
-    '07 狀態 · STATES',
-    '08 表單 · INPUTS',
-    '09 標記 · BADGES & SEALS',
-    '10 卡片 · CARDS & PANELS',
-    '11 陰影 · SHADOWS',
-    '12 明暗 · LIGHT & DARK',
-    '13 骨架 · SCAFFOLD & CHROME',
-    '14 紋理 · TEXTURE PRIMITIVES',
-    '15 零件 · ODDS & ENDS',
+    '04 邊 · BORDERS & RULES',
+    '05 器 · COMPONENTS',
+    '06 狀態 · STATES',
+    '07 表單 · INPUTS',
+    '08 標記 · BADGES & SEALS',
+    '09 卡片 · CARDS & PANELS',
+    '10 陰影 · SHADOWS',
+    '11 明暗 · LIGHT & DARK',
+    '12 骨架 · SCAFFOLD & CHROME',
+    '13 零件 · ODDS & ENDS',
   ];
 
   static const _titles = [
     '01  色 | PALETTE',
     '02  材 | MATERIALS',
     '03  書 | TYPOGRAPHY',
-    '04  面 | SURFACES',
-    '05  邊 | BORDERS & RULES',
-    '06  器 | COMPONENTS · BUTTONS',
-    '07  狀態 | STATES',
-    '08  表單 | INPUTS',
-    '09  標記 | BADGES & SEALS',
-    '10  卡片 | CARDS & PANELS',
-    '11  陰影 | SHADOWS',
-    '12  明暗 | LIGHT & DARK',
-    '13  骨架 | SCAFFOLD & CHROME',
-    '14  紋理 | TEXTURE PRIMITIVES',
-    '15  零件 | ODDS & ENDS',
+    '04  邊 | BORDERS & RULES',
+    '05  器 | COMPONENTS · BUTTONS',
+    '06  狀態 | STATES',
+    '07  表單 | INPUTS',
+    '08  標記 | BADGES & SEALS',
+    '09  卡片 | CARDS & PANELS',
+    '10  陰影 | SHADOWS',
+    '11  明暗 | LIGHT & DARK',
+    '12  骨架 | SCAFFOLD & CHROME',
+    '13  零件 | ODDS & ENDS',
   ];
 
   static const _subtitles = [
     '調煉紙、墨、木、土、釉的克制色系',
-    '數字化的東方材質語言',
+    '生成式材質，一material一筆：WabSurface 即由此組成',
     '標題、正文、數字：統一的文字體系',
-    '生成式材質表面（無圖片資產）',
     '源自古籍的欄界與紙摺語言',
     '多材質按鈕體系',
     '克制而自然的狀態變化',
@@ -79,11 +74,10 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '源自實物紙邊的接觸投影',
     '行墨與拓片的雙重世界',
     '頁面骨架、題頭與導覽家具',
-    'WabSurface 底下的單支畫筆',
     '其餘導出組件，含自持狀態者',
   ];
 
-  static const _desktopRows = <double>[245, 305, 300, 250, 300];
+  static const _desktopRows = <double>[305, 300, 300, 250, 300];
 
   /// The width one board cell gets on a full-size desktop board. Every section
   /// is composed against it, so the narrow layout renders at the same geometry
@@ -288,7 +282,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   _row(_desktopRows[1], [3, 4, 5]),
                   _row(_desktopRows[2], [6, 7, 8]),
                   _row(_desktopRows[3], [9, 10, 11]),
-                  _row(_desktopRows[4], [12, 13, 14]),
+                  _row(_desktopRows[4], [12]),
                 ],
               ),
             ),
@@ -355,8 +349,11 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          for (final index in indices)
-            Expanded(
+          for (var slot = 0; slot < 3; slot++)
+            if (slot >= indices.length)
+              const Expanded(child: SizedBox.shrink())
+            else
+              Expanded(
               child: ClipRect(
                 child: Transform.scale(
                   scaleX: 1.002,
@@ -368,7 +365,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                     child: SizedBox(
                       width: _cellDesignWidth,
                       height: height,
-                      child: _section(context, index),
+                      child: _section(context, indices[slot]),
                     ),
                   ),
                 ),
@@ -383,17 +380,16 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     final wab = WabTheme.of(context);
     final content = switch (index) {
       0 => goldenPaletteSection(context),
-      1 => goldenMaterialsSection(context),
+      1 => kitMaterialsSection(context),
       2 => goldenTypographySection(context),
-      3 => goldenSurfacesSection(context),
-      4 => refinedRulesSection(context),
-      5 => refinedButtonsSection(context),
-      6 => goldenStatesSection(
+      3 => refinedRulesSection(context),
+      4 => refinedButtonsSection(context),
+      5 => goldenStatesSection(
           context,
           toggle: _toggle,
           onToggle: () => setState(() => _toggle = !_toggle),
         ),
-      7 => goldenInputsSection(
+      6 => goldenInputsSection(
           context,
           check: _check,
           radio: _radio,
@@ -404,16 +400,15 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
           onSwitch: (v) => setState(() => _switch = v),
           onSlider: (v) => setState(() => _slider = v),
         ),
-      8 => goldenMarksSection(context),
-      9 => goldenCardsSection(context),
-      10 => goldenShadowsSection(context),
-      11 => goldenLightDarkSection(
+      7 => goldenMarksSection(context),
+      8 => goldenCardsSection(context),
+      9 => goldenShadowsSection(context),
+      10 => goldenLightDarkSection(
           context,
           isDark: wab.isDark,
           onToggle: widget.onToggleTheme,
         ),
-      12 => kitChromeSection(context),
-      13 => kitTexturePrimitivesSection(context),
+      11 => kitChromeSection(context),
       _ => const KitOddsAndEndsSection(),
     };
 
