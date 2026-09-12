@@ -25,6 +25,7 @@ class WabPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     final body = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
@@ -35,7 +36,7 @@ class WabPanel extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: WabTheme.textColor,
+                  color: wab.textColor,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   letterSpacing: .5,
@@ -48,7 +49,7 @@ class WabPanel extends StatelessWidget {
         ),
         const SizedBox(height: 7),
         Divider(
-          color: WabTheme.lineColor.withOpacity(.68),
+          color: wab.lineColor.withOpacity(.68),
           thickness: WAB_RULE_HAIRLINE,
           height: WAB_RULE_HAIRLINE,
         ),
@@ -56,7 +57,7 @@ class WabPanel extends StatelessWidget {
         DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyMedium ??
               TextStyle(
-                color: WabTheme.textColor,
+                color: wab.textColor,
                 fontSize: 14,
                 fontFamilyFallback: kWabKaiFallback,
                 decoration: TextDecoration.none,

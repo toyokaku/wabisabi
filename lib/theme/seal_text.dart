@@ -30,7 +30,7 @@ class WabSealText extends StatelessWidget {
     // negative/白文 surfaces: a WabButton can declare white seal ink and
     // WabSealText follows it in both light and dark themes.
     final inherited = DefaultTextStyle.of(context).style.color;
-    final ink = color ?? inherited ?? WabTheme.textColor;
+    final ink = color ?? inherited ?? WabTheme.of(context).textColor;
     final effectiveSize = fontSize < 24 ? 24.0 : fontSize;
     final base = TextStyle(
       fontFamily: kWabDisplayFamily,

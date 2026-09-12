@@ -40,6 +40,7 @@ class WabEditorialBanner extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(24, 13, 24, 12),
         child: LayoutBuilder(
           builder: (context, constraints) {
+            final wab = WabTheme.of(context);
             final showMotto = motto != null && constraints.maxWidth >= _mottoWidth;
             final showKitLabel = constraints.maxWidth >= _kitLabelWidth;
             final showSubtitle = constraints.maxWidth >= _subtitleWidth;
@@ -55,14 +56,14 @@ class WabEditorialBanner extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 letterSpacing: 7,
                 height: 1,
-              ).copyWith(color: WabTheme.textColor),
+              ).copyWith(color: wab.textColor),
             ),
             if (showKitLabel) ...[
               const SizedBox(width: 16),
               Container(
                 width: WAB_RULE_HAIRLINE,
                 height: 54,
-                color: WabTheme.lineColor,
+                color: wab.lineColor,
               ),
               const SizedBox(width: 14),
               SizedBox(
@@ -74,7 +75,7 @@ class WabEditorialBanner extends StatelessWidget {
                     fontSize: 9,
                     letterSpacing: 2.6,
                     height: 1.45,
-                  ).copyWith(color: WabTheme.mutedColor),
+                  ).copyWith(color: wab.mutedColor),
                 ),
               ),
             ],
@@ -98,7 +99,7 @@ class WabEditorialBanner extends StatelessWidget {
                             fontSize: 17,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 2.5,
-                          ).copyWith(color: WabTheme.textColor),
+                          ).copyWith(color: wab.textColor),
                         ),
                       ),
                       if (seal != null) ...[const SizedBox(width: 9), seal!],
@@ -114,7 +115,7 @@ class WabEditorialBanner extends StatelessWidget {
                         fontFamily: kWabMonoFamily,
                         fontSize: 9,
                         letterSpacing: 3.1,
-                      ).copyWith(color: WabTheme.mutedColor),
+                      ).copyWith(color: wab.mutedColor),
                     ),
                   ],
                 ],
@@ -132,7 +133,7 @@ class WabEditorialBanner extends StatelessWidget {
                     fontFamilyFallback: kWabKaiFallback,
                     fontSize: 9,
                     letterSpacing: 1.6,
-                  ).copyWith(color: WabTheme.mutedColor),
+                  ).copyWith(color: wab.mutedColor),
                 ),
               ),
             ...trailing,

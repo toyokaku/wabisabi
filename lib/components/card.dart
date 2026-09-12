@@ -27,7 +27,9 @@ class WabCollectionCard extends StatelessWidget {
   final bool highlighted;
 
   @override
-  Widget build(BuildContext context) => WabPaperLift(
+  Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return WabPaperLift(
         seed: highlighted ? 67 : 31,
         child: WabSurface(
           kind: WabSurfaceKind.paper,
@@ -44,7 +46,7 @@ class WabCollectionCard extends StatelessWidget {
                   title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: WabTheme.textColor,
+                    color: wab.textColor,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     fontFamilyFallback: kWabKaiFallback,
@@ -52,7 +54,7 @@ class WabCollectionCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Divider(
-                  color: WabTheme.lineColor.withOpacity(.65),
+                  color: wab.lineColor.withOpacity(.65),
                   thickness: WAB_RULE_HAIRLINE,
                   height: WAB_RULE_HAIRLINE,
                   indent: 18,
@@ -68,7 +70,7 @@ class WabCollectionCard extends StatelessWidget {
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: WabTheme.mutedColor,
+                      color: wab.mutedColor,
                       fontSize: 9,
                       height: 1.35,
                       fontFamilyFallback: kWabKaiFallback,
@@ -88,5 +90,6 @@ class WabCollectionCard extends StatelessWidget {
             ),
           ),
         ),
-      );
+    );
+  }
 }

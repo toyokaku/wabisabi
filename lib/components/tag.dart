@@ -23,11 +23,14 @@ class WabVerticalTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return SizedBox(
       width: width,
       height: height,
       child: WabDeckleSurface(
-        fill: WabTheme.isDark ? WAB_TEXTURE_PAPER_BASE_DARK : WAB_TEXTURE_PAPER_BASE_LIGHT,
+        fill: wab.isDark
+            ? WAB_TEXTURE_PAPER_BASE_DARK
+            : WAB_TEXTURE_PAPER_BASE_LIGHT,
         texture: WabPaperTexture(strength: .48),
         roughness: roughness,
         child: Center(
@@ -35,7 +38,7 @@ class WabVerticalTag extends StatelessWidget {
             text.split('').join('\n'),
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: WabTheme.textColor,
+              color: wab.textColor,
               fontFamily: kWabKaiFamily,
               fontFamilyFallback: kWabKaiFallback,
               fontSize: 10,

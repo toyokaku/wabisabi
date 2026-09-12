@@ -48,21 +48,22 @@ class WabProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return Row(
       children: [
         Container(
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            color: WabTheme.primaryColor,
+            color: wab.primaryColor,
             borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
-            border: Border.all(color: WabTheme.accentColor.withOpacity(0.6)),
+            border: Border.all(color: wab.accentColor.withOpacity(0.6)),
             image: avatar == null
                 ? null
                 : DecorationImage(image: avatar!, fit: BoxFit.cover),
           ),
           child: avatar == null
-              ? Icon(Icons.person, color: WabTheme.accentColor, size: 26)
+              ? Icon(Icons.person, color: wab.accentColor, size: 26)
               : null,
         ),
         const SizedBox(width: 12),
@@ -73,7 +74,7 @@ class WabProfileHeader extends StatelessWidget {
             Text(
               name,
               style: TextStyle(
-                color: WabTheme.textColor,
+                color: wab.textColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 fontFamilyFallback: kWabKaiFallback,
@@ -83,7 +84,7 @@ class WabProfileHeader extends StatelessWidget {
               Text(
                 subtitle!,
                 style: TextStyle(
-                  color: WabTheme.textColor.withOpacity(0.6),
+                  color: wab.textColor.withOpacity(0.6),
                   fontSize: 12,
                   fontFamilyFallback: kWabKaiFallback,
                 ),
@@ -111,6 +112,7 @@ class WabNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wab = WabTheme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Material(
@@ -122,14 +124,14 @@ class WabNavItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(WAB_CARD_BORDER_RADIUS),
               border: Border.all(
-                color: selected ? WabTheme.accentColor : Colors.transparent,
+                color: selected ? wab.accentColor : Colors.transparent,
                 width: 1,
               ),
             ),
             child: Text(
               label,
               style: TextStyle(
-                color: WabTheme.textColor,
+                color: wab.textColor,
                 fontSize: 16,
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                 fontFamilyFallback: kWabKaiFallback,
