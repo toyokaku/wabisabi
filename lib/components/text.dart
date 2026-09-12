@@ -6,12 +6,14 @@ import 'form.dart';
 import 'wab_utils.dart';
 import 'wab_widget.dart';
 import '../materials/rule_frame.dart';
+import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 
-BoxDecoration _cupertinoFieldDecoration(WabRuleKind kind) => BoxDecoration(
-      color: WabTheme.scratchColor.withOpacity(.58),
+BoxDecoration _cupertinoFieldDecoration(WabColors wab, WabRuleKind kind) =>
+    BoxDecoration(
+      color: wab.scratchColor.withOpacity(.58),
       border: Border.all(
-        color: WabTheme.lineColor.withOpacity(.82),
+        color: wab.lineColor.withOpacity(.82),
         width: WabRuleFrame.ruleWidth(kind),
       ),
     );
@@ -51,8 +53,9 @@ class WabTextFormField
         onChanged: callback,
         placeholder: hint ?? hintText,
         padding: EdgeInsets.all(padding),
-        style: TextStyle(color: WabTheme.textColor),
-        decoration: _cupertinoFieldDecoration(WabRuleKind.thin),
+        style: TextStyle(color: WabTheme.of(context).textColor),
+        decoration:
+            _cupertinoFieldDecoration(WabTheme.of(context), WabRuleKind.thin),
       );
 
   @override
@@ -60,8 +63,9 @@ class WabTextFormField
         obscureText: obscureText,
         validator: validator,
         onChanged: callback,
-        style: TextStyle(color: WabTheme.textColor),
+        style: TextStyle(color: WabTheme.of(context).textColor),
         decoration: wabInputDecoration(
+          context,
           hintText: hint ?? hintText,
           kind: WabRuleKind.thin,
         ).copyWith(
@@ -125,27 +129,32 @@ class _WabNumberFormFieldState extends State<WabNumberFormField> {
         onSubmitted: widget.callback,
         placeholder: widget.labelText,
         keyboardType: TextInputType.number,
-        style: TextStyle(color: WabTheme.textColor),
-        decoration: _cupertinoFieldDecoration(WabRuleKind.thin),
+        style: TextStyle(color: WabTheme.of(context).textColor),
+        decoration:
+            _cupertinoFieldDecoration(WabTheme.of(context), WabRuleKind.thin),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         inputFormatters: _formatters,
       );
 
-  Widget _buildMaterial(BuildContext context) => TextField(
+  Widget _buildMaterial(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return TextField(
         controller: _controller,
         onSubmitted: widget.callback,
-        style: TextStyle(color: WabTheme.textColor),
+        style: TextStyle(color: wab.textColor),
         decoration: wabInputDecoration(
+          context,
           hintText: widget.labelText,
           kind: WabRuleKind.thin,
         ).copyWith(
           labelText: widget.labelText,
-          labelStyle: TextStyle(color: WabTheme.textColor.withOpacity(0.7)),
+          labelStyle: TextStyle(color: wab.textColor.withOpacity(0.7)),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
         keyboardType: TextInputType.number,
         inputFormatters: _formatters,
-      );
+    );
+  }
 }
 
 class WabSearchField extends WabWidget<CupertinoSearchTextField, Widget> {
@@ -162,33 +171,38 @@ class WabSearchField extends WabWidget<CupertinoSearchTextField, Widget> {
   final String hintText;
 
   @override
-  CupertinoSearchTextField createCupertinoWidget(BuildContext context) =>
-      CupertinoSearchTextField(
+  CupertinoSearchTextField createCupertinoWidget(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return CupertinoSearchTextField(
         controller: controller,
         onChanged: onChanged,
         onSubmitted: onSubmitted,
         placeholder: hintText,
-        backgroundColor: WabTheme.scratchColor.withOpacity(.58),
-        style: TextStyle(color: WabTheme.textColor),
-        placeholderStyle:
-            TextStyle(color: WabTheme.textColor.withOpacity(0.5)),
+        backgroundColor: wab.scratchColor.withOpacity(.58),
+        style: TextStyle(color: wab.textColor),
+        placeholderStyle: TextStyle(color: wab.textColor.withOpacity(0.5)),
         borderRadius: BorderRadius.zero,
         padding: const EdgeInsets.symmetric(vertical: 12),
-      );
+    );
+  }
 
   @override
-  Widget createMaterialWidget(BuildContext context) => TextField(
+  Widget createMaterialWidget(BuildContext context) {
+    final wab = WabTheme.of(context);
+    return TextField(
         controller: controller,
         onChanged: onChanged,
         onSubmitted: onSubmitted,
-        style: TextStyle(color: WabTheme.textColor),
-        cursorColor: WabTheme.textColor,
+        style: TextStyle(color: wab.textColor),
+        cursorColor: wab.textColor,
         decoration: wabInputDecoration(
+          context,
           hintText: hintText,
-          prefixIcon: Icon(Icons.search, color: WabTheme.textColor),
+          prefixIcon: Icon(Icons.search, color: wab.textColor),
           kind: WabRuleKind.thin,
         ).copyWith(
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
-      );
+    );
+  }
 }

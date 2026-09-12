@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'wab_widget.dart';
+import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
 import '../tokens/material.dart';
 import '../tokens/spacing.dart';
@@ -70,20 +71,21 @@ class _WabButtonState extends State<WabButton> {
 
   @override
   Widget build(BuildContext context) {
-    final dark = WabTheme.isDark;
+    final wab = WabTheme.of(context);
+    final dark = wab.isDark;
     final state = _effectiveState;
     final pad = widget.padding ??
         const EdgeInsets.symmetric(horizontal: 22, vertical: 9);
 
     final labelStyle = switch (widget.kind) {
       WabMaterialKind.paper => TextStyle(
-          color: WabTheme.textColor,
+          color: wab.textColor,
           fontWeight: FontWeight.w600,
           letterSpacing: 2,
           fontFamilyFallback: kWabKaiFallback,
         ),
       WabMaterialKind.wood => TextStyle(
-          color: dark ? WabTheme.textColor : WAB_TEXTURE_WOOD_TEXT_LIGHT,
+          color: dark ? wab.textColor : WAB_TEXTURE_WOOD_TEXT_LIGHT,
           fontWeight: FontWeight.w600,
           letterSpacing: 2,
           fontFamilyFallback: kWabKaiFallback,
@@ -101,7 +103,7 @@ class _WabButtonState extends State<WabButton> {
           fontFamilyFallback: kWabDisplayFallback,
         ),
       WabMaterialKind.jade => TextStyle(
-          color: dark ? WabTheme.textColor : WAB_TEXTURE_JADE_TEXT_LIGHT,
+          color: dark ? wab.textColor : WAB_TEXTURE_JADE_TEXT_LIGHT,
           fontWeight: FontWeight.w600,
           letterSpacing: 2,
           fontFamilyFallback: kWabKaiFallback,
@@ -113,7 +115,7 @@ class _WabButtonState extends State<WabButton> {
           fontFamilyFallback: kWabDisplayFallback,
         ),
       WabMaterialKind.zhuwen => TextStyle(
-          color: WabTheme.sealColor,
+          color: wab.sealColor,
           fontWeight: FontWeight.w600,
           letterSpacing: 3,
           fontFamilyFallback: kWabDisplayFallback,
@@ -146,7 +148,7 @@ class _WabButtonState extends State<WabButton> {
       content = SizedBox(width: double.infinity, child: content);
     }
 
-    final material = _materialSurface(content, dark, state);
+    final material = _materialSurface(wab, content, dark, state);
 
     final opacity = switch (state) {
       WabButtonVisualState.disabled => .36,
@@ -243,13 +245,14 @@ class _WabButtonState extends State<WabButton> {
   }
 
   Widget _materialSurface(
+    WabColors wab,
     Widget content,
     bool dark,
     WabButtonVisualState state,
   ) {
     return switch (widget.kind) {
       WabMaterialKind.paper => WabDeckleSurface(
-          fill: WabTheme.paperWhite,
+          fill: wab.paperWhite,
           texture: WabPaperTexture(isDark: dark),
           seed: widget.seed ?? WAB_DECKLE_SEED,
           sideColor: widget.sideColor,
@@ -330,10 +333,11 @@ class _ZhuwenSurface extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final red = WabTheme.sealColor;
+    final wab = WabTheme.of(context);
+    final red = wab.sealColor;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: WabTheme.paperWhite,
+        color: wab.paperWhite,
         borderRadius: BorderRadius.circular(3),
         border: Border.all(color: red, width: 1.25),
       ),
@@ -366,7 +370,7 @@ class WabIconButton extends WabWidget<Widget, Widget> {
   final double? padding;
   final WabMaterialKind kind;
 
-  Widget _build() {
+  Widget _build(BuildContext context) {
     final extra = padding ?? 0;
     return WabButton(
       kind: kind,
@@ -387,9 +391,9 @@ class WabIconButton extends WabWidget<Widget, Widget> {
   }
 
   @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
+  Widget createCupertinoWidget(BuildContext context) => _build(context);
   @override
-  Widget createMaterialWidget(BuildContext context) => _build();
+  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
 
 /// 界行式文字鈕 — text only, separated by fine book-page rules.
@@ -406,9 +410,10 @@ class WabTextButton extends WabWidget<Widget, Widget> {
   final VoidCallback? callback;
   final bool mergeTop;
 
-  Widget _build() {
+  Widget _build(BuildContext context) {
+    final wab = WabTheme.of(context);
     final side = BorderSide(
-      color: WabTheme.lineColor,
+      color: wab.lineColor,
       width: WAB_RULE_HAIRLINE,
     );
     final p = padding ?? 20;
@@ -429,7 +434,7 @@ class WabTextButton extends WabWidget<Widget, Widget> {
           ),
           child: DefaultTextStyle.merge(
             style: TextStyle(
-              color: WabTheme.textColor,
+              color: wab.textColor,
               fontSize: 14,
               letterSpacing: 2,
               fontFamilyFallback: kWabKaiFallback,
@@ -444,9 +449,9 @@ class WabTextButton extends WabWidget<Widget, Widget> {
   }
 
   @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
+  Widget createCupertinoWidget(BuildContext context) => _build(context);
   @override
-  Widget createMaterialWidget(BuildContext context) => _build();
+  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
 
 class WabElevatedButton extends WabWidget<Widget, Widget> {
@@ -464,7 +469,7 @@ class WabElevatedButton extends WabWidget<Widget, Widget> {
   final Icon? icon;
   final bool showChevron;
 
-  Widget _build() {
+  Widget _build(BuildContext context) {
     final p = padding ?? 18;
     return WabButton(
       kind: WabMaterialKind.wood,
@@ -490,9 +495,9 @@ class WabElevatedButton extends WabWidget<Widget, Widget> {
   }
 
   @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
+  Widget createCupertinoWidget(BuildContext context) => _build(context);
   @override
-  Widget createMaterialWidget(BuildContext context) => _build();
+  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
 
 enum WabTogglePair { paper, woodCloth, jadeBaiwen, sealZhuwen }
@@ -510,7 +515,7 @@ class WabToggleButton extends WabWidget<Widget, Widget> {
   final VoidCallback? callback;
   final WabTogglePair pair;
 
-  Widget _build() {
+  Widget _build(BuildContext context) {
     final kind = switch (pair) {
       WabTogglePair.paper => WabMaterialKind.paper,
       WabTogglePair.woodCloth =>
@@ -523,7 +528,7 @@ class WabToggleButton extends WabWidget<Widget, Widget> {
     return WabButton(
       kind: kind,
       sideColor: pair == WabTogglePair.paper && isOn
-          ? WabTheme.textColor.withOpacity(.65)
+          ? WabTheme.of(context).textColor.withOpacity(.65)
           : null,
       onPressed: callback,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -532,16 +537,16 @@ class WabToggleButton extends WabWidget<Widget, Widget> {
   }
 
   @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
+  Widget createCupertinoWidget(BuildContext context) => _build(context);
   @override
-  Widget createMaterialWidget(BuildContext context) => _build();
+  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
 
 class WabFloatingActionButton extends WabWidget<Widget, Widget> {
   WabFloatingActionButton(this.button);
   final FloatingActionButton button;
 
-  Widget _build() => GestureDetector(
+  Widget _build(BuildContext context) => GestureDetector(
         onTap: button.onPressed,
         child: Container(
           width: 56,
@@ -568,7 +573,7 @@ class WabFloatingActionButton extends WabWidget<Widget, Widget> {
       );
 
   @override
-  Widget createCupertinoWidget(BuildContext context) => _build();
+  Widget createCupertinoWidget(BuildContext context) => _build(context);
   @override
-  Widget createMaterialWidget(BuildContext context) => _build();
+  Widget createMaterialWidget(BuildContext context) => _build(context);
 }
