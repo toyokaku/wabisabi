@@ -87,16 +87,12 @@ Widget goldenTypographySection(BuildContext context) {
   const ladder = <(String, double)>[
     ('annotation', WabType.annotation),
     ('caption', WabType.caption),
-    ('footnote', WabType.footnote),
     ('gloss', WabType.gloss),
-    ('note', WabType.note),
-    ('dense', WabType.dense),
     ('body', WabType.body),
-    ('bodyLarge', WabType.bodyLarge),
     ('label', WabType.label),
-    ('lede', WabType.lede),
     ('title', WabType.title),
     ('display', WabType.display),
+    ('hero', WabType.hero),
     ('brand', WabType.brand),
   ];
 
@@ -115,7 +111,7 @@ Widget goldenTypographySection(BuildContext context) {
       ),
       const SizedBox(height: 9),
       Text(
-        'WabType · 級 LADDER',
+        'WabType · 級 LADDER · φ^⅓',
         style: TextStyle(
           color: wab.mutedColor,
           fontFamily: kWabMonoFamily,
@@ -141,7 +137,7 @@ Widget goldenTypographySection(BuildContext context) {
                   ),
                 ),
                 TextSpan(
-                  text: ' ${rung.$1} ${rung.$2.toInt()}',
+                  text: ' ${rung.$1} ${rung.$2}',
                   style: TextStyle(
                     color: wab.mutedColor,
                     fontFamily: kWabMonoFamily,

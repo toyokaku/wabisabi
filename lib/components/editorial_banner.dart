@@ -73,7 +73,7 @@ class WabEditorialBanner extends StatelessWidget {
                   kitLabel,
                   style: const TextStyle(
                     fontFamily: kWabMonoFamily,
-                    fontSize: WabType.caption,
+                    fontSize: WabType.annotation,
                     letterSpacing: 2.6,
                     height: 1.45,
                   ).copyWith(color: wab.mutedColor),
@@ -97,7 +97,7 @@ class WabEditorialBanner extends StatelessWidget {
                           style: const TextStyle(
                             fontFamily: kWabDisplayFamily,
                             fontFamilyFallback: kWabDisplayFallback,
-                            fontSize: WabType.lede,
+                            fontSize: WabType.label,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 2.5,
                           ).copyWith(color: wab.textColor),
@@ -114,7 +114,7 @@ class WabEditorialBanner extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontFamily: kWabMonoFamily,
-                        fontSize: WabType.caption,
+                        fontSize: WabType.annotation,
                         letterSpacing: 3.1,
                       ).copyWith(color: wab.mutedColor),
                     ),
@@ -132,7 +132,7 @@ class WabEditorialBanner extends StatelessWidget {
                   style: const TextStyle(
                     fontFamily: kWabKaiFamily,
                     fontFamilyFallback: kWabKaiFallback,
-                    fontSize: WabType.caption,
+                    fontSize: WabType.annotation,
                     letterSpacing: 1.6,
                   ).copyWith(color: wab.mutedColor),
                 ),

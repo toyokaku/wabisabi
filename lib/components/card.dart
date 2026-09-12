@@ -48,7 +48,7 @@ class WabCollectionCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: wab.textColor,
-                    fontSize: WabType.dense,
+                    fontSize: WabType.body,
                     fontWeight: FontWeight.w600,
                     fontFamilyFallback: kWabKaiFallback,
                   ),
@@ -72,7 +72,7 @@ class WabCollectionCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: wab.mutedColor,
-                      fontSize: WabType.caption,
+                      fontSize: WabType.annotation,
                       height: 1.35,
                       fontFamilyFallback: kWabKaiFallback,
                     ),

@@ -38,7 +38,7 @@ class WabPanel extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: wab.textColor,
-                  fontSize: WabType.bodyLarge,
+                  fontSize: WabType.label,
                   fontWeight: FontWeight.w600,
                   letterSpacing: .5,
                   fontFamilyFallback: kWabKaiFallback,

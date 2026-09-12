@@ -33,7 +33,7 @@ class WabWarningText extends StatelessWidget {
         text,
         style: TextStyle(
           color: WabTheme.of(context).sealColor,
-          fontSize: WabType.bodyLarge,
+          fontSize: WabType.label,
           fontFamilyFallback: kWabKaiFallback,
         ),
       );

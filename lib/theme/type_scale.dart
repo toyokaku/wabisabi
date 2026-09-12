@@ -1,53 +1,44 @@
-/// The kit's type ladder.
+/// The kit's type ladder — a golden-section scale.
 ///
-/// Every font size in `lib/` comes from here, so the scale can be re-tuned in
-/// one file instead of hunted through forty call sites.
+/// Every rung is φ^⅓ (≈1.174) above the one below it, so every *third* rung is
+/// exactly φ apart: 8.65 → 14 → 22.65. The base is [body] at 14, and the ladder
+/// runs three rungs down and five up, which spans everything the kit draws from
+/// an interlinear note to the brand mark.
 ///
-/// It has thirteen rungs, which is too many — a ladder this fine is a record of
-/// sizes chosen one at a time rather than a scale. Collapsing it is a design
-/// decision, not a refactor, so the rungs are named as they stand and the
-/// decision is noted in ARCHITECTURE.md.
+/// One step is too fine to read as a size change on its own, which is the
+/// point: sizes that sit next to each other differ by a third of a golden
+/// section, and sizes that must read as different ranks are a full φ apart.
 ///
-/// Flutter already multiplies these by `MediaQuery.textScaler`, so they are the
-/// size at a scale factor of 1. Anything that boxes text at a fixed height has
-/// to cope with them growing.
+/// Flutter multiplies these by `MediaQuery.textScaler`, so they are the size at
+/// a scale factor of 1.
 abstract final class WabType {
-  /// 夾註 — interlinear annotation. The densest label the kit draws.
-  static const double annotation = 8;
+  /// The ratio between adjacent rungs: the cube root of the golden section.
+  static const double step = 1.1739849967;
 
-  /// Caption under a specimen or a card's supporting line.
-  static const double caption = 9;
+  /// 夾註 — interlinear annotation. `body / φ`.
+  static const double annotation = 8.65;
 
-  /// 腳註 — footnote weight; small print that is still prose.
-  static const double footnote = 10;
+  /// Caption under a specimen, a card's supporting line.
+  static const double caption = 10.16;
 
-  /// Badge and tag labels, banner subtitles.
-  static const double gloss = 11;
+  /// 眉批 — badge and tag labels, banner subtitles.
+  static const double gloss = 11.93;
 
-  /// Secondary line in a header block.
-  static const double note = 12;
-
-  /// Dense titles inside small cards.
-  static const double dense = 13;
-
-  /// Body text. The default reading size.
+  /// Body text, and the base the ladder is built from.
   static const double body = 14;
 
-  /// Body text that needs to carry a little more weight.
-  static const double bodyLarge = 15;
-
   /// Control and navigation labels.
-  static const double label = 16;
-
-  /// 引首 — the lead line of a masthead.
-  static const double lede = 17;
+  static const double label = 16.44;
 
   /// Section and panel titles.
-  static const double title = 18;
+  static const double title = 19.3;
 
-  /// Hero display text and seal faces.
-  static const double display = 24;
+  /// Display text and seal faces. `body × φ`.
+  static const double display = 22.65;
 
-  /// The brand mark itself.
-  static const double brand = 31;
+  /// Hero lines on a masthead.
+  static const double hero = 26.59;
+
+  /// The brand mark itself. `body × φ^(5/3)`.
+  static const double brand = 31.22;
 }

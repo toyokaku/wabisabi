@@ -56,7 +56,7 @@ class WabNotice extends StatelessWidget {
                         color: wab.textColor,
                         fontFamily: kWabKaiFamily,
                         fontFamilyFallback: kWabKaiFallback,
-                        fontSize: WabType.footnote,
+                        fontSize: WabType.caption,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

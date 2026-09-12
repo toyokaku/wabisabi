@@ -86,7 +86,7 @@ class WabProfileHeader extends StatelessWidget {
                 subtitle!,
                 style: TextStyle(
                   color: wab.textColor.withValues(alpha: 0.6),
-                  fontSize: WabType.note,
+                  fontSize: WabType.gloss,
                   fontFamilyFallback: kWabKaiFallback,
                 ),
               ),
