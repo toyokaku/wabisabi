@@ -6,6 +6,10 @@ import '../tokens/material.dart';
 
 /// Editorial masthead matching the kit's document-source language: brand at
 /// left, title/subtitle immediately after it, quiet motto/actions at right.
+///
+/// The row sheds its quieter parts as it narrows rather than overflowing: the
+/// motto goes first, then the kit label and its rule. What is left — brand,
+/// title, actions — is what a masthead cannot do without.
 class WabEditorialBanner extends StatelessWidget {
   const WabEditorialBanner({
     super.key,
@@ -34,7 +38,12 @@ class WabEditorialBanner extends StatelessWidget {
       height: height,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 13, 24, 12),
-        child: Row(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final showMotto = motto != null && constraints.maxWidth >= _mottoWidth;
+            final showKitLabel = constraints.maxWidth >= _kitLabelWidth;
+            final showSubtitle = constraints.maxWidth >= _subtitleWidth;
+            return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
@@ -48,21 +57,27 @@ class WabEditorialBanner extends StatelessWidget {
                 height: 1,
               ).copyWith(color: WabTheme.textColor),
             ),
-            const SizedBox(width: 16),
-            Container(width: WAB_RULE_HAIRLINE, height: 54, color: WabTheme.lineColor),
-            const SizedBox(width: 14),
-            SizedBox(
-              width: 72,
-              child: Text(
-                kitLabel,
-                style: const TextStyle(
-                  fontFamily: kWabMonoFamily,
-                  fontSize: 9,
-                  letterSpacing: 2.6,
-                  height: 1.45,
-                ).copyWith(color: WabTheme.mutedColor),
+            if (showKitLabel) ...[
+              const SizedBox(width: 16),
+              Container(
+                width: WAB_RULE_HAIRLINE,
+                height: 54,
+                color: WabTheme.lineColor,
               ),
-            ),
+              const SizedBox(width: 14),
+              SizedBox(
+                width: 72,
+                child: Text(
+                  kitLabel,
+                  style: const TextStyle(
+                    fontFamily: kWabMonoFamily,
+                    fontSize: 9,
+                    letterSpacing: 2.6,
+                    height: 1.45,
+                  ).copyWith(color: WabTheme.mutedColor),
+                ),
+              ),
+            ],
             const SizedBox(width: 22),
             Flexible(
               flex: 3,
@@ -89,20 +104,24 @@ class WabEditorialBanner extends StatelessWidget {
                       if (seal != null) ...[const SizedBox(width: 9), seal!],
                     ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontFamily: kWabMonoFamily,
-                      fontSize: 9,
-                      letterSpacing: 3.1,
-                    ).copyWith(color: WabTheme.mutedColor),
-                  ),
+                  if (showSubtitle) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontFamily: kWabMonoFamily,
+                        fontSize: 9,
+                        letterSpacing: 3.1,
+                      ).copyWith(color: WabTheme.mutedColor),
+                    ),
+                  ],
                 ],
               ),
             ),
             const Spacer(),
-            if (motto != null)
+            if (showMotto)
               Padding(
                 padding: const EdgeInsets.only(right: 18),
                 child: Text(
@@ -118,8 +137,20 @@ class WabEditorialBanner extends StatelessWidget {
               ),
             ...trailing,
           ],
+            );
+          },
         ),
       ),
     );
   }
 }
+
+/// Below this the motto is dropped.
+const double _mottoWidth = 720;
+
+/// Below this the kit label and its rule are dropped too.
+const double _kitLabelWidth = 520;
+
+/// Below this only the title survives; the subtitle would be squeezed to a
+/// column of single characters.
+const double _subtitleWidth = 460;
