@@ -51,7 +51,7 @@ class WabWoodSlab extends StatelessWidget {
         child: CustomPaint(
           painter: WabWoodGrain(
             isDark: dark,
-            seed: seed,
+            seed: seed.toDouble(),
             showKnot: showKnot,
           ),
           foregroundPainter: _WoodSlabEdgePainter(dark: dark),

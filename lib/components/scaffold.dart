@@ -24,14 +24,35 @@ class WabScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
+  Widget _wrapCupertinoBody(BuildContext context, Widget content) {
+    final theme = Theme.of(context);
+    final defaultStyle = theme.textTheme.bodyMedium ??
+        TextStyle(
+          color: WabTheme.textColor,
+          fontSize: 14,
+          fontFamilyFallback: kWabKaiFallback,
+          decoration: TextDecoration.none,
+        );
+    return Material(
+      type: MaterialType.transparency,
+      child: DefaultTextStyle(
+        style: defaultStyle,
+        child: content,
+      ),
+    );
+  }
+
   @override
   CupertinoPageScaffold createCupertinoWidget(BuildContext context) =>
       CupertinoPageScaffold(
         navigationBar: appBar?.createCupertinoWidget(context) ??
             WabAppBar(title: title).createCupertinoWidget(context),
-        child: floatingActionButton == null
-            ? body
-            : PageView(children: [body]),
+        child: _wrapCupertinoBody(
+          context,
+          floatingActionButton == null
+              ? body
+              : PageView(children: [body]),
+        ),
       );
 
   @override
@@ -144,18 +165,39 @@ class WabTexturedScaffold extends WabWidget<CupertinoPageScaffold, Scaffold> {
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
+  Widget _wrapCupertinoBody(BuildContext context, Widget content) {
+    final theme = Theme.of(context);
+    final defaultStyle = theme.textTheme.bodyMedium ??
+        TextStyle(
+          color: WabTheme.textColor,
+          fontSize: 14,
+          fontFamilyFallback: kWabKaiFallback,
+          decoration: TextDecoration.none,
+        );
+    return Material(
+      type: MaterialType.transparency,
+      child: DefaultTextStyle(
+        style: defaultStyle,
+        child: content,
+      ),
+    );
+  }
+
   @override
   CupertinoPageScaffold createCupertinoWidget(BuildContext context) =>
       CupertinoPageScaffold(
         backgroundColor: WabTheme.backgroundColor,
         navigationBar: appBar?.createCupertinoWidget(context) ??
             WabAppBar(title: title).createCupertinoWidget(context),
-        child: Stack(children: [
-          Positioned.fill(
-              child: CustomPaint(
-                  painter: TexturePainter(isDark: WabTheme.isDark))),
-          floatingActionButton == null ? body : PageView(children: [body]),
-        ]),
+        child: _wrapCupertinoBody(
+          context,
+          Stack(children: [
+            Positioned.fill(
+                child: CustomPaint(
+                    painter: TexturePainter(isDark: WabTheme.isDark))),
+            floatingActionButton == null ? body : PageView(children: [body]),
+          ]),
+        ),
       );
 
   @override

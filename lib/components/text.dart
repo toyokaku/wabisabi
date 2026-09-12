@@ -6,7 +6,6 @@ import 'form.dart';
 import 'wab_widget.dart';
 import '../materials/rule_frame.dart';
 import '../theme/wab_theme.dart';
-import '../tokens/spacing.dart';
 
 BoxDecoration _cupertinoFieldDecoration(WabRuleKind kind) => BoxDecoration(
       color: WabTheme.scratchColor.withOpacity(.58),

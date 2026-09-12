@@ -53,7 +53,16 @@ class WabPanel extends StatelessWidget {
           height: WAB_RULE_HAIRLINE,
         ),
         const SizedBox(height: 10),
-        expand ? Expanded(child: child) : child,
+        DefaultTextStyle(
+          style: Theme.of(context).textTheme.bodyMedium ??
+              TextStyle(
+                color: WabTheme.textColor,
+                fontSize: 14,
+                fontFamilyFallback: kWabKaiFallback,
+                decoration: TextDecoration.none,
+              ),
+          child: expand ? Expanded(child: child) : child,
+        ),
       ],
     );
 

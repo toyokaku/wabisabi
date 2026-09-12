@@ -119,13 +119,24 @@ class _WabButtonState extends State<WabButton> {
         ),
     };
 
+    final theme = Theme.of(context);
+    final baseStyle = theme.textTheme.labelLarge ??
+        const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          decoration: TextDecoration.none,
+        );
+    final fullLabelStyle = baseStyle.merge(labelStyle).copyWith(
+      decoration: TextDecoration.none,
+    );
+
     Widget content = Padding(
       padding: pad,
-      child: DefaultTextStyle.merge(
-        style: labelStyle,
+      child: DefaultTextStyle(
+        style: fullLabelStyle,
         textAlign: TextAlign.center,
         child: IconTheme.merge(
-          data: IconThemeData(color: labelStyle.color),
+          data: IconThemeData(color: fullLabelStyle.color),
           child: widget.child,
         ),
       ),
@@ -418,8 +429,10 @@ class WabTextButton extends WabWidget<Widget, Widget> {
           child: DefaultTextStyle.merge(
             style: TextStyle(
               color: WabTheme.textColor,
+              fontSize: 14,
               letterSpacing: 2,
               fontFamilyFallback: kWabKaiFallback,
+              decoration: TextDecoration.none,
             ),
             textAlign: TextAlign.center,
             child: text,
