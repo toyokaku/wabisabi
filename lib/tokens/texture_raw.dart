@@ -41,6 +41,11 @@ const int kTextureJadeDeepDark = 0xFF1F3931;
 const int kTextureJadeCloudDark = 0xFF719084;
 const int kTextureJadeVeinDark = 0xFFAFC0B5;
 
+// 墨 — the kit casts no pure-black shadow. This is the rubbing ink, and it
+// is what every shadow, bevel and pressed edge is drawn in: pigment, not
+// absence. Lifted off 0x000000 so it reads warm against paper.
+const int kTextureInk = 0xFF24231F;
+
 const int kTextureRubbingBase = 0xFF24231F;
 const int kTextureRubbingDeep = 0xFF10100E;
 const int kTextureRubbingDust = 0xFF8A877E;

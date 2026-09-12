@@ -76,7 +76,11 @@ class _JadePainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.white.withValues(alpha: isDark ? .08 : .26), Colors.transparent],
+          colors: [
+            WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT
+                .withValues(alpha: isDark ? .08 : .26),
+            Colors.transparent,
+          ],
         ).createShader(Offset.zero & size),
     );
   }

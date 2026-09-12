@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../tokens/palette.dart';
+import '../tokens/texture.dart';
 
 /// The kit's palette, carried on [ThemeData] as a [ThemeExtension] instead of
 /// on mutable statics.
@@ -118,7 +119,7 @@ class WabColors extends ThemeExtension<WabColors> {
   /// Drop shadow for ELEVATED surfaces — falls to the bottom-right. The stacked
   /// shadows (decreasing opacity, increasing blur) read as a soft gradient.
   List<BoxShadow> get elevationShadow {
-    final base = isDark ? const Color(0xFF000000) : const Color(0xFF2E2A24);
+    final base = isDark ? WAB_TEXTURE_INK : WAB_LIGHT_TEXT;
     return [
       BoxShadow(
         color: base.withValues(alpha: isDark ? 0.50 : 0.16),

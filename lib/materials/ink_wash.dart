@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/wab_colors.dart';
 import '../theme/wab_theme.dart';
+import '../tokens/texture.dart';
 
 /// 墨暈 — layered wet-ink clouds with soft capillary spread.
 ///
@@ -56,7 +57,8 @@ class WabInkWash extends CustomPainter {
         Offset(rnd.nextDouble() * size.width, rnd.nextDouble() * size.height),
         r,
         Paint()
-          ..color = (dark ? Colors.black : Colors.white).withValues(alpha: dark ? .035 : .10)
+          ..color = (dark ? WAB_TEXTURE_INK : WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT)
+              .withValues(alpha: dark ? .035 : .10)
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, r * .65),
       );
     }

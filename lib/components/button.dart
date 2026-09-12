@@ -174,7 +174,7 @@ class _WabButtonState extends State<WabButton> {
     final interactionShadow = switch (state) {
       WabButtonVisualState.hover => [
           BoxShadow(
-            color: Colors.black.withValues(alpha: dark ? .32 : .16),
+            color: WAB_TEXTURE_INK.withValues(alpha: dark ? .32 : .16),
             blurRadius: 8,
             spreadRadius: -.5,
             offset: const Offset(0, 4),
@@ -182,7 +182,7 @@ class _WabButtonState extends State<WabButton> {
         ],
       WabButtonVisualState.pressed => [
           BoxShadow(
-            color: Colors.black.withValues(alpha: dark ? .18 : .07),
+            color: WAB_TEXTURE_INK.withValues(alpha: dark ? .18 : .07),
             blurRadius: 1.5,
             offset: const Offset(0, .8),
           ),
@@ -315,7 +315,7 @@ class _WabButtonState extends State<WabButton> {
     final shadows = state == WabButtonVisualState.normal
         ? [
             BoxShadow(
-              color: Colors.black.withValues(alpha: dark ? .30 : .14),
+              color: WAB_TEXTURE_INK.withValues(alpha: dark ? .30 : .14),
               blurRadius: 5,
               offset: const Offset(1.5, 2.5),
             ),

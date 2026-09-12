@@ -39,6 +39,9 @@ const Color WAB_TEXTURE_JADE_DEEP_DARK = Color(kTextureJadeDeepDark);
 const Color WAB_TEXTURE_JADE_CLOUD_DARK = Color(kTextureJadeCloudDark);
 const Color WAB_TEXTURE_JADE_VEIN_DARK = Color(kTextureJadeVeinDark);
 
+/// 墨 — every shadow and pressed edge in the kit. Never `Colors.black`.
+const Color WAB_TEXTURE_INK = Color(kTextureInk);
+
 const Color WAB_TEXTURE_RUBBING_BASE = Color(kTextureRubbingBase);
 const Color WAB_TEXTURE_RUBBING_DEEP = Color(kTextureRubbingDeep);
 const Color WAB_TEXTURE_RUBBING_DUST = Color(kTextureRubbingDust);

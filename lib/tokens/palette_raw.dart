@@ -59,7 +59,9 @@ const int kDarkWoody      = 0xFF4A3A22;
 const int kDarkScratch    = 0xFF2A271F;
 const int kDarkProgress   = 0xFF5E8CA8;
 
-const int kPaperWhite = 0xFFFBFBF9;
+// 宣紙 — warm, never 0xFFFFFFFF and never neutral. Same white the seal
+// prints its negative text in.
+const int kPaperWhite = 0xFFFAF6EC;
 const int kMutedLight = 0xFF8C8C86;
 const int kDarkPaper = 0xFF2A2620;
 

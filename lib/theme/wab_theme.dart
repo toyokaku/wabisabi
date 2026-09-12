@@ -183,7 +183,7 @@ class WabTheme {
         primary: colors.accentColor,
         secondary: colors.secondaryColor,
         surface: colors.surfaceColor,
-        error: Colors.redAccent,
+        error: colors.sealColor,
         onPrimary: colors.textColor,
         onSecondary: colors.textColor,
         onSurface: colors.textColor,

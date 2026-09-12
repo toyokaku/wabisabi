@@ -55,6 +55,24 @@ exists. It earns its keep for `palette_raw` and `spacing_raw`, which the exporte
 actually reads; for `material_raw` and `texture_raw` it is currently pure
 duplication (see debts below).
 
+## House rules
+
+Two things hold across every file, and neither is checkable by a script.
+
+**No pure black, no pure white.** A shadow is ink, not the absence of light:
+everything that would have been `Colors.black` is `WAB_TEXTURE_INK` (0xFF24231F),
+the rubbing ink lifted off zero so it reads warm against paper. Everything that
+would have been `Colors.white` is a paper tone — `WAB_TEXTURE_PAPER_HIGHLIGHT_LIGHT`
+for a lit edge, `paperWhite` (0xFFFAF6EC, 宣紙淡黃白) for a sheet. Reach for a
+colour already in the palette before adding one. `lib/` contains no
+`Colors.black`, no `Colors.white`, and no Material accent colour.
+
+**The numbers are golden.** `WabType` is a φ^⅓ ladder off a base of 14, so every
+third rung is exactly φ apart. The catalogue's cell is a golden rectangle and
+its index rail is one more golden section in from the cell width. When a size or
+a proportion needs choosing, derive it from φ rather than picking a round
+number.
+
 ## Deliberate non-goals
 
 - **No image assets.** Every texture is painted. It costs CPU on large surfaces
@@ -97,11 +115,6 @@ CI checks cover import structure and public naming only.
 - **`WabPaymentRow` is app domain in a general kit.** A payment row is not a
   design-system primitive; it belongs to whichever app needed it. Removing it
   from the barrel is a breaking change waiting on a version bump.
-- **The type ladder has thirteen rungs.** `WabType` in `theme/type_scale.dart`
-  now holds every font size the kit draws, which at least puts the scale in one
-  file — but thirteen steps between 8 and 31 px is a record of sizes picked one
-  at a time, not a scale. Collapsing it to six or seven changes how things look,
-  so it is a design decision rather than a refactor.
 - **Text does not survive being scaled up.** Flutter multiplies every size by
   `MediaQuery.textScaler`, and the kit boxes text at fixed heights. Measured on
   the catalogue at 1600 px: two overflows at a scale factor of 1.15, six at 1.3,
