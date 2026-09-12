@@ -7,6 +7,7 @@ import '../tokens/spacing.dart';
 import '../tokens/texture.dart';
 import '../materials/cinnabar_texture.dart';
 import '../materials/cloth_weave.dart';
+import '../materials/deckle_border.dart';
 import '../materials/deckle_surface.dart';
 import '../materials/jade_texture.dart';
 import '../materials/paper_texture.dart';
@@ -534,35 +535,44 @@ class WabToggleButton extends StatelessWidget {
 
 }
 
+/// 落印 — the primary action as a pressed seal rather than a floating disc.
+///
+/// A stamp sits flat on the page: no drop shadow, and no machined circle. The
+/// face is cinnabar clipped to the same irregular [DeckleBorder] edge the
+/// badges and seal marks use, so it reads as ink pressed into paper.
 class WabFloatingActionButton extends StatelessWidget {
-  const WabFloatingActionButton(this.button, {super.key});
+  const WabFloatingActionButton(this.button, {super.key, this.size = 56});
+
   final FloatingActionButton button;
 
+  /// Edge length of the square stamp face.
+  final double size;
+
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: button.onPressed,
-        child: Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: WAB_SEAL_SHADOW_OPACITY),
-                blurRadius: 6,
-                offset: const Offset(1, 3),
-              ),
-            ],
-          ),
-          child: ClipOval(
-            child: WabCinnabarTexture(
-              child: IconTheme.merge(
-                data: const IconThemeData(color: WAB_SEAL_TEXT),
-                child: Center(child: button.child),
-              ),
+  Widget build(BuildContext context) {
+    final shape = DeckleBorder(
+      roughness: .42,
+      horizontalRoughness: .42,
+      seed: 77,
+      radius: 3,
+      side: BorderSide.none,
+    );
+    return GestureDetector(
+      onTap: button.onPressed,
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: ClipPath.shape(
+          shape: shape,
+          child: WabCinnabarTexture(
+            child: IconTheme.merge(
+              // The mark carries the button; it takes most of the face.
+              data: IconThemeData(color: WAB_SEAL_TEXT, size: size * .56),
+              child: Center(child: button.child),
             ),
           ),
         ),
-      );
-
+      ),
+    );
+  }
 }

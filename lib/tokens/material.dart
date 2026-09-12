@@ -21,7 +21,6 @@ const double WAB_DECKLE_FREQ3            = kDeckleFreq3;
 
 // ---- 印色 seal ink ----
 const Color WAB_SEAL_TEXT = Color(kSealText);
-const double WAB_SEAL_SHADOW_OPACITY = kSealShadowOpacity;
 
 /// Ink for a label sitting on light wood.
 @Deprecated('Renamed to WAB_TEXTURE_WOOD_TEXT_LIGHT with the rest of the '

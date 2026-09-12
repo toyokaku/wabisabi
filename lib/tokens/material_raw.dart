@@ -24,7 +24,6 @@ const double kDeckleFreq3 = 41.9;
 
 // ---- 印色 seal ink ----------------------------------------------------
 const int kSealText = 0xFFFAF6EC;  // paper-white text on seal red
-const double kSealShadowOpacity = 0.25;  // small contact shadow under a seal
 
 // ---- 紙紋 paper texture -----------------------------------------------
 const int kPaperTextureSeed = 99;  // fixed seed — rebuild-stable

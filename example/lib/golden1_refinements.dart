@@ -198,6 +198,52 @@ Widget refinedButtonsSection(BuildContext context) {
           ],
         ),
       ),
+      SizedBox(
+        width: 88,
+        child: Column(
+          children: [
+            WabFloatingActionButton(
+              FloatingActionButton(
+                onPressed: () {},
+                child: const Icon(Icons.add),
+              ),
+            ),
+            const SizedBox(height: 3),
+            Text(
+              '落印 · FAB',
+              style: TextStyle(
+                color: wab.mutedColor,
+                fontFamily: kWabMonoFamily,
+                fontSize: 5.8,
+              ),
+            ),
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 184,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            WabElevatedButton(
+              text: const Text('取 茶'),
+              icon: const Icon(Icons.local_cafe_outlined, size: 14),
+              showChevron: true,
+              callback: () {},
+            ),
+            const SizedBox(height: 3),
+            Text(
+              '列 · ELEVATED',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: wab.mutedColor,
+                fontFamily: kWabMonoFamily,
+                fontSize: 5.8,
+              ),
+            ),
+          ],
+        ),
+      ),
     ],
   );
 }

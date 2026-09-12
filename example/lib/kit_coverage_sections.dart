@@ -290,30 +290,6 @@ class _KitOddsAndEndsSectionState extends State<KitOddsAndEndsSection> {
             children: [
               _specimen(
                 wab,
-                'WabElevatedButton',
-                132,
-                34,
-                WabElevatedButton(
-                  text: const Text('取 茶'),
-                  icon: const Icon(Icons.local_cafe_outlined, size: 14),
-                  showChevron: true,
-                  callback: () {},
-                ),
-              ),
-              _specimen(
-                wab,
-                'WabFloatingActionButton',
-                60,
-                60,
-                WabFloatingActionButton(
-                  FloatingActionButton(
-                    onPressed: () {},
-                    child: const Icon(Icons.add, size: 20),
-                  ),
-                ),
-              ),
-              _specimen(
-                wab,
                 'WabDropdown',
                 132,
                 46,
