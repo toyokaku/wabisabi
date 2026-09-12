@@ -3,6 +3,7 @@ import 'package:wabisabi/wabisabi.dart';
 
 import 'golden1_refinements.dart';
 import 'golden1_sections.dart';
+import 'kit_coverage_sections.dart';
 
 class Golden1Showcase extends StatefulWidget {
   const Golden1Showcase({
@@ -19,7 +20,7 @@ class Golden1Showcase extends StatefulWidget {
 }
 
 class _Golden1ShowcaseState extends State<Golden1Showcase> {
-  final _sectionKeys = List<GlobalKey>.generate(12, (_) => GlobalKey());
+  final _sectionKeys = List<GlobalKey>.generate(15, (_) => GlobalKey());
   int _selected = 0;
   bool _check = true;
   int _radio = 0;
@@ -46,6 +47,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '10 卡片 · CARDS & PANELS',
     '11 陰影 · SHADOWS',
     '12 明暗 · LIGHT & DARK',
+    '13 骨架 · SCAFFOLD & CHROME',
+    '14 紋理 · TEXTURE PRIMITIVES',
+    '15 零件 · ODDS & ENDS',
   ];
 
   static const _titles = [
@@ -61,6 +65,9 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '10  卡片 | CARDS & PANELS',
     '11  陰影 | SHADOWS',
     '12  明暗 | LIGHT & DARK',
+    '13  骨架 | SCAFFOLD & CHROME',
+    '14  紋理 | TEXTURE PRIMITIVES',
+    '15  零件 | ODDS & ENDS',
   ];
 
   static const _subtitles = [
@@ -76,9 +83,21 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     '內容容器與信息組織',
     '源自實物紙邊的接觸投影',
     '行墨與拓片的雙重世界',
+    '頁面骨架、題頭與導覽家具',
+    'WabSurface 底下的單支畫筆',
+    '其餘導出組件，含自持狀態者',
   ];
 
-  static const _desktopRows = <double>[245, 305, 300, 250];
+  static const _desktopRows = <double>[245, 305, 300, 250, 300];
+
+  /// The width one board cell gets on a full-size desktop board. Every section
+  /// is composed against it, so the narrow layout renders at the same geometry
+  /// and scales the whole cell down rather than re-flowing each specimen.
+  static const _cellDesignWidth = 460.0;
+
+  /// Below this the sidebar and the three-column board are dropped for a
+  /// single scrolling column of cells.
+  static const _compactWidth = 900.0;
   static const _boardTop = 10.0;
   static const _boardBottom = 30.0;
 
@@ -115,7 +134,13 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
         backgroundColor: WabTheme.backgroundColor,
         body: Column(
           children: [
-            WabPaperSheet(
+            LayoutBuilder(
+              builder: (context, constraints) {
+                // The build stamp is the widest thing in the masthead; on a
+                // narrow sheet the theme toggle is the only action worth the
+                // room it costs.
+                final compact = constraints.maxWidth < _compactWidth;
+                return WabPaperSheet(
               isDark: widget.isDark,
               horizontalFolds: const [],
               verticalFolds: const [],
@@ -127,18 +152,20 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                 motto: '取法自然 · 材質為語 · 克制為美 · 留白生境',
                 seal: WabSealMark(text: '侘寂', size: 25, seed: 17),
                 trailing: [
-                  Text(
-                    'v0.2 · BUILD $_buildHash\nLESS, BUT DEEPER.',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: WabTheme.mutedColor,
-                      fontFamily: kWabMonoFamily,
-                      fontSize: 7,
-                      letterSpacing: 1.45,
-                      height: 1.35,
+                  if (!compact) ...[
+                    Text(
+                      'v0.2 · BUILD $_buildHash\nLESS, BUT DEEPER.',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: WabTheme.mutedColor,
+                        fontFamily: kWabMonoFamily,
+                        fontSize: 7,
+                        letterSpacing: 1.45,
+                        height: 1.35,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
+                    const SizedBox(width: 12),
+                  ],
                   WabIconButton(
                     icon: Icon(
                       widget.isDark
@@ -151,6 +178,8 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   ),
                 ],
               ),
+                );
+              },
             ),
             Divider(
               height: 1,
@@ -158,17 +187,22 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
               color: WabTheme.lineColor,
             ),
             Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _sidebar(),
-                  VerticalDivider(
-                    width: 1,
-                    thickness: WAB_RULE_HAIRLINE,
-                    color: WabTheme.lineColor,
-                  ),
-                  Expanded(child: _board()),
-                ],
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  if (constraints.maxWidth < _compactWidth) return _mobileBoard();
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _sidebar(),
+                      VerticalDivider(
+                        width: 1,
+                        thickness: WAB_RULE_HAIRLINE,
+                        color: WabTheme.lineColor,
+                      ),
+                      Expanded(child: _board()),
+                    ],
+                  );
+                },
               ),
             ),
           ],
@@ -243,10 +277,7 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
   }
 
   Widget _board() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth < 900) return _mobileBoard();
-        return SingleChildScrollView(
+    return SingleChildScrollView(
           child: WabPaperSheet(
             isDark: widget.isDark,
             horizontalFolds: _desktopFolds,
@@ -259,6 +290,40 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   _row(_desktopRows[1], [3, 4, 5]),
                   _row(_desktopRows[2], [6, 7, 8]),
                   _row(_desktopRows[3], [9, 10, 11]),
+                  _row(_desktopRows[4], [12, 13, 14]),
+                ],
+              ),
+            ),
+          ),
+        );
+  }
+
+  /// Narrow layout: one column of cells, each drawn at [_cellDesignWidth] and
+  /// scaled to the sheet. The sections were composed for a fixed cell — they
+  /// use Expanded and Spacer against a known box — so scaling the finished cell
+  /// keeps the composition intact where re-flowing it would not. Never scales
+  /// up, so a wide-but-not-wide-enough window gets a centred column at native
+  /// size rather than a blurry blow-up.
+  Widget _mobileBoard() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const sheetPadding = 14.0;
+        final available = constraints.maxWidth - sheetPadding * 2;
+        final scale = (available / _cellDesignWidth).clamp(.4, 1.0).toDouble();
+
+        return SingleChildScrollView(
+          child: WabPaperSheet(
+            isDark: widget.isDark,
+            horizontalFolds: const [],
+            verticalFolds: const [],
+            child: Padding(
+              padding: const EdgeInsets.all(sheetPadding),
+              child: Column(
+                children: [
+                  for (var i = 0; i < _nav.length; i++) ...[
+                    _scaledCell(i, scale),
+                    const SizedBox(height: 18),
+                  ],
                 ],
               ),
             ),
@@ -268,22 +333,18 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
     );
   }
 
-  Widget _mobileBoard() {
-    return SingleChildScrollView(
-      child: WabPaperSheet(
-        isDark: widget.isDark,
-        horizontalFolds: const [],
-        verticalFolds: const [],
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            children: [
-              for (var i = 0; i < 12; i++) ...[
-                SizedBox(height: 310, child: _section(i)),
-                const SizedBox(height: 18),
-              ],
-            ],
-          ),
+  Widget _scaledCell(int index, double scale) {
+    final height = _desktopRows[index ~/ 3];
+    return SizedBox(
+      width: _cellDesignWidth * scale,
+      height: height * scale,
+      child: FittedBox(
+        fit: BoxFit.contain,
+        alignment: Alignment.topCenter,
+        child: SizedBox(
+          width: _cellDesignWidth,
+          height: height,
+          child: _section(index),
         ),
       ),
     );
@@ -302,7 +363,15 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
                   scaleX: 1.002,
                   scaleY: 1.002,
                   alignment: Alignment.topLeft,
-                  child: _section(index),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      width: _cellDesignWidth,
+                      height: height,
+                      child: _section(index),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -336,10 +405,13 @@ class _Golden1ShowcaseState extends State<Golden1Showcase> {
       8 => goldenMarksSection(),
       9 => goldenCardsSection(),
       10 => goldenShadowsSection(),
-      _ => goldenLightDarkSection(
+      11 => goldenLightDarkSection(
           isDark: widget.isDark,
           onToggle: widget.onToggleTheme,
         ),
+      12 => kitChromeSection(),
+      13 => kitTexturePrimitivesSection(),
+      _ => const KitOddsAndEndsSection(),
     };
 
     return KeyedSubtree(
