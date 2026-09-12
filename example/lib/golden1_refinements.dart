@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:wabisabi/wabisabi.dart';
 
 /// Composition only: all visible primitives are public wabisabi APIs.
-Widget refinedRulesSection() {
-  final ruleFill = WabTheme.isDark
-      ? WabTheme.scratchColor
+Widget refinedRulesSection(BuildContext context) {
+  final wab = WabTheme.of(context);
+  final ruleFill = wab.isDark
+      ? wab.scratchColor
       : WAB_TEXTURE_PAPER_BASE_LIGHT;
 
   Widget specimen(WabRuleKind kind, String label) => Expanded(
@@ -23,7 +24,7 @@ Widget refinedRulesSection() {
             Text(
               label,
               style: TextStyle(
-                color: WabTheme.mutedColor,
+                color: wab.mutedColor,
                 fontFamily: kWabMonoFamily,
                 fontSize: 5.7,
               ),
@@ -57,7 +58,7 @@ Widget refinedRulesSection() {
                 Text(
                   '紙摺分隔 · PAPER FOLD',
                   style: TextStyle(
-                    color: WabTheme.mutedColor,
+                    color: wab.mutedColor,
                     fontFamily: kWabMonoFamily,
                     fontSize: 5.8,
                   ),
@@ -73,13 +74,13 @@ Widget refinedRulesSection() {
                 SizedBox(
                   height: 42,
                   child: WabFoldFrame(
-                    fill: WabTheme.backgroundColor,
+                    fill: wab.backgroundColor,
                     padding: const EdgeInsets.all(7),
                     child: Center(
                       child: Text(
                         '四 摺 紙 格',
                         style: TextStyle(
-                          color: WabTheme.mutedColor,
+                          color: wab.mutedColor,
                           fontSize: 7,
                           letterSpacing: 1.2,
                         ),
@@ -91,7 +92,7 @@ Widget refinedRulesSection() {
                 Text(
                   '四摺紙格 · FOLD FRAME',
                   style: TextStyle(
-                    color: WabTheme.mutedColor,
+                    color: wab.mutedColor,
                     fontFamily: kWabMonoFamily,
                     fontSize: 5.8,
                   ),
@@ -109,7 +110,7 @@ Widget refinedRulesSection() {
           Text(
             '筆觸分隔 · BRUSH',
             style: TextStyle(
-              color: WabTheme.mutedColor,
+              color: wab.mutedColor,
               fontFamily: kWabMonoFamily,
               fontSize: 5.8,
             ),
@@ -121,8 +122,8 @@ Widget refinedRulesSection() {
             states: List.generate(9, (i) => i),
             styleOf: (s) => InkDotStyle(
               color: s == 4
-                  ? WabTheme.textColor
-                  : WabTheme.mutedColor.withOpacity(.5),
+                  ? wab.textColor
+                  : wab.mutedColor.withOpacity(.5),
             ),
             dotSize: 5,
             gap: 7,
@@ -133,7 +134,8 @@ Widget refinedRulesSection() {
   );
 }
 
-Widget refinedButtonsSection() {
+Widget refinedButtonsSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   final items = <(String, String, WabMaterialKind)>[
     ('次 之', '紙 · PAPER', WabMaterialKind.paper),
     ('木 牌', '木 · WOOD', WabMaterialKind.wood),
@@ -166,7 +168,7 @@ Widget refinedButtonsSection() {
               Text(
                 item.$2,
                 style: TextStyle(
-                  color: WabTheme.mutedColor,
+                  color: wab.mutedColor,
                   fontFamily: kWabMonoFamily,
                   fontSize: 5.8,
                 ),
@@ -188,7 +190,7 @@ Widget refinedButtonsSection() {
             Text(
               '印章 · SEAL',
               style: TextStyle(
-                color: WabTheme.mutedColor,
+                color: wab.mutedColor,
                 fontFamily: kWabMonoFamily,
                 fontSize: 5.8,
               ),

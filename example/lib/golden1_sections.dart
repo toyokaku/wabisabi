@@ -3,7 +3,8 @@ import 'package:wabisabi/wabisabi.dart';
 
 // Composition only: every visible primitive comes from package:wabisabi.
 
-Widget goldenPaletteSection() {
+Widget goldenPaletteSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   final colors = <(String, Color)>[
     ('宣紙\nPAPER', WAB_TEXTURE_PAPER_BASE_LIGHT),
     ('霧灰\nMIST', WabiSabiColors.mist),
@@ -26,7 +27,7 @@ Widget goldenPaletteSection() {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: c.$2,
-                border: Border.all(color: WabTheme.lineColor),
+                border: Border.all(color: wab.lineColor),
               ),
             ),
             const SizedBox(height: 3),
@@ -34,7 +35,7 @@ Widget goldenPaletteSection() {
               c.$1,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: WabTheme.mutedColor,
+                color: wab.mutedColor,
                 fontFamily: kWabMonoFamily,
                 fontSize: 5.8,
                 height: 1.25,
@@ -49,7 +50,7 @@ Widget goldenPaletteSection() {
       const SizedBox(height: 10),
       Row(
         children: [
-          Text('墨階', style: TextStyle(color: WabTheme.mutedColor, fontSize: 7)),
+          Text('墨階', style: TextStyle(color: wab.mutedColor, fontSize: 7)),
           const SizedBox(width: 8),
           for (var i = 0; i < 7; i++) ...[
             Container(
@@ -58,7 +59,7 @@ Widget goldenPaletteSection() {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Color.lerp(WAB_TEXTURE_PAPER_BASE_LIGHT, WabiSabiColors.ink, i / 6),
-                border: Border.all(color: WabTheme.lineColor),
+                border: Border.all(color: wab.lineColor),
               ),
             ),
             const SizedBox(width: 4),
@@ -69,7 +70,8 @@ Widget goldenPaletteSection() {
   );
 }
 
-Widget goldenMaterialsSection() {
+Widget goldenMaterialsSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   final items = <(String, WabSurfaceKind)>[
     ('紙 張 · PAPER', WabSurfaceKind.paper),
     ('木 板 · WOOD', WabSurfaceKind.woodGrain),
@@ -99,7 +101,7 @@ Widget goldenMaterialsSection() {
                     : WabSurface(kind: item.$2, child: const SizedBox.expand()),
               ),
               const SizedBox(height: 3),
-              Text(item.$1, style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6.2)),
+              Text(item.$1, style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6.2)),
             ],
           ),
         ),
@@ -107,16 +109,17 @@ Widget goldenMaterialsSection() {
   );
 }
 
-Widget goldenTypographySection() {
+Widget goldenTypographySection(BuildContext context) {
+  final wab = WabTheme.of(context);
   Widget spec(String glyph, String label, String family, String sample) => Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(glyph, style: TextStyle(color: WabTheme.textColor, fontFamily: family, fontSize: 38, fontWeight: FontWeight.w500, height: 1)),
+            Text(glyph, style: TextStyle(color: wab.textColor, fontFamily: family, fontSize: 38, fontWeight: FontWeight.w500, height: 1)),
             const SizedBox(height: 6),
-            Text(label, style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6.2, letterSpacing: .6)),
+            Text(label, style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6.2, letterSpacing: .6)),
             const SizedBox(height: 6),
-            Text(sample, style: TextStyle(color: WabTheme.textColor, fontFamily: family, fontSize: 11, height: 1.3)),
+            Text(sample, style: TextStyle(color: wab.textColor, fontFamily: family, fontSize: 11, height: 1.3)),
           ],
         ),
       );
@@ -132,7 +135,8 @@ Widget goldenTypographySection() {
   );
 }
 
-Widget goldenSurfacesSection() {
+Widget goldenSurfacesSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   final items = <(String, WabSurfaceKind)>[
     ('宣紙 PAPER', WabSurfaceKind.paper),
     ('纖紙 FIBER', WabSurfaceKind.fiber),
@@ -156,7 +160,7 @@ Widget goldenSurfacesSection() {
             children: [
               SizedBox(height: 48, width: 72, child: WabSurface(kind: item.$2, child: const SizedBox.expand())),
               const SizedBox(height: 3),
-              Text(item.$1, textAlign: TextAlign.center, style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.6)),
+              Text(item.$1, textAlign: TextAlign.center, style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.6)),
             ],
           ),
         ),
@@ -164,14 +168,15 @@ Widget goldenSurfacesSection() {
   );
 }
 
-Widget goldenRulesSection() {
+Widget goldenRulesSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   Widget specimen(WabRuleKind kind, String label) => Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             WabRuleFrame(kind: kind, fill: WAB_TEXTURE_PAPER_BASE_LIGHT, child: const SizedBox(height: 30)),
             const SizedBox(height: 4),
-            Text(label, style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.7)),
+            Text(label, style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.7)),
           ],
         ),
       );
@@ -190,19 +195,19 @@ Widget goldenRulesSection() {
       const SizedBox(height: 9),
       WabPaperFold(height: 12),
       const SizedBox(height: 3),
-      Text('紙摺分隔 · PAPER FOLD', style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.8)),
+      Text('紙摺分隔 · PAPER FOLD', style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.8)),
       const SizedBox(height: 7),
       WabBrushDivider(),
       const SizedBox(height: 3),
       Row(
         children: [
-          Text('筆觸分隔 · BRUSH', style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.8)),
+          Text('筆觸分隔 · BRUSH', style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.8)),
           const Spacer(),
           DotGrid<int>(
             rows: 1,
             cols: 9,
             states: List.generate(9, (i) => i),
-            styleOf: (s) => InkDotStyle(color: s == 4 ? WabTheme.textColor : WabTheme.mutedColor.withOpacity(.5)),
+            styleOf: (s) => InkDotStyle(color: s == 4 ? wab.textColor : wab.mutedColor.withOpacity(.5)),
             dotSize: 5,
             gap: 7,
           ),
@@ -212,7 +217,8 @@ Widget goldenRulesSection() {
   );
 }
 
-Widget goldenButtonsSection() {
+Widget goldenButtonsSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   final items = <(String, String, WabMaterialKind)>[
     ('次 之', '紙 · PAPER', WabMaterialKind.paper),
     ('木 牌', '木 · WOOD', WabMaterialKind.wood),
@@ -236,13 +242,13 @@ Widget goldenButtonsSection() {
                 expand: true,
                 padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 6),
                 child: item.$3 == WabMaterialKind.baiwen
-                    ? WabSealText(item.$1, fontSize: 20, color: WabTheme.paperWhite, strokeWidth: .7)
+                    ? WabSealText(item.$1, fontSize: 20, color: wab.paperWhite, strokeWidth: .7)
                     : item.$3 == WabMaterialKind.zhuwen
-                        ? WabSealText(item.$1, fontSize: 20, color: WabTheme.sealColor, strokeWidth: .7)
+                        ? WabSealText(item.$1, fontSize: 20, color: wab.sealColor, strokeWidth: .7)
                         : Text(item.$1),
               ),
               const SizedBox(height: 3),
-              Text(item.$2, style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.8)),
+              Text(item.$2, style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.8)),
             ],
           ),
         ),
@@ -252,7 +258,7 @@ Widget goldenButtonsSection() {
           children: [
             WabSealButton(label: '落 印', onPressed: () {}, expand: true, fontSize: 20),
             const SizedBox(height: 3),
-            Text('印章 · SEAL', style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.8)),
+            Text('印章 · SEAL', style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 5.8)),
           ],
         ),
       ),
@@ -260,7 +266,8 @@ Widget goldenButtonsSection() {
   );
 }
 
-Widget goldenStatesSection({required bool toggle, required VoidCallback onToggle}) {
+Widget goldenStatesSection(BuildContext context, {required bool toggle, required VoidCallback onToggle}) {
+  final wab = WabTheme.of(context);
   const states = [
     ('Default', WabButtonVisualState.normal),
     ('Hover', WabButtonVisualState.hover),
@@ -276,7 +283,7 @@ Widget goldenStatesSection({required bool toggle, required VoidCallback onToggle
           padding: const EdgeInsets.only(bottom: 6),
           child: Row(
             children: [
-              SizedBox(width: 48, child: Text(state.$1, style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6))),
+              SizedBox(width: 48, child: Text(state.$1, style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6))),
               for (var i = 0; i < kinds.length; i++) ...[
                 Expanded(
                   child: WabButton(
@@ -304,7 +311,7 @@ Widget goldenStatesSection({required bool toggle, required VoidCallback onToggle
   );
 }
 
-Widget goldenInputsSection({
+Widget goldenInputsSection(BuildContext context, {
   required bool check,
   required int radio,
   required bool switchValue,
@@ -341,7 +348,8 @@ Widget goldenInputsSection({
   );
 }
 
-Widget goldenMarksSection() {
+Widget goldenMarksSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -375,7 +383,7 @@ Widget goldenMarksSection() {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  for (final color in [WAB_TEXTURE_CINNABAR_BASE_LIGHT, WabTheme.accentColor, WabTheme.mutedColor, WabTheme.offColor]) ...[
+                  for (final color in [WAB_TEXTURE_CINNABAR_BASE_LIGHT, wab.accentColor, wab.mutedColor, wab.offColor]) ...[
                     InkDot(style: InkDotStyle(color: color), size: 7),
                     const SizedBox(width: 5),
                   ],
@@ -391,13 +399,14 @@ Widget goldenMarksSection() {
   );
 }
 
-Widget goldenCardsSection() {
+Widget goldenCardsSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Expanded(
         child: WabCollectionCard(
-          icon: Icon(Icons.auto_awesome_outlined, color: WabTheme.textColor, size: 22),
+          icon: Icon(Icons.auto_awesome_outlined, color: wab.textColor, size: 22),
           title: '基礎卡片',
           description: '題名、內容與動作保持克制。',
           buttonLabel: '落 款',
@@ -409,7 +418,7 @@ Widget goldenCardsSection() {
         child: WabPanel(
           title: '面板標題',
           trailing: const WabStatusBadge('PANEL'),
-          child: Text('無外框紙面；內部分隔仍使用淡墨細線。', style: TextStyle(color: WabTheme.mutedColor, fontSize: 8)),
+          child: Text('無外框紙面；內部分隔仍使用淡墨細線。', style: TextStyle(color: wab.mutedColor, fontSize: 8)),
         ),
       ),
       const SizedBox(width: 9),
@@ -419,9 +428,9 @@ Widget goldenCardsSection() {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('內容區塊', style: TextStyle(color: WabTheme.textColor, fontWeight: FontWeight.w500, fontSize: 10)),
+              Text('內容區塊', style: TextStyle(color: wab.textColor, fontWeight: FontWeight.w500, fontSize: 10)),
               const SizedBox(height: 8),
-              Text('WabContentContainer\n只負責內容邊界，不憑空製造 elevation。', style: TextStyle(color: WabTheme.mutedColor, fontSize: 8, height: 1.4)),
+              Text('WabContentContainer\n只負責內容邊界，不憑空製造 elevation。', style: TextStyle(color: wab.mutedColor, fontSize: 8, height: 1.4)),
             ],
           ),
         ),
@@ -430,7 +439,8 @@ Widget goldenCardsSection() {
   );
 }
 
-Widget goldenShadowsSection() {
+Widget goldenShadowsSection(BuildContext context) {
+  final wab = WabTheme.of(context);
   Widget sample(String label, WabSurfaceKind kind) => Expanded(
         child: Column(
           children: [
@@ -439,7 +449,7 @@ Widget goldenShadowsSection() {
               child: SizedBox(height: 48, child: WabSurface(kind: kind, child: const SizedBox.expand())),
             ),
             const SizedBox(height: 2),
-            Text(label, textAlign: TextAlign.center, style: TextStyle(color: WabTheme.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6)),
+            Text(label, textAlign: TextAlign.center, style: TextStyle(color: wab.mutedColor, fontFamily: kWabMonoFamily, fontSize: 6)),
           ],
         ),
       );
@@ -454,7 +464,7 @@ Widget goldenShadowsSection() {
   );
 }
 
-Widget goldenLightDarkSection({required bool isDark, required VoidCallback onToggle}) {
+Widget goldenLightDarkSection(BuildContext context, {required bool isDark, required VoidCallback onToggle}) {
   return Column(
     children: [
       Row(

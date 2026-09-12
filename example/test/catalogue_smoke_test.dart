@@ -29,8 +29,10 @@ void main() {
         addTearDown(tester.view.reset);
 
         await tester.pumpWidget(MaterialApp(
-          theme: WabTheme.materialTheme(lightTheme: !dark),
-          home: Golden1Showcase(isDark: dark, onToggleTheme: () {}),
+          theme: WabTheme.materialTheme(lightTheme: true),
+          darkTheme: WabTheme.materialTheme(lightTheme: false),
+          themeMode: dark ? ThemeMode.dark : ThemeMode.light,
+          home: Golden1Showcase(onToggleTheme: () {}),
         ));
         await tester.pump(const Duration(milliseconds: 200));
 
@@ -44,8 +46,10 @@ void main() {
       addTearDown(tester.view.reset);
 
       await tester.pumpWidget(MaterialApp(
-        theme: WabTheme.materialTheme(lightTheme: !dark),
-        home: Golden1Showcase(isDark: dark, onToggleTheme: () {}),
+        theme: WabTheme.materialTheme(lightTheme: true),
+        darkTheme: WabTheme.materialTheme(lightTheme: false),
+        themeMode: dark ? ThemeMode.dark : ThemeMode.light,
+        home: Golden1Showcase(onToggleTheme: () {}),
       ));
       await tester.pump(const Duration(milliseconds: 200));
 

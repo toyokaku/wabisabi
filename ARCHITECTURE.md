@@ -78,14 +78,14 @@ material rebuild.
 Recorded so they are not rediscovered as news. None are enforced against; the
 CI checks cover import structure and public naming only.
 
-- **`WabTheme` is mutable global state.** Seventeen `static late Color`s written
-  as a side effect of `materialTheme()`, read from 125 sites, with zero
-  `ThemeExtension` or `InheritedWidget`. Consequences: `MaterialApp(theme:,
-  darkTheme:)` cannot work (both are constructed, the last one wins the
-  statics), widgets register no dependency on the theme so painters miss
-  repaints on a theme flip, and `WabContainer` freezes its decoration at
-  construction time. The fix is a `ThemeExtension<WabColors>`; it subsumes
-  several of the items below.
+- **`WabTheme`'s palette statics are a compatibility shim.** The palette lives
+  on `ThemeData` as `WabColors` and is read with `WabTheme.of(context)`; the
+  seventeen `static late Color`s are still assigned so consumers pinned to an
+  older tag keep working. Nothing in `lib/` reads them any more except two
+  places that have no context to read from and say so: `DeckleBorder`, a
+  `ShapeBorder` built outside the tree, and `WabInkWash`, a `CustomPainter`
+  whose caller now hands it the palette. Removing the statics is a breaking
+  change waiting on a version bump.
 - **Two generations of material tokens.** `tokens/material.dart` and
   `tokens/texture.dart` both define wood / cloth / jade / cinnabar / paper
   palettes; 65 constants in the older set are referenced by nothing. The
@@ -94,9 +94,12 @@ CI checks cover import structure and public naming only.
   implement `createCupertinoWidget` and `createMaterialWidget` as the same
   `_build()`. The base has no const constructor, so none of its subclasses can
   be const and none accept a `key`.
-- **Concrete widgets are subclassed** — `extends Container`, `extends ClipRRect`,
-  `extends Text`, `extends GestureDetector`. Flutter's composite widgets are not
-  designed for it; these should be composition.
+- **Concrete widgets are still subclassed in places** — `WabImage` and
+  `WabIcon` extend `ClipRRect`, `WabPaymentRow` extends `GestureDetector`,
+  `WabWarningText` extends `Text`. Flutter's composite widgets are not designed
+  for it: no const, no added fields, no `build` of your own, and the parent's
+  whole API leaks to consumers. The three container types have been converted;
+  these four have not.
 - **No type scale.** `theme/typography.dart` owns font families only. Font sizes
   are hardcoded per component, down to 8 px, and nothing consults
   `MediaQuery.textScaler`.
